@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 19:02:02 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/16 19:40:46 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/16 19:46:17 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 void	ft_exit(char **argv)
 {
-    
+    g_exit_code = 1;
+	ft_putstr_fd("exit\n", STDERROR);
 }
