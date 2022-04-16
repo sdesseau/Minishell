@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 17:43:22 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/16 18:40:22 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,48 +71,53 @@ void	shell_loop(t_env *env, t_export *export);
 
 //				EXEC				//
 void	recup_export(char **envp, t_export **export);
-void    recup_env(char **envp, t_env **env);
-int     get_length_name(char *envp);
+void	recup_env(char **envp, t_env **env);
+int		get_length_name(char *envp);
+
+//				BUILTINS			//
+void	print_env(t_env *env);
+int		env_command(char **argv, t_env *env);
+
 
 //				PARSING				//
 t_cmd	*parsing(char *line, t_cmd *data, t_env *env);
-t_pars		*assign_pars(char *line, t_pars *pars, t_env *env);
-void		assign_type(char *line, t_pars *pars, int i);
+t_pars	*assign_pars(char *line, t_pars *pars, t_env *env);
+void	assign_type(char *line, t_pars *pars, int i);
 t_cmd	*loop_split(t_pars *pars, t_cmd *data);
 t_cmd	*empty_line(t_cmd *data);
 
-t_pars		*perform_expansion(t_pars *pars, t_env *env);
-t_pars		*change_da_dolla(t_pars *pars, int i, char *val, int lenght);
-t_pars		*get_exitcode(t_pars *pars, int i, int lenght);
-int			len_exitcode(void);
-t_pars		*no_value(t_pars *pars, int i, int k);
-int			assign_new_pars(char *val, t_pars *tmp, t_pars *pars, int j);
-int			get_len_name(t_pars *pars, int i);
-t_pars		*get_expansion(t_pars *pars, int i, int lenght, t_env *env);
-t_pars		*new_parse_dollar(t_pars *pars, t_pars *tmp, int i, char *val);
+t_pars	*perform_expansion(t_pars *pars, t_env *env);
+t_pars	*change_da_dolla(t_pars *pars, int i, char *val, int lenght);
+t_pars	*get_exitcode(t_pars *pars, int i, int lenght);
+int		len_exitcode(void);
+t_pars	*no_value(t_pars *pars, int i, int k);
+int		assign_new_pars(char *val, t_pars *tmp, t_pars *pars, int j);
+int		get_len_name(t_pars *pars, int i);
+t_pars	*get_expansion(t_pars *pars, int i, int lenght, t_env *env);
+t_pars	*new_parse_dollar(t_pars *pars, t_pars *tmp, int i, char *val);
 
-t_pars		*put_lock(t_pars *pars);
-void		delete_quotes(t_pars *pars);
-int			secure_quote(t_pars *pars);
-int			check_quotes_s(t_pars *pars, int i);
-int			check_quotes_d(t_pars *pars, int i);
-int			space_empty_quote(t_pars *pars, int i);
-int			zero_empty_quote(t_pars *pars, int i);
-int			check_empty_quote(t_pars *pars, int i);
-void		supp_empty_quote(t_pars *pars, int i);
-void		supp_s_quote(t_pars *pars, int i);
-void		supp_d_quote(t_pars *pars, int i);
+t_pars	*put_lock(t_pars *pars);
+void	delete_quotes(t_pars *pars);
+int		secure_quote(t_pars *pars);
+int		check_quotes_s(t_pars *pars, int i);
+int		check_quotes_d(t_pars *pars, int i);
+int		space_empty_quote(t_pars *pars, int i);
+int		zero_empty_quote(t_pars *pars, int i);
+int		check_empty_quote(t_pars *pars, int i);
+void	supp_empty_quote(t_pars *pars, int i);
+void	supp_s_quote(t_pars *pars, int i);
+void	supp_d_quote(t_pars *pars, int i);
 
 t_cmd	*start_data(t_cmd *data, int j, t_pars *pars, int i);
 t_cmd	*split_cmd(t_pars *pars, t_cmd *data);
-int			get_nb_cmd(t_pars *pars);
+int		get_nb_cmd(t_pars *pars);
 
-int			get_nb_param(t_pars *pars, int i);
+int		get_nb_param(t_pars *pars, int i);
 t_cmd	*get_params(t_pars *pars, t_cmd *data, int i, int j);
-int			len_word(t_pars *pars, int i);
+int		len_word(t_pars *pars, int i);
 t_cmd	put_pipe(t_cmd data, t_pars *pars, int i, int j);
 t_cmd	assign_data(t_cmd data, int j, t_pars *pars, int i);
-int			i_end_param(t_cmd *data, int x, t_pars *pars, int i);
+int		i_end_param(t_cmd *data, int x, t_pars *pars, int i);
 
 int			check_false_double_redir(t_pars *pars, int i);
 int			check_triple_chevrons(t_pars *pars, int i);
@@ -157,5 +162,8 @@ char	*find_env_value(char *env_name, t_env *env);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void	ft_bzero(void *s, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putnbr_fd(int n, int fd);
 
 #endif

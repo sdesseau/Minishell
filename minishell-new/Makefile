@@ -20,6 +20,8 @@ DIRECTORY_MAIN = source/main/
 
 DIRECTORY_UTILS = source/utils/
 
+DIRECTORY_BUILTINS = source/builtins/
+
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
@@ -47,13 +49,16 @@ SRC_UTILS   =   utils_dollar.c \
                 utils_quotes.c \
                 utils_redir.c \
                 utils.c\
+
+SRC_BUILTINS =  cmd_env.c\
                           
 PATH_MAIN = $(addprefix $(DIRECTORY_MAIN), $(SRC_MAIN))
 PATH_EXEC = $(addprefix $(DIRECTORY_EXEC), $(SRC_EXEC))
 PATH_PARSE = $(addprefix $(DIRECTORY_PARSE), $(SRC_PARSE))
 PATH_UTILS = $(addprefix $(DIRECTORY_UTILS), $(SRC_UTILS))
+PATH_BUILTINS = $(addprefix $(DIRECTORY_BUILTINS), $(SRC_BUILTINS))
 
-ALL_OBJS =  $(PATH_MAIN:.c=.o)  $(PATH_EXEC:.c=.o) $(PATH_PARSE:.c=.o) $(PATH_UTILS:.c=.o)
+ALL_OBJS =  $(PATH_MAIN:.c=.o) $(PATH_BUILTINS:.c=.o) $(PATH_EXEC:.c=.o) $(PATH_PARSE:.c=.o) $(PATH_UTILS:.c=.o)
 
 ${NAME}:		$(ALL_OBJS)
 				$(CC) ${FLAGS} -lreadline -o ${NAME} $(ALL_OBJS) 
