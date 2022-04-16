@@ -33,6 +33,8 @@ SRC_EXEC    =   env.c\
                 export.c
 
 SRC_BUILTINS =  echo.c \
+                pwd.c \
+                exit.c \
                 check_builtins.c
 
 SRC_PARSE   =   error.c\

@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 18:31:18 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/16 19:38:29 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# define STDIN 0
+# define STDOUT 1
+# define STDERROR 2
 
 extern unsigned char	g_exit_code;
 
@@ -154,6 +157,10 @@ int ft_echo(char **argv);
 int ft_check_builtins(char **argv);
 int	ft_execute_builtins(char **argv);
 
+int	ft_pwd(void);
+
+void	ft_exit(char **argv);
+
 //				UTILS				//
 
 void	*ft_calloc(size_t count, size_t size);
@@ -166,5 +173,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void	ft_bzero(void *s, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *str, int fd);
+long long	ft_atoi(const char *str);
 
 #endif
