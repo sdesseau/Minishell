@@ -6,11 +6,11 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 23:13:24 by nachin            #+#    #+#             */
-/*   Updated: 2022/04/16 13:49:57 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/16 16:28:41 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../minishell.h"
 
 t_cmd	*start_data(t_cmd *data, int j, t_pars *pars, int i)
 {

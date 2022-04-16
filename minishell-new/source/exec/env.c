@@ -1,16 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_export.c                                       :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:52:39 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 14:35:55 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/16 16:30:27 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../minishell.h"
+
+void	put_in_env(t_env **new, char *name, char *value)
+{
+	(*new)->name = ft_strdup(name);
+	(*new)->value = ft_strdup(value);
+	(*new)->next = NULL;
+}
+
+void	add_env_var(char *name, char *value, t_env **env)
+{
+	t_env	*tmp;
+	t_env	*new;
+
+	tmp = (*env);
+	// if (env_var_already_exist(name, env) == 1)   -> quand export sera fait
+	// 	update_env(name, value, env);
+	new = malloc(sizeof(t_env));
+	put_in_env(&new, name, value);
+	if (!(*env))
+		(*env) = new;
+	else
+	{
+		while ((*env)->next)
+			(*env) = (*env)->next;
+		(*env)->next = new;
+		(*env) = tmp;
+	}
+}
 
 int     get_length_name(char *envp)
 {
@@ -31,15 +59,12 @@ void    recup_env(char **envp, t_env **env)
     
     while (envp[i])
     {
-        name_length = get_length_name(envp[i]);
-		name = ft_substr(envp[i], 0, name_length);
-		value = ft_substr(envp[i], name_length + 1,
-				ft_strlen(&envp[i][name_length]));
-		if (add_env_variable(name, value, env) == 1)
-			printf("error %d\n", __LINE__);
+        name_len = get_length_name(envp[i]);
+		name = ft_substr(envp[i], 0, name_len);
+		val = ft_substr(envp[i], name_len+ 1, ft_strlen(&envp[i][name_len]));
+		add_env_var(name, val, env);
 		free(name);
-		free(value);
+		free(val);
 		i++;
 	}
-    }
 }

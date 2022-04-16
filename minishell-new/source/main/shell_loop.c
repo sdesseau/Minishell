@@ -6,11 +6,11 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:10:52 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 13:49:57 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/16 16:28:41 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../minishell.h"
 
 void	free_cmd(t_cmd *cmd)
 {
@@ -42,7 +42,7 @@ void	shell_loop(t_env *env, t_export *export)
 		cmd = parsing(str, cmd, env);
 		if (str[0] && cmd)
 		{
-			run_commands(&cmd, &env, &export);
+			// run_commands(&cmd, &env, &export);
 			free_cmd(cmd);
 		}
 		free(str);

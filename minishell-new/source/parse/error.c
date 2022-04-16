@@ -6,11 +6,11 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:07:32 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 13:47:29 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/16 16:28:41 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../minishell.h"
 
 void	error_parse(char c)
 {
