@@ -9,7 +9,7 @@
 
 NAME        := minishell
 CC        := clang
-FLAGS    := 
+FLAGS    := -fsanitize=address -g3
 RM      :=     rm -f
 
 DIRECTORY_EXEC = source/exec/
@@ -50,16 +50,13 @@ SRC_UTILS   =   utils_dollar.c \
                           
 PATH_MAIN = $(addprefix $(DIRECTORY_MAIN), $(SRC_MAIN))
 PATH_EXEC = $(addprefix $(DIRECTORY_EXEC), $(SRC_EXEC))
-PATH_PARSING = $(addprefix $(DIRECTORY_PARSE), $(SRC_PARSE))
+PATH_PARSE = $(addprefix $(DIRECTORY_PARSE), $(SRC_PARSE))
 PATH_UTILS = $(addprefix $(DIRECTORY_UTILS), $(SRC_UTILS))
 
-ALL_OBJS =  $(PATH_MAIN:.c=.o)  $(PATH_EXEC:.c=.o) $(PATH_PARSING:.c=.o) $(PATH_UTILS:.c=.o)
-
-.c.o:
-	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+ALL_OBJS =  $(PATH_MAIN:.c=.o)  $(PATH_EXEC:.c=.o) $(PATH_PARSE:.c=.o) $(PATH_UTILS:.c=.o)
 
 ${NAME}:		$(ALL_OBJS)
-				$(CC)   -o ${NAME} $(ALL_OBJS)  ${CFLAGS} -lreadline 
+				$(CC) ${FLAGS} -lreadline -o ${NAME} $(ALL_OBJS) 
 
 clean:
 				$(RM)	$(ALL_OBJS)

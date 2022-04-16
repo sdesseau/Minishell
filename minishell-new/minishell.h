@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 16:32:56 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/16 17:43:22 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_cmd
 	char	**path;
 	int		index;
 	int		i;
+	int		fd_stdin;
+	int		fd_stdout;
 }				t_cmd;
 
 //				MAIN				//
