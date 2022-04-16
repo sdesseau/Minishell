@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:52:39 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 16:30:27 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/16 17:06:57 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	put_in_env(t_env **new, char *name, char *value)
 {
 	(*new)->name = ft_strdup(name);
 	(*new)->value = ft_strdup(value);
+	
+        printf("env name >> %s\n", (*new)->name);
+        printf("env value >> %s\n", (*new)->value);
 	(*new)->next = NULL;
 }
 
@@ -57,6 +60,7 @@ void    recup_env(char **envp, t_env **env)
     char    *name;
     char    *val;
     
+	i = 0;
     while (envp[i])
     {
         name_len = get_length_name(envp[i]);

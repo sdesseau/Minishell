@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 17:14:02 by nachin            #+#    #+#             */
-/*   Updated: 2022/04/16 16:28:46 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/16 16:59:30 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ unsigned char	g_exit_code;
 // int	is_internal_cmd(char **argv)
 // {
 // 	if (ft_strncmp(argv[0], "echo", 5) == 0
-// 		|| ft_strncmp(argv[0], "cd", 3) == 0
-// 		|| ft_strncmp(argv[0], "pwd", 4) == 0
+// 		|| ft_strncmp(argv[0],d "cd", 3) == 0
+// 		|| ft_strncmp(argv[0], "pw", 4) == 0
 // 		|| ft_strncmp(argv[0], "export", 7) == 0
 // 		|| ft_strncmp(argv[0], "unset", 6) == 0
 // 		|| ft_strncmp(argv[0], "env", 4) == 0
