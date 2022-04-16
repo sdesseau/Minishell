@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 14:04:16 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/16 15:12:37 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/wait.h>
 
 # include "parse.h"
+# include "exec.h"
 
 typedef struct s_cmd_data
 {
