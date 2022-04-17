@@ -1,50 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_loop.c                                       :+:      :+:    :+:   */
+/*   cmd_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/15 14:10:52 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 12:42:58 by sdesseau         ###   ########.fr       */
+/*   Created: 2022/04/16 18:30:11 by sdesseau          #+#    #+#             */
+/*   Updated: 2022/04/17 12:52:05 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	free_cmd(t_cmd *cmd)
+void	print_env(t_env *env)
 {
-	int	i;
+	t_env	*tmp;
 
-	i = 0;
-	while (cmd[i].index != -1)
+	tmp = env;
+	while (tmp != NULL)
 	{
-		stop_loop(cmd[i]);
-		i++;
+		ft_putstr_fd(tmp->name, 1);
+		ft_putchar_fd('=', 1);
+		ft_putstr_fd(tmp->value, 1);
+		ft_putchar_fd('\n', 1);
+		tmp = tmp->next;
 	}
-	free(cmd);
 }
 
-void	shell_loop(t_env *env, t_export *export)
+int	env_command(char **argv, t_env *env)
 {
-	char		*str;
-	t_cmd	*cmd;
-	int			i;
-
-	str = NULL;
-	cmd = NULL;
-	while (1)
+	if (argv[1] != NULL)
 	{
-		i = 0;
-		str = readline("\033[33m$ ➜\033[00m ");
-		if (str && *str)
-			add_history(str);
-		cmd = parsing(str, cmd, env);
-		if (str[0] && cmd)
-		{
-			run_commands(cmd, &env, &export);
-			free_cmd(cmd);
-		}
-		free(str);
+		ft_putstr_fd("env: No such file or directory\n", 2);
+		return (127);
 	}
+	print_env(env);
+	return (0);
 }
