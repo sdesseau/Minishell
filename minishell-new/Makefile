@@ -50,9 +50,13 @@ SRC_UTILS   =   utils_dollar.c \
                 utils_redir.c \
                 utils.c\
 
-SRC_BUILTINS =  cmd_env.c\
-                cmd_unset.c\
-                cmd_export.c\
+SRC_BUILTINS =  ft_echo.c \
+                ft_pwd.c \
+                ft_exit.c \
+				ft_env.c \
+                ft_unset.c \
+                ft_export.c \
+				check_builtins.c 
                           
 PATH_MAIN = $(addprefix $(DIRECTORY_MAIN), $(SRC_MAIN))
 PATH_EXEC = $(addprefix $(DIRECTORY_EXEC), $(SRC_EXEC))
