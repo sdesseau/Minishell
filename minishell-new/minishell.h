@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 19:35:42 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/17 19:41:06 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,11 @@ int		unset_error(int error_id);
 int		is_unset_arg_valid(char *arg);
 void	unset_in_export(char *argv, t_export **export);
 void	unset_in_env(char *argv, t_env **env);
+
+int	ft_cd_nb_args(char **argv);
+int ft_cd_error(int error_id);
+int	ft_update_old_pwd(char *old_pwd, t_env **env);
+int	ft_cd(char **argv, t_env **env);
 
 //				EXEC				//
 void	recup_export(char **envp, t_export **export);

@@ -56,7 +56,8 @@ SRC_UTILS   =   utils_dollar.c \
                 utils_redir.c \
                 utils.c\
 
-SRC_BUILTINS =  ft_echo.c \
+SRC_BUILTINS =  ft_cd.c \
+				ft_echo.c \
                 ft_pwd.c \
                 ft_exit.c \
 				ft_env.c \
