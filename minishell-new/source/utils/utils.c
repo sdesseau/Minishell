@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:36 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 19:35:12 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/17 15:40:25 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,4 +200,42 @@ void	ft_putstr_fd(char *str, int fd)
 		ft_putchar_fd(str[i], fd);
 		i++;
 	}
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	unsigned int	nbr;
+
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else
+	{
+		if (n < 0)
+		{
+			ft_putchar_fd('-', fd);
+			n = n * (-1);
+		}
+		nbr = n;
+		if (n > 9)
+			ft_putnbr_fd((n / 10), fd);
+		ft_putchar_fd(((n % 10) + 48), fd);
+	}
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	str = (char *)s;
+	while (str[i] != '\0')
+	{
+		if (str[i] == c)
+			return (&str[i]);
+		i++;
+	}
+	if (c == '\0')
+		return (&str[i]);
+	return (NULL);
 }

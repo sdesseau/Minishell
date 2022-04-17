@@ -16,11 +16,11 @@ DIRECTORY_EXEC = source/exec/
 
 DIRECTORY_PARSE = source/parse/
 
-DIRECTORY_BUILTINS = source/builtins/
-
 DIRECTORY_MAIN = source/main/
 
 DIRECTORY_UTILS = source/utils/
+
+DIRECTORY_BUILTINS = source/builtins/
 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
@@ -30,12 +30,8 @@ SRC_MAIN    =   main.c\
                 shell_loop.c
 
 SRC_EXEC    =   env.c\
-                export.c
-
-SRC_BUILTINS =  echo.c \
-                pwd.c \
-                exit.c \
-                check_builtins.c
+                export.c\
+                run_cmd.c
 
 SRC_PARSE   =   error.c\
                 expansions.c\
@@ -53,14 +49,22 @@ SRC_UTILS   =   utils_dollar.c \
                 utils_quotes.c \
                 utils_redir.c \
                 utils.c\
+
+SRC_BUILTINS =  ft_echo.c \
+                ft_pwd.c \
+                ft_exit.c \
+				ft_env.c \
+                ft_unset.c \
+                ft_export.c \
+				check_builtins.c 
                           
 PATH_MAIN = $(addprefix $(DIRECTORY_MAIN), $(SRC_MAIN))
 PATH_EXEC = $(addprefix $(DIRECTORY_EXEC), $(SRC_EXEC))
-PATH_BUILTINS = $(addprefix $(DIRECTORY_BUILTINS), $(SRC_BUILTINS))
 PATH_PARSE = $(addprefix $(DIRECTORY_PARSE), $(SRC_PARSE))
 PATH_UTILS = $(addprefix $(DIRECTORY_UTILS), $(SRC_UTILS))
+PATH_BUILTINS = $(addprefix $(DIRECTORY_BUILTINS), $(SRC_BUILTINS))
 
-ALL_OBJS =  $(PATH_MAIN:.c=.o)  $(PATH_EXEC:.c=.o) $(PATH_BUILTINS:.c=.o) $(PATH_PARSE:.c=.o) $(PATH_UTILS:.c=.o)
+ALL_OBJS =  $(PATH_MAIN:.c=.o) $(PATH_BUILTINS:.c=.o) $(PATH_EXEC:.c=.o) $(PATH_PARSE:.c=.o) $(PATH_UTILS:.c=.o)
 
 ${NAME}:		$(ALL_OBJS)
 				$(CC) ${FLAGS} -lreadline -o ${NAME} $(ALL_OBJS) 

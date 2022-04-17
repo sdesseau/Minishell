@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 13:26:59 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/17 15:46:11 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,48 @@ typedef struct s_cmd
 //				MAIN				//
 int		main(int argc, char **argv, char **envp);
 void	shell_loop(t_env *env, t_export *export);
+
+//				BUILTINS				//
+
+int	ft_is_flag_n(char *user_input);
+void ft_print_echo(char *cmd);
+int ft_echo(char **argv);
+int ft_check_builtins(char *cmd);
+int	ft_execute_builtins(t_cmd *cmd, t_env **env, t_export **export);
+
+int	ft_pwd(void);
+
+int	ft_is_arg_longlong(char *cmd);
+int	ft_is_exit_arg_num(char *cmd);
+void	ft_exit(char **argv);
+
+void	print_env(t_env *env);
+int		env_command(char **argv, t_env *env);
+void    recup_env(char **envp, t_env **env);
+int     get_length_name(char *envp);
+void	add_env_var(char *name, char *val, t_env **env);
+void	put_in_env(t_env **new, char *name, char *value);
+void	*free_env_var(t_env *env);
+
+void	put_in_export(t_export **new, char *name, char *value);
+int		add_export_var(char *name, char *val, char *line, t_export **export);
+void	recup_export(char **envp, t_export **export);
+char	**convert_list_to_tab(t_export *export);
+char	**sort_export(t_export *export);
+void	print_export(char **tab_export, t_export *export);
+int		export_command(char **argv, t_env **env, t_export **export);
+char	*find_export_value(char *name, t_export *export);
+int		find_equal_value(char *name, t_export *export);
+int		is_new_name_valid(char *name);
+char	*get_new_name(char *command, int *index);
+int		export_var_already_exist(char *name, t_export *export);
+void	*free_export_var(t_export *export);
+
+int		unset_command(char **argv, t_env **env, t_export **export);
+int		unset_error(int error_id);
+int		is_unset_arg_valid(char *arg);
+void	unset_in_export(char *argv, t_export **export);
+void	unset_in_env(char *argv, t_env **env);
 
 //				EXEC				//
 void	recup_export(char **envp, t_export **export);
@@ -151,20 +193,6 @@ void		assign_signals_handler(void);
 void		child_handler(int signum);
 void		handler(int signum);
 
-//				BUILTINS				//
-
-int	ft_is_flag_n(char *user_input);
-void ft_print_echo(char *cmd);
-int ft_echo(char **argv);
-int ft_check_builtins(char **argv);
-int	ft_execute_builtins(char **argv);
-
-int	ft_pwd(void);
-
-int	ft_is_arg_longlong(char *cmd);
-int	ft_is_exit_arg_num(char *cmd);
-void	ft_exit(char **argv);
-
 //				UTILS				//
 
 void	*ft_calloc(size_t count, size_t size);
@@ -179,5 +207,11 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *str, int fd);
 long long	ft_atoi(const char *str);
+void	ft_putnbr_fd(int n, int fd);
+char	*ft_strchr(const char *s, int c);
+int		is_equal_sign(char *name);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_lenlist(t_export *lst);
 
 #endif
