@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 18:40:22 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/17 12:18:02 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,23 @@ int		get_length_name(char *envp);
 //				BUILTINS			//
 void	print_env(t_env *env);
 int		env_command(char **argv, t_env *env);
+void    recup_env(char **envp, t_env **env);
+int     get_length_name(char *envp);
+void	add_env_var(char *name, char *val, t_env **env);
+void	put_in_env(t_env **new, char *name, char *value);
 
+void	put_in_export(t_export **new, char *name, char *value);
+int		add_export_var(char *name, char *val, char *line, t_export **export);
+void	recup_export(char **envp, t_export **export);
+char	**convert_list_to_tab(t_export *export);
+char	**sort_export(t_export *export);
+void	print_export(char **tab_export, t_export *export);
+int		export_command(char **argv, t_env **env, t_export **export);
+char	*find_export_value(char *name, t_export *export);
+int		find_equal_value(char *name, t_export *export);
+int		is_new_name_valid(char *name);
+char	*get_new_name(char *command, int *index);
+int		export_var_already_exist(char *name, t_export *export);
 
 //				PARSING				//
 t_cmd	*parsing(char *line, t_cmd *data, t_env *env);
@@ -119,15 +135,15 @@ t_cmd	put_pipe(t_cmd data, t_pars *pars, int i, int j);
 t_cmd	assign_data(t_cmd data, int j, t_pars *pars, int i);
 int		i_end_param(t_cmd *data, int x, t_pars *pars, int i);
 
-int			check_false_double_redir(t_pars *pars, int i);
-int			check_triple_chevrons(t_pars *pars, int i);
-int			check_path(t_pars *pars, int i);
-int			pass_redir(t_pars *pars, int i);
-int			get_len_path(t_pars *pars, int i);
-t_pars		*erase_redir(t_pars *pars, int i);
+int		check_false_double_redir(t_pars *pars, int i);
+int		check_triple_chevrons(t_pars *pars, int i);
+int		check_path(t_pars *pars, int i);
+int		pass_redir(t_pars *pars, int i);
+int		get_len_path(t_pars *pars, int i);
+t_pars	*erase_redir(t_pars *pars, int i);
 t_cmd	*get_redir(t_pars *pars, t_cmd *data, int i, int l);
-int			find_nb_redir(t_pars *pars, int i);
-int			go_redir(t_pars *pars, int i);
+int		find_nb_redir(t_pars *pars, int i);
+int		go_redir(t_pars *pars, int i);
 t_cmd	write_path(t_pars *pars, t_cmd data, int i, int j);
 
 t_cmd	init_cmd(t_cmd data);
@@ -165,5 +181,10 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+char	*ft_strchr(const char *s, int c);
+int		is_equal_sign(char *name);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_lenlist(t_export *lst);
 
 #endif

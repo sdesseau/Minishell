@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:36 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 18:33:49 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/17 11:58:53 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,4 +194,22 @@ void	ft_putnbr_fd(int n, int fd)
 			ft_putnbr_fd((n / 10), fd);
 		ft_putchar_fd(((n % 10) + 48), fd);
 	}
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	str = (char *)s;
+	while (str[i] != '\0')
+	{
+		if (str[i] == c)
+			return (&str[i]);
+		i++;
+	}
+	if (c == '\0')
+		return (&str[i]);
+	return (NULL);
 }

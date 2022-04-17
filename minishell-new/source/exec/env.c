@@ -6,11 +6,74 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:52:39 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 18:37:40 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/17 12:27:07 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	*free_env_var(t_env *env)
+{
+	free(env->name);
+	free(env->value);
+	free(env);
+	return (0);
+}
+
+void	link_new_env_var(t_env **new, char*name, t_env **env)
+{
+	while ((*env) != NULL)
+	{
+		if ((*env)->next && ft_strncmp((*env)->next->name, name, ft_strlen(name)) == 0)
+		{
+			(*new)->next = (*env)->next->next;
+			free_env_var((*env)->next);
+			(*env)->next = (*new);
+			break ;
+		}
+		(*env) = (*env)->next;
+	}
+}
+
+int	update_env(char *name, char *val, t_env **env)
+{
+	t_env	*tmp;
+	t_env	*new;
+
+	tmp = (*env);
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (0);
+	put_in_env(&new, name, val);
+	if ((*env) && ft_strncmp((*env)->name, name, ft_strlen(name)) == 0)
+	{
+		new->next = (*env)->next;
+		free_env_var((*env));
+		(*env) = new;
+		return (0);
+	}
+	link_new_env_var(&new, name, env);
+	if (!(*env))
+		free_env_var(new);
+	(*env) = tmp;
+	return (0);
+}
+
+int	env_var_already_exist(char *name, t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	if (!name || !tmp)
+		return (0);
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->name, name, ft_strlen(name) + 1) == 0)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 void	put_in_env(t_env **new, char *name, char *value)
 {
@@ -19,16 +82,16 @@ void	put_in_env(t_env **new, char *name, char *value)
 	(*new)->next = NULL;
 }
 
-void	add_env_var(char *name, char *value, t_env **env)
+void	add_env_var(char *name, char *val, t_env **env)
 {
 	t_env	*tmp;
 	t_env	*new;
 
 	tmp = (*env);
-	// if (env_var_already_exist(name, env) == 1)   -> quand export sera fait
-	// 	update_env(name, value, env);
+	if (env_var_already_exist(name, (*env)) == 1)
+		update_env(name, val, env);
 	new = malloc(sizeof(t_env));
-	put_in_env(&new, name, value);
+	put_in_env(&new, name, val);
 	if (!(*env))
 		(*env) = new;
 	else
@@ -68,4 +131,15 @@ void    recup_env(char **envp, t_env **env)
 		free(val);
 		i++;
 	}
+}
+
+int	env_command(char **argv, t_env *env)
+{
+	if (argv[1] != NULL)
+	{
+		ft_putstr_fd("env: No such file or directory\n", 2);
+		return (127);
+	}
+	print_env(env);
+	return (0);
 }

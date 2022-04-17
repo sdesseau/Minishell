@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 18:30:11 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 18:34:36 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/17 11:30:13 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,4 @@ void	print_env(t_env *env)
 		ft_putchar_fd('\n', 1);
 		tmp = tmp->next;
 	}
-}
-
-int	env_command(char **argv, t_env *env)
-{
-	if (argv[1] != NULL)
-	{
-		ft_putstr_fd("env: No such file or directory\n", 2);
-		return (127);
-	}
-	print_env(env);
-	return (0);
 }
