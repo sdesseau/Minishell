@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 12:18:02 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/17 13:05:33 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	shell_loop(t_env *env, t_export *export);
 //				EXEC				//
 void	recup_export(char **envp, t_export **export);
 void	recup_env(char **envp, t_env **env);
-int		get_length_name(char *envp);
+void    run_commands(t_cmd *cmd, t_env **env, t_export **export);
+int     is_builtin(char *cmd);
 
 //				BUILTINS			//
 void	print_env(t_env *env);
@@ -81,6 +82,7 @@ void    recup_env(char **envp, t_env **env);
 int     get_length_name(char *envp);
 void	add_env_var(char *name, char *val, t_env **env);
 void	put_in_env(t_env **new, char *name, char *value);
+void	*free_env_var(t_env *env);
 
 void	put_in_export(t_export **new, char *name, char *value);
 int		add_export_var(char *name, char *val, char *line, t_export **export);
@@ -94,6 +96,13 @@ int		find_equal_value(char *name, t_export *export);
 int		is_new_name_valid(char *name);
 char	*get_new_name(char *command, int *index);
 int		export_var_already_exist(char *name, t_export *export);
+void	*free_export_var(t_export *export);
+
+int		unset_command(char **argv, t_env **env, t_export **export);
+int		unset_error(int error_id);
+int		is_unset_arg_valid(char *arg);
+void	unset_in_export(char *argv, t_export **export);
+void	unset_in_env(char *argv, t_env **env);
 
 //				PARSING				//
 t_cmd	*parsing(char *line, t_cmd *data, t_env *env);
