@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 15:46:11 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/17 18:08:41 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int     get_length_name(char *envp);
 void	add_env_var(char *name, char *val, t_env **env);
 void	put_in_env(t_env **new, char *name, char *value);
 void	*free_env_var(t_env *env);
+int	update_env(char *name, char *val, t_env **env);
 
 void	put_in_export(t_export **new, char *name, char *value);
 int		add_export_var(char *name, char *val, char *line, t_export **export);
@@ -115,6 +116,11 @@ int		unset_error(int error_id);
 int		is_unset_arg_valid(char *arg);
 void	unset_in_export(char *argv, t_export **export);
 void	unset_in_env(char *argv, t_env **env);
+
+int	ft_cd_nb_args(char **argv);
+int ft_cd_error(int error_id);
+int	ft_update_old_pwd(char *old_pwd, t_env **env);
+int	ft_cd(char **argv, t_env **env);
 
 //				EXEC				//
 void	recup_export(char **envp, t_export **export);
