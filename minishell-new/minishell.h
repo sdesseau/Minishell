@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 15:46:11 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/17 18:22:00 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,24 @@ typedef struct s_cmd
 	int		fd_stdout;
 }				t_cmd;
 
+
+
 //				MAIN				//
 int		main(int argc, char **argv, char **envp);
 void	shell_loop(t_env *env, t_export *export);
 
-//				BUILTINS				//
+//				SIGNAL				//
+void	handler(int signum);
+void	child_handler(int signum);
+void	assign_signals_handler(void);
 
+
+//				BUILTINS			//
 int	ft_is_flag_n(char *user_input);
 void ft_print_echo(char *cmd);
 int ft_echo(char **argv);
 int ft_check_builtins(char *cmd);
-int	ft_execute_builtins(t_cmd *cmd, t_env **env, t_export **export);
+int	ft_execute_builtins(t_cmd cmd, t_env **env, t_export **export);
 
 int	ft_pwd(void);
 
@@ -116,10 +123,15 @@ int		is_unset_arg_valid(char *arg);
 void	unset_in_export(char *argv, t_export **export);
 void	unset_in_env(char *argv, t_env **env);
 
+
+
 //				EXEC				//
 void	recup_export(char **envp, t_export **export);
 void    recup_env(char **envp, t_env **env);
 int     get_length_name(char *envp);
+void    run_commands(t_cmd *cmd, t_env **env, t_export **export);
+
+
 
 //				PARSING				//
 t_cmd	*parsing(char *line, t_cmd *data, t_env *env);
@@ -193,8 +205,9 @@ void		assign_signals_handler(void);
 void		child_handler(int signum);
 void		handler(int signum);
 
-//				UTILS				//
 
+
+//				UTILS				//
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);

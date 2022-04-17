@@ -27,7 +27,7 @@ DIRECTORY_BUILTINS = source/builtins/
 ################################################################################
 
 SRC_MAIN    =   main.c\
-                shell_loop.c
+                shell_loop.c\
 
 SRC_EXEC    =   env.c\
                 export.c\

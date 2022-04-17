@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 17:14:02 by nachin            #+#    #+#             */
-/*   Updated: 2022/04/16 16:59:30 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/17 18:22:03 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	recup_env(envp, &env);
 	recup_export(envp, &export);
-	// assign_signals_handler();
+	assign_signals_handler();
 	shell_loop(env, export);
 	return (g_exit_code);
 }
