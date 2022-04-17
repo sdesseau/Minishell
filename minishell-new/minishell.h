@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 19:38:29 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/17 13:26:59 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define STDIN 0
 # define STDOUT 1
 # define STDERROR 2
+# define LONGLONG_MIN -9223372036854775807
+# define LONGLONG_MAX 9223372036854775807
 
 extern unsigned char	g_exit_code;
 
@@ -159,6 +161,8 @@ int	ft_execute_builtins(char **argv);
 
 int	ft_pwd(void);
 
+int	ft_is_arg_longlong(char *cmd);
+int	ft_is_exit_arg_num(char *cmd);
 void	ft_exit(char **argv);
 
 //				UTILS				//
