@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:10:52 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 15:47:03 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/17 19:32:09 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	shell_loop(t_env *env, t_export *export)
 		cmd = parsing(str, cmd, env);
 		if (str[0] && cmd)
 		{
-			
+			//run_commands(cmd, &env, &export);
 			ft_execute_builtins(cmd, &env, &export);
 			free_cmd(cmd);
 		}

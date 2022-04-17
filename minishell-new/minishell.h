@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 15:46:11 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/17 19:35:42 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ typedef struct s_cmd
 int		main(int argc, char **argv, char **envp);
 void	shell_loop(t_env *env, t_export *export);
 
+//				SIGNAL				//
+void	handler(int signum);
+void	child_handler(int signum);
+void	assign_signals_handler(void);
+
 //				BUILTINS				//
 
 int	ft_is_flag_n(char *user_input);
@@ -120,6 +125,7 @@ void	unset_in_env(char *argv, t_env **env);
 void	recup_export(char **envp, t_export **export);
 void    recup_env(char **envp, t_env **env);
 int     get_length_name(char *envp);
+void    run_commands(t_cmd *cmd, t_env **env, t_export **export);
 
 //				PARSING				//
 t_cmd	*parsing(char *line, t_cmd *data, t_env *env);
