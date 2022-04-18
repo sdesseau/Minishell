@@ -6,11 +6,20 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 18:48:50 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/18 16:10:12 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void    handle_exit_command(t_cmd cmd)
+{
+    if (ft_strncmp(cmd.user_input[0], "exit", 4) == 0)
+    {
+    	kill(0, SIGPIPE);
+    	ft_exit(cmd.user_input);
+    }
+}
 
 // int     heredoc(char *path)
 // {
@@ -39,10 +48,15 @@ int     input(char **path, int tmp_stdin)
         i++;
     }
     if (ret != -1)
-        fd_stdin = open(&path[ret][1], O_RDONLY, 0644);
+    {
+       if ((fd_stdin = open(&path[ret][1], O_RDONLY, 0644)) == -1)
+        {
+            printf("no such file or directoy\n");
+            exit(1);
+        }
+    }
     else
         fd_stdin = dup(tmp_stdin);
-    // printf("ret >> %i\n", ret);
     return (fd_stdin);
 }
 
@@ -63,39 +77,45 @@ int     nb_of_pipe(t_cmd *cmd)
     return (nb_pipe);
 }
 
-void	child_process(t_cmd cmd, t_env *env, int *pipe, t_export *export)
+void	child_process(t_cmd cmd, t_env *env, t_export *export)
 {
 	int		ret;
 	pid_t		pid;
 
 	pid = fork();
-	ret = 0;
-    // printf("child process\n");
 	if (pid < 0)
 	{
-		close(pipe[1]);
 		printf("error fork\n");
 		exit(1);
 	}
 	if (pid == 0)
 	{
 		signal(SIGQUIT, child_handler);
-		// handle_exit_cmd(cmd);
-		close(pipe[0]);
-		dup2(pipe[1], 1);
+		close(cmd.fd_stdin);
+	    dup2(cmd.fd_stdout, 1);
+	    close(cmd.fd_stdout);
         if ((ft_check_builtins(cmd.user_input[0])) == 0)
-            ret = ft_execute_builtins(cmd, &env, &export);
-        return ;
+            ft_execute_builtins(cmd, &env, &export);
         // else
 		//     execute_external_cmd(cmd, env);
+        kill(pid, SIGQUIT);
 	}
 	else
 	{
-		close(pipe[1]);
-		dup2(pipe[0], 0);
+		close(cmd.fd_stdout);
+		dup2(cmd.fd_stdin, 0);
+		close(cmd.fd_stdin);
         // printf("before wait\n");
-		wait(&ret);
+		waitpid(pid, &pid, 0);
         // printf("after wait\n");
+        if (WIFEXITED(pid))
+	    	g_exit_code = WEXITSTATUS(pid);
+	    if (WIFSIGNALED(pid))
+	    {
+	    	g_exit_code = WTERMSIG(pid);
+	    	if (g_exit_code != 131)
+	    		g_exit_code += 128;
+	    }
 	}
 }
 
@@ -114,9 +134,6 @@ void    run_commands(t_cmd *cmd, t_env **env, t_export **export)
 {
     int tmp_stdin;
     int tmp_stdout;
-    int fd_stdin;
-    int fd_stdout;
-    int fd_pipe[2];
     int nb_cmd;
     int i;
 
@@ -125,32 +142,42 @@ void    run_commands(t_cmd *cmd, t_env **env, t_export **export)
     tmp_stdin = dup(0);
     tmp_stdout = dup(1);
     if (cmd[i].nb_chevrons > 0)
-        fd_stdin = input(cmd[i].path, tmp_stdin);
+        cmd[i].fd_stdin = input(cmd[i].path, tmp_stdin);
     else
-        fd_stdin = dup(tmp_stdin);
+        cmd[i].fd_stdin = dup(tmp_stdin);
+    if (nb_cmd == 1)
+    {
+        dup2(cmd[i].fd_stdin, STDIN_FILENO);
+        if (cmd[i].nb_chevrons > 0 && cmd[i].path[0][0] == '>')
+			cmd[i].fd_stdout = output(cmd[i].path);
+		else
+			cmd[i].fd_stdout = dup(tmp_stdout);
+        child_process(cmd[i], (*env), (*export));
+        i++;
+    }
     while (i < nb_cmd)
     {
-        // printf("loop runcmd\n");
-        dup2(fd_stdin, STDIN_FILENO);
-        close(fd_stdin);
         if (i < nb_cmd - 1)
 		{
-			pipe(fd_pipe);
-			fd_pipe[0] = fd_stdin;
-            fd_pipe[1] = fd_stdout;
+			pipe(cmd[i].fd_pipe);
+			cmd[i].fd_stdin = cmd[i].fd_pipe[0];
+            cmd[i].fd_stdout = cmd[i].fd_pipe[1];
+            // cmd[i + 1].fd_stdin = cmd[i].fd_pipe[1];
 		}
 		else
 		{
 			if (cmd[i].nb_chevrons > 0 && cmd[i].path[0][0] == '>')
-				fd_stdout = output(cmd[i].path);
+				cmd[i].fd_stdout = output(cmd[i].path);
 			else
-				fd_stdout = dup(tmp_stdout);
+				cmd[i].fd_stdout = dup(tmp_stdout);
 		}
-        child_process(cmd[i], (*env), fd_pipe, (*export));
+        // dup2(cmd[i].fd_stdin, STDIN_FILENO);
+        child_process(cmd[i], (*env), (*export));
 		i++;
     }
-    dup2(fd_stdin, STDIN_FILENO);
-    dup2(fd_stdout, STDOUT_FILENO);
+	dup2(tmp_stdin, STDIN_FILENO);
+	dup2(tmp_stdout, STDOUT_FILENO);
     close(tmp_stdin);
     close(tmp_stdout);
+    // dup2(fd_stdin, STDIN_FILENO);
 }

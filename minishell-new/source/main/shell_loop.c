@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:10:52 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 17:58:50 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/17 22:27:53 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ void	shell_loop(t_env *env, t_export *export)
 		cmd = parsing(str, cmd, env);
 		if (str[0] && cmd)
 		{
+            // handle_exit_command(cmd[0]);
 			run_commands(cmd, &env, &export);
 			// ft_execute_builtins(cmd, &env, &export);
 			free_cmd(cmd);
+			// printf("mgmmh\n");
 		}
 		free(str);
 	}

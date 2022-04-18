@@ -6,13 +6,11 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 17:14:02 by nachin            #+#    #+#             */
-/*   Updated: 2022/04/17 18:22:03 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/18 13:11:53 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-unsigned char	g_exit_code;
 
 // int	is_internal_cmd(char **argv)
 // {
