@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 20:43:20 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/18 14:31:15 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <limits.h>
 # include <signal.h>
 # include <sys/types.h>
+# include <sys/stat.h> 
 # include <sys/wait.h>
 # define STDIN 0
 # define STDOUT 1
@@ -91,9 +92,10 @@ int	ft_execute_builtins(t_cmd *cmd, t_env **env, t_export **export);
 /* -------------------------------------------------------------------------- */
 /*                   FILE = source/builtins/ft_cd.c                           */
 /* -------------------------------------------------------------------------- */
-int	ft_cd_nb_args(char **argv);
-int ft_cd_error(int error_id);
-int	ft_update_old_pwd(char *old_pwd, t_env **env);
+char	*ft_home_path(char *path, t_env **env);
+int	ft_update_pwd(char *path, int home, t_env **env);
+int	ft_set_directory(char *path, int home, t_env **env);
+int	ft_path(char **argv, t_env **env);
 int	ft_cd(char **argv, t_env **env);
 
 /* -------------------------------------------------------------------------- */
@@ -145,7 +147,6 @@ void	unset_in_export(char *argv, t_export **export);
 int		is_unset_arg_valid(char *arg);
 int		unset_command(char **argv, t_env **env, t_export **export);
 int		unset_error(int error_id);
-
 
 //				EXEC				//
 /* -------------------------------------------------------------------------- */
@@ -309,5 +310,6 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *str, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_strchr(const char *s, int c);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
