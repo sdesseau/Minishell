@@ -5,96 +5,109 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/17 16:28:06 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/17 18:49:13 by mprigent         ###   ########.fr       */
+/*   Created: 2022/04/17 23:45:16 by mprigent          #+#    #+#             */
+/*   Updated: 2022/04/18 14:15:20 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_cd_nb_args(char **argv)
+char	*ft_home_path(char *path, t_env **env)
 {
-	int		i;
+	char		*tmp;
+	char		*tmpp;
 
-	i = 1;
-	while (argv[i] != NULL)
+	if (!ft_strncmp(path, "~/", 2))
 	{
-		if (i >= 2)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int ft_cd_error(int error_id)
-{
-    g_exit_code = 1;
-    if (error_id == 1)
-       ft_putstr_fd("cd: too many arguments\n", STDERROR);
-    else if (error_id == 2)
-        ft_putstr_fd("cd: HOME not set\n", STDERROR);
-    else if (error_id == 3)
-        ft_putstr_fd("cd: OLDPWD not set\n", STDERROR);
-    else if (error_id == 4)
-		ft_putstr_fd("cd: error retrieving current directory: getcwd: \
-				cannot access parent directories: No such file or directory\n",
-			STDERROR);
-    else if (error_id == 5)
-		ft_putstr_fd("cd: No such file or directory\n", STDERROR);
-    return (1);
-}
-
-int	ft_update_old_pwd(char *old_pwd, t_env **env)
-{
-	char	new_pwd[4096];
-	char	*ret;
-
-	if (find_env_value("OLDPWD", (*env)) != NULL)
-		update_env("OLDPWD", old_pwd, env);
-	else
-		add_env_var("OLDPWD", old_pwd, env);
-	ret = getcwd(new_pwd, 4096);
-	if (ret == NULL)
-		return (1);
-	update_env("PWD", new_pwd, env);
-	return (0);
-}
-
-int	ft_cd(char **argv, t_env **env)
-{
-    char	old_pwd[4096];
-	char	*home_value;
-	char	*old_pwd_value;
-    int		ret;
-
-    ret = 0;
-	getcwd(old_pwd, 4096);
-    if (ft_cd_nb_args(argv) == 1)
-		return (ft_cd_error(1));
-    if (argv[1] == 0 && ft_strncmp(argv[0], "cd", 3) == 0)
-	{
-        home_value = find_env_value("HOME", (*env));
-		ret = chdir(home_value);
-		if (home_value == NULL || ret == -1)
-			return (ft_cd_error(2));
-    }
-    else if (argv[1][0] == '-')
-	{
-		old_pwd_value = find_env_value("OLDPWD", (*env));
-		printf("%s\n", old_pwd_value);
-		ret = chdir(old_pwd_value);
-		if (old_pwd_value == NULL || ret == -1)
-			return (ft_cd_error(3));
-	}
-    else
-	{
-		if (chdir(argv[1]) == 0)
+		if ((tmp = find_env_value("HOME", (*env))))
 		{
-			if (ft_update_old_pwd(old_pwd, env) == 1)
-				return (ft_cd_error(4));
+			tmpp = ft_substr(path, 1, ft_strlen(path));
+			path = ft_strjoin(tmp, tmpp);
+			return (path);
 		}
-		else
-			return (ft_cd_error(5));
 	}
+	return (path);
+}
+
+int	ft_update_pwd(char *path, int home, t_env **env)
+{
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!chdir(path))
+	{
+		if (pwd)
+			update_env("OLDPWD", pwd, env);
+		if ((pwd = getcwd(NULL, 0)))
+			update_env("PWD", pwd, env);
+		return (1);
+	}
+	free(pwd);
 	return (0);
+}
+
+int	ft_set_directory(char *path, int home, t_env **env)
+{
+	struct stat	st;
+
+	if (ft_update_pwd(path, home, env))
+		return (1);
+	ft_putstr_fd("minishell: cd: ", 2);
+	ft_putstr_fd(path, 2);
+	g_exit_code = 1;
+	if (stat(path, &st) == -1)
+	{
+		ft_putstr_fd(": No such file or directory", 2);
+		g_exit_code = 127;
+	}
+	else if (!(st.st_mode & S_IXUSR))
+		ft_putstr_fd(": Permission denied", 2);
+	else
+		ft_putstr_fd(": Not a directory", 2);
+	ft_putchar_fd('\n', 2);
+	return (1);
+}
+
+int	ft_path(char **argv, t_env **env)
+{
+	char *tmp;
+
+	if (ft_strncmp(argv[1], "-", 1) == 0)
+	{
+		if ((tmp = find_env_value("OLDPWD", (*env))))
+		{
+			ft_set_directory(tmp, 0, env);
+		}
+		if ((tmp = find_env_value("PWD", (*env))))
+		{
+			ft_putstr_fd(tmp, 1);
+			ft_putchar_fd('\n', 1);
+		}
+		return (1);
+	}
+	return (ft_set_directory(argv[1], 0, env));
+}
+
+int		ft_cd(char **argv, t_env **env)
+{
+	char	*home;
+
+	g_exit_code = 0;
+	home = NULL;
+	if (argv && argv[1] && argv[2])
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		return (1);
+	}
+	if (!argv[1] || ft_strncmp(argv[1], "~", 1) == 0 || ft_strncmp(argv[1], "--", 2) == 0)
+	{
+		if (!(home = find_env_value("HOME", (*env))))
+		{
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			return (1);
+		}
+		return (ft_set_directory(home, 1, env));
+	}
+	argv[1] = ft_home_path(argv[1], env);
+	return (ft_path(argv, env));
 }

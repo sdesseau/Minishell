@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:36 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 15:40:25 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/18 13:35:34 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,20 +185,19 @@ long long	ft_atoi(const char *str)
 
 void	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
+	if (fd >= 0)
+		write(fd, &c, 1);
 }
 
 void	ft_putstr_fd(char *str, int fd)
 {
-	unsigned int	i;
-
-	if (str == NULL)
-		return ;
-	i = 0;
-	while (str[i] && str[i] != '\0')
+	if (fd >= 0)
 	{
-		ft_putchar_fd(str[i], fd);
-		i++;
+		while (str && *str)
+		{
+			ft_putchar_fd(*str, fd);
+			str++;
+		}
 	}
 }
 
@@ -238,4 +237,21 @@ char	*ft_strchr(const char *s, int c)
 	if (c == '\0')
 		return (&str[i]);
 	return (NULL);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char			*dest;
+	unsigned int	i;
+
+	i = 0;
+	dest = (char*)malloc(sizeof(*dest) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (dest == NULL)
+		return (NULL);
+	while (*s1 != '\0')
+		dest[i++] = *s1++;
+	while (*s2 != '\0')
+		dest[i++] = *s2++;
+	dest[i] = '\0';
+	return (dest);
 }
