@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:10:52 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/18 13:09:28 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/19 23:24:15 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,11 @@ void	shell_loop(t_env *env, t_export *export)
 		cmd = parsing(str, cmd, env);
 		if (str[0] && cmd)
 		{
-			ft_execute_builtins(cmd, &env, &export);
+            // handle_exit_command(cmd[0]);
+			run_commands(cmd, &env, &export);
+			// ft_execute_builtins(cmd, &env, &export);
 			free_cmd(cmd);
+			// printf("mgmmh\n");
 		}
 		free(str);
 	}
