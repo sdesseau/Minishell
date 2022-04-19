@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/18 16:10:12 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/19 22:52:27 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 		close(cmd.fd_stdin);
 	    dup2(cmd.fd_stdout, 1);
 	    close(cmd.fd_stdout);
-        if ((ft_check_builtins(cmd.user_input[0])) == 0)
-            ft_execute_builtins(cmd, &env, &export);
+        // if ((ft_check_builtins(cmd.user_input[0])) == 0)
+        //     ft_execute_builtins(cmd, &env, &export);
         // else
-		//     execute_external_cmd(cmd, env);
+		    execute_external_cmd(&cmd, env);
         kill(pid, SIGQUIT);
 	}
 	else
@@ -106,7 +106,7 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 		dup2(cmd.fd_stdin, 0);
 		close(cmd.fd_stdin);
         // printf("before wait\n");
-		waitpid(pid, &pid, 0);
+		waitpid(pid, &pid, 0); // pid ou -1 !!!!!!!!!!!!!!
         // printf("after wait\n");
         if (WIFEXITED(pid))
 	    	g_exit_code = WEXITSTATUS(pid);

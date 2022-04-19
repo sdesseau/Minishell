@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/18 15:53:42 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/19 22:54:18 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,5 +310,18 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *str, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_strchr(const char *s, int c);
+
+
+int	execute_external_cmd(t_cmd *cmd, t_env *env);
+char	*ft_find_exe_path(char *exe_name, char *path_value);
+char	*ft_concat_path(char *path_1, char *path_2);
+int	ft_is_cmd_in_folder(char *cmd_full_path);
+int	ft_total_paths(char *path_value);
+char	**ft_conv_env_to_tab(t_env *env);
+
+int	ft_size_env(t_env *lst);
+char	*ft_convert_env(char *name, char *value);
+char	**ft_split(char const *s, char c);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 
 #endif
