@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/18 14:31:15 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/19 22:34:06 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_cmd
 	int		i;
 	int		fd_stdin;
 	int		fd_stdout;
+	int		fd_pipe[2];
 }				t_cmd;
 
 //				MAIN				//
@@ -169,11 +170,23 @@ int		add_export_var(char *name, char *val, char *line, t_export **export);
 void	recup_export(char **envp, t_export **export);
 
 /* -------------------------------------------------------------------------- */
+/*                     FILE = source/exec/external_cmd.c                      */
+/* -------------------------------------------------------------------------- */
+int	ft_size_env(t_env *lst);
+char	*ft_convert_env(char *name, char *value);
+char	**ft_conv_env_to_tab(t_env *env);
+int	ft_total_paths(char *path_value);
+int	ft_is_cmd_in_folder(char *cmd_full_path);
+char	*ft_concat_path(char *path_1, char *path_2);
+char	*ft_find_exe_path(char *exe_name, char *path_value);
+int	execute_external_cmd(t_cmd *cmd, t_env *env);
+
+/* -------------------------------------------------------------------------- */
 /*                         FILE = source/exec/run_cmd.c                       */
 /* -------------------------------------------------------------------------- */
 int     input(char **path, int tmp_stdin);
 int     nb_of_pipe(t_cmd *cmd);
-void	child_process(t_cmd cmd, t_env *env, int *pipe, t_export *export);
+void	child_process(t_cmd cmd, t_env *env, t_export *export);
 int     output(char **path);
 void    run_commands(t_cmd *cmd, t_env **env, t_export **export);
 
@@ -253,6 +266,16 @@ void	assign_signals_handler(void);
 /* -------------------------------------------------------------------------- */
 /*                  FILE = source/utils/utils_dollar.c                        */
 /* -------------------------------------------------------------------------- */
+int	ft_count_word(char *str, char c);
+int	ft_len_word(char *str, char c);
+char	*ft_dup(char *src, char c);
+char	**ft_free(char **tab);
+char	**ft_split_and_fill_array(char *str, char c, char **tab);
+char	**ft_split(char const *s, char c);
+
+/* -------------------------------------------------------------------------- */
+/*                  FILE = source/utils/utils_dollar.c                        */
+/* -------------------------------------------------------------------------- */
 int			get_lenght_pars(t_pars *pars);
 int			len_exitcode(void);
 int			get_len_name(t_pars *pars, int i);
@@ -311,5 +334,14 @@ void	ft_putstr_fd(char *str, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+
+/* -------------------------------------------------------------------------- */
+/*                     FILE = source/utils/ft_split.c                         */
+/* -------------------------------------------------------------------------- */
+int	ft_count_word(char *str, char c);
+char	**ft_split_and_fill_array(char *str, char c, char **tab);
+char	**ft_split(char const *s, char c);
 
 #endif

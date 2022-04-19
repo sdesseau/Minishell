@@ -37,6 +37,7 @@ SRC_MAIN    =   main.c\
 
 SRC_EXEC    =   env.c\
                 export.c\
+				external_cmd.c \
                 run_cmd.c
 
 SRC_PARSE   =   error.c\
@@ -49,7 +50,8 @@ SRC_PARSE   =   error.c\
                 quotes.c\
                 signal.c
 
-SRC_UTILS   =   utils_dollar.c \
+SRC_UTILS   =   ft_split.c \
+				utils_dollar.c \
                 utils_dollar2.c \
                 utils_pars.c \
                 utils_quotes.c \
@@ -57,7 +59,7 @@ SRC_UTILS   =   utils_dollar.c \
                 utils.c\
 
 SRC_BUILTINS =  ft_cd.c \
-				ft_echo.c \
+                ft_echo.c \
                 ft_pwd.c \
                 ft_exit.c \
 				ft_env.c \
