@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/19 19:43:40 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/19 22:34:06 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_cmd
 	int		i;
 	int		fd_stdin;
 	int		fd_stdout;
+	int		fd_pipe[2];
 }				t_cmd;
 
 //				MAIN				//
@@ -185,7 +186,7 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env);
 /* -------------------------------------------------------------------------- */
 int     input(char **path, int tmp_stdin);
 int     nb_of_pipe(t_cmd *cmd);
-void	child_process(t_cmd cmd, t_env *env, int *pipe, t_export *export);
+void	child_process(t_cmd cmd, t_env *env, t_export *export);
 int     output(char **path);
 void    run_commands(t_cmd *cmd, t_env **env, t_export **export);
 
