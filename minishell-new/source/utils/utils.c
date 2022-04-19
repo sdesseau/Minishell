@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:36 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/18 13:35:34 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/18 18:38:25 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,4 +254,31 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		dest[i++] = *s2++;
 	dest[i] = '\0';
 	return (dest);
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
+	size_t	j;
+	size_t	k;
+
+	i = 0;
+	j = 0;
+	if (dstsize < ft_strlen(dst))
+		return (dstsize + ft_strlen(src));
+	if (dstsize == 0)
+		return (ft_strlen(src));
+	while (dst[i] != '\0')
+		i++;
+	if (dstsize <= i)
+		return (dstsize + ft_strlen(src));
+	k = i;
+	while (src[j] && i < dstsize - 1)
+	{
+		dst[i] = src[j];
+		i++;
+		j++;
+	}
+	dst[i] = '\0';
+	return (k + ft_strlen(src));
 }

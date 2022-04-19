@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 13:02:06 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 15:21:48 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/18 18:48:46 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,14 @@ char	**convert_list_to_tab(t_export *export)
 	i = 0;
 	len = ft_lenlist(export);
 	tmp = export;
-	tab = (char **)malloc(sizeof(char *) * (len + 1));
+	tab = (char **)calloc(sizeof(char *), (len + 1));
 	if (!tab)
 		return (NULL);
-	tab[0] = NULL;
 	while (tmp)
 	{
 		tab[i] = ft_strdup(tmp->name);
 		tmp = tmp->next;
 		i++;
-		tab[i] = NULL;
 	}
 	return (tab);
 }
