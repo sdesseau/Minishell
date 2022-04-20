@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/19 22:34:06 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:55:19 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	shell_loop(t_env *env, t_export *export);
 /*                   FILE = source/builtins/check_builtins.c                  */
 /* -------------------------------------------------------------------------- */
 int ft_check_builtins(char *cmd);
-int	ft_execute_builtins(t_cmd *cmd, t_env **env, t_export **export);
+int	ft_execute_builtins(t_cmd cmd, t_env **env, t_export **export);
 
 /* -------------------------------------------------------------------------- */
 /*                   FILE = source/builtins/ft_cd.c                           */
@@ -179,7 +179,7 @@ int	ft_total_paths(char *path_value);
 int	ft_is_cmd_in_folder(char *cmd_full_path);
 char	*ft_concat_path(char *path_1, char *path_2);
 char	*ft_find_exe_path(char *exe_name, char *path_value);
-int	execute_external_cmd(t_cmd *cmd, t_env *env);
+int	execute_external_cmd(t_cmd *cmd, t_env *env, pid_t pid);
 
 /* -------------------------------------------------------------------------- */
 /*                         FILE = source/exec/run_cmd.c                       */
