@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 19:07:49 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/20 21:39:46 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env, pid_t pid);
 int     input(char **path, int tmp_stdin);
 int     nb_of_pipe(t_cmd *cmd);
 void	child_process(t_cmd cmd, t_env *env, t_export *export);
-int     output(char **path);
+int     output(char **path, int tmp_stdout);
 void    run_commands(t_cmd *cmd, t_env **env, t_export **export);
 
 //				PARSING				//

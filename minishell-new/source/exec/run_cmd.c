@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 21:24:40 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/20 21:41:47 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 		close(cmd.fd_stdout);
         if (WIFEXITED(pid))
 	    	g_exit_code = WEXITSTATUS(pid);
-        printf("g_exit_code > %i\n", g_exit_code);
+        // printf("g_exit_code > %i\n", g_exit_code);
 	    if (WIFSIGNALED(pid))
 	    {
 	    	g_exit_code = WTERMSIG(pid);
@@ -144,20 +144,30 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	}
 }
 
-int     output(char **path)
+int     output(char **path, int tmp_stdout)
 {
     int fd_stdout;
     int i;
+    int ret;
 
+    ret = -1;
     i = 0;
     while (path[i])
     {
         if (path[i][0] == '>' && path[i][1] == '>')
+        {  
+            ret = i;
 	    	fd_stdout = open(&path[i][2], O_WRONLY | O_CREAT | O_APPEND, 0644);
+        }
         else if (path[i][0] == '>' && path[i][1] != '>')
+        {
+            ret = i;
         	fd_stdout = open(&path[i][1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+        }
         i++;
     }
+    if (ret == -1)
+        fd_stdout = dup(tmp_stdout);
     return (fd_stdout);
 }
 
@@ -165,7 +175,7 @@ void    exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp_stdou
 {
     dup2(cmd.fd_stdin, STDIN_FILENO);
     if (cmd.nb_chevrons > 0)
-		cmd.fd_stdout = output(cmd.path);
+		cmd.fd_stdout = output(cmd.path, tmp_stdout);
 	else
 		cmd.fd_stdout = dup(tmp_stdout);
 	if ((ft_check_builtins(cmd.user_input[0])) == 0)
@@ -216,7 +226,7 @@ void    run_commands(t_cmd *cmd, t_env **env, t_export **export)
 		else
 		{
 			if (cmd[i].nb_chevrons > 0)
-				cmd[i].fd_stdout = output(cmd[i].path);
+				cmd[i].fd_stdout = output(cmd[i].path, tmp_stdout);
 			else
 				cmd[i].fd_stdout = dup(tmp_stdout);
 		}
