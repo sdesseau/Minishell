@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 17:55:44 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 21:52:52 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	pid = fork();
 	if (pid < 0)
 	{
-		printf("error fork\n");
+		printf("execve: failed to create a new process.\n");
 		exit(1);
 	}
 	if (pid == 0)
@@ -97,7 +97,7 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
         // if ((ft_check_builtins(cmd.user_input[0])) == 0)
         //     ft_execute_builtins(cmd, &env, &export);
         // else
-		    execute_external_cmd(&cmd, env, pid);
+		    ft_execute_external_cmd(cmd.user_input, env);
         kill(pid, SIGQUIT);
 	}
 	else
