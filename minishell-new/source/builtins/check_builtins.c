@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 16:11:22 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/18 16:06:53 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:23:12 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int	ft_execute_builtins(t_cmd cmd, t_env **env, t_export **export)
 	if (ft_strncmp(cmd.user_input[0], "exit", 4) == 0)
 		ft_exit(cmd.user_input);
 	if (ft_strncmp(cmd.user_input[0], "cd", 2) == 0)
-		ft_cd(cmd.user_input, env);
+		return (ft_cd(cmd.user_input, env));
 	if ((ft_strncmp(cmd.user_input[0], "env", 3)) == 0)
-		env_command(cmd.user_input, (*env));
+		return (env_command(cmd.user_input, (*env)));
 	else if ((ft_strncmp(cmd.user_input[0], "export", 6)) == 0)
-		export_command(cmd.user_input, env, export);
+		return (export_command(cmd.user_input, env, export));
     else if ((ft_strncmp(cmd.user_input[0], "unset", 5)) == 0)
-		unset_command(cmd.user_input, env, export);
+		return (unset_command(cmd.user_input, env, export));
     return (0);
 }

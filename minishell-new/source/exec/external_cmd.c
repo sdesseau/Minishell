@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/19 22:50:17 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:15:40 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ char	*ft_find_exe_path(char *exe_name, char *path_value)
 	return (NULL);
 }
 
-int	execute_external_cmd(t_cmd *cmd, t_env *env)
+int	execute_external_cmd(t_cmd *cmd, t_env *env, pid_t pid)
 {
 	int		result;
 	int		wait_result;
@@ -173,16 +173,15 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env)
 		&& cmd->user_input[0][1] == '.' && cmd->user_input[0][2] == 0))
 	{
 		printf("%s: command not found\n", cmd->user_input[0]);
-		g_exit_code = 127;
-		return (1);
+		exit(127);
 	}
 	result = execve(cmd_path, cmd->user_input, envp);
 	if (result == -1)
 	{
 		printf("%s: execve error\n", cmd->user_input[0]);
-		exit(1);
+		exit(126);
 	}
-	wait_result = wait(NULL);
-	g_exit_code = wait_result;
+	// wait_result = wait(&pid);
+	// g_exit_code = wait_result;
 	return (0);
 }

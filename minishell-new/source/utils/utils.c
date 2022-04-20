@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:36 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/19 22:53:45 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/20 16:04:18 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 	i = 0;
 	if (!s1 && !s2)
-		return (0);
+		return (-1);
 	if (!s1 || !s2)
 		return (1);
 	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
@@ -352,15 +352,26 @@ char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char			*dest;
 	unsigned int	i;
+	unsigned int	j;
 
 	i = 0;
+	j = 0;
 	dest = (char*)malloc(sizeof(*dest) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (dest == NULL)
 		return (NULL);
-	while (*s1 != '\0')
-		dest[i++] = *s1++;
-	while (*s2 != '\0')
-		dest[i++] = *s2++;
+	while (s1[j] != '\0')
+	{
+		dest[i] = s1[j];
+		i++;
+		j++;
+	}
+	j = 0;
+	while (s2[j] != '\0')
+	{
+		dest[i] = s2[j];
+		i++;
+		j++;
+	}
 	dest[i] = '\0';
 	return (dest);
 }

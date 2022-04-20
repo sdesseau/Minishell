@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 13:02:06 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 20:01:03 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:30:21 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,8 @@ char	*get_new_name(char *command, int *index)
 		free(new_name);
 		return (NULL);
 	}
-	i++;
+	if (command[i])
+		i++;
 	*index = i;
 	return (new_name);
 }
