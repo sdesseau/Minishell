@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/20 21:22:31 by sdesseau         ###   ########.fr       */
+/*   Created: 2022/04/20 15:07:13 by mprigent          #+#    #+#             */
+/*   Updated: 2022/04/20 22:00:09 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,117 +69,69 @@ char	**ft_conv_env_to_tab(t_env *env)
 	return (tab);
 }
 
-int	ft_total_paths(char *path_value)
+char	**ft_get_path(t_env **env)
 {
-	int		total_paths;
-	int		i;
+	char	**path;
+	char	*temp;
 
-	total_paths = 0;
-	i = 0;
-	while (path_value[i] != '\0')
+	if (!(temp = find_env_value("PATH", (*env))))
+		return (NULL);
+	if (!(path = ft_split(temp, ':')))
 	{
-		if (path_value[i] == ':')
-			total_paths++;
-		i++;
+		return (NULL);
 	}
-	return (total_paths + 1);
+	return (path);
 }
 
-int	ft_is_cmd_in_folder(char *cmd_full_path)
+int			ft_check_permission(char **cmd, char *ext_cmd, struct stat statbuf, t_env *env)
 {
-	int		ret;
-
-	if (!cmd_full_path)
-		return (0);
-	ret = open(cmd_full_path, O_RDONLY);
-	if (ret != -1)
+	char	**envp;
+	
+	envp = ft_conv_env_to_tab(env);
+	if (statbuf.st_mode & S_IFREG)
 	{
-		close(ret);
+		if (statbuf.st_mode & S_IXUSR)
+			execve(ext_cmd, cmd, envp);
+		else
+		{
+			ft_putstr_fd("minishell: execve: permission denied: ", 2);
+			ft_putstr_fd(ext_cmd, 2);
+			ft_putchar_fd('\n', 2);
+			g_exit_code = 1;
+		}
 		return (1);
 	}
-	return (0);
-}
-
-char	*ft_concat_path(char *path_1, char *path_2)
-{
-	char	*concat_path;
-	int		size_path_1;
-	int		size_path_2;
-	int		size_concat_path;
-
-	if (!path_1 || !path_2)
-		return (NULL);
-	concat_path = NULL;
-	size_path_1 = ft_strlen(path_1);
-	size_path_2 = ft_strlen(path_2);
-	size_concat_path = size_path_1 + size_path_2 + 2;
-	concat_path = (char *)malloc(sizeof(char) * size_concat_path + 1);
-	if (!concat_path)
-		return (NULL);
-	ft_strlcpy(concat_path, path_1, size_path_1 + 1);
-	ft_strlcat(concat_path, "/", size_concat_path);
-	ft_strlcat(concat_path, path_2, size_concat_path + 1);
-	return (concat_path);
-}
-
-char	*ft_find_exe_path(char *exe_name, char *path_value)
-{
-	char	**paths_tab;
-	char	*path_to_find;
-	int		total_path;
-	int		i;
-
-	if (!exe_name || !path_value)
-		return (NULL);
-	paths_tab = NULL;
-	path_to_find = NULL;
-	if (ft_strchr(exe_name, '/'))
-		return (exe_name);
 	else
 	{
-		paths_tab = ft_split(path_value, ':');
-		if (!paths_tab)
-			return (NULL);
-		total_path = ft_total_paths(path_value);
-		i = 0;
-		while (i < total_path)
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd[1], 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		g_exit_code = 1;
+	}
+	return (1);
+}
+
+int			ft_execute_external_cmd(char **cmd, t_env *env)
+{
+	struct stat statbuf;
+	char		**path;
+	char		*ext_cmd;
+	char		*temp;
+	size_t		i;
+
+	if (!(path = ft_get_path(&env)))
+		return (-1);
+	i = -1;
+	while (path[++i])
+	{
+		ext_cmd = ft_strjoin(path[i], "/");
+		temp = ext_cmd;
+		ext_cmd = ft_strjoin(ext_cmd, cmd[0]);
+		if (!lstat(ext_cmd, &statbuf))
 		{
-			path_to_find = ft_concat_path(paths_tab[i], exe_name);
-			if (ft_is_cmd_in_folder(path_to_find) == 1)
-				return (path_to_find);
-			if (path_to_find != NULL)
-				free(path_to_find);
-			i++;
+			return (ft_check_permission(cmd, ext_cmd, statbuf, env));
 		}
 	}
-	return (NULL);
-}
-
-int	execute_external_cmd(t_cmd *cmd, t_env *env, pid_t pid)
-{
-	int		result;
-	char	*path_value;
-	char	*cmd_path;
-	char	**envp;
-
-	envp = ft_conv_env_to_tab(env);
-	if (cmd->user_input[0] == NULL)
-		return (0);
-	path_value = getenv("PATH");
-	cmd_path = ft_find_exe_path(cmd->user_input[0], path_value);
-	if (cmd_path == NULL || (cmd->user_input[0][0] == '.'
-		&& cmd->user_input[0][1] == 0) || (cmd->user_input[0][0] == '.'
-		&& cmd->user_input[0][1] == '.' && cmd->user_input[0][2] == 0))
-	{
-		printf("%s: command not found\n", cmd->user_input[0]);
-		exit(127);
-	}
-	result = execve(cmd_path, cmd->user_input, envp);
-	if (result == -1)
-	{
-		printf("%s: permission denied\n", cmd->user_input[0]);
-		exit(126);
-	}
-	// wait(&pid);
 	return (0);
 }
+

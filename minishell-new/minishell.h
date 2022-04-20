@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 21:39:46 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/20 22:11:11 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,11 +175,9 @@ void	recup_export(char **envp, t_export **export);
 int	ft_size_env(t_env *lst);
 char	*ft_convert_env(char *name, char *value);
 char	**ft_conv_env_to_tab(t_env *env);
-int	ft_total_paths(char *path_value);
-int	ft_is_cmd_in_folder(char *cmd_full_path);
-char	*ft_concat_path(char *path_1, char *path_2);
-char	*ft_find_exe_path(char *exe_name, char *path_value);
-int	execute_external_cmd(t_cmd *cmd, t_env *env, pid_t pid);
+char	**ft_get_path(t_env **env);
+int			ft_check_permission(char **cmd, char *ext_cmd, struct stat statbuf, t_env *env);
+int			ft_execute_external_cmd(char **cmd, t_env *env);
 
 /* -------------------------------------------------------------------------- */
 /*                         FILE = source/exec/run_cmd.c                       */

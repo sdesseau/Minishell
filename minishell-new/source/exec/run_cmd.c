@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 21:41:47 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/20 22:11:41 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	{
 		signal(SIGQUIT, child_handler);
 	    dup2(cmd.fd_stdout, STDOUT_FILENO);
-	    execute_external_cmd(&cmd, env, pid);
+	    ft_execute_external_cmd(cmd.user_input, env);
 	    close(cmd.fd_stdout);
 		close(cmd.fd_stdin);
         kill(pid, SIGQUIT);
