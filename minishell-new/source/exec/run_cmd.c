@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/19 22:52:27 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:55:44 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
         // if ((ft_check_builtins(cmd.user_input[0])) == 0)
         //     ft_execute_builtins(cmd, &env, &export);
         // else
-		    execute_external_cmd(&cmd, env);
+		    execute_external_cmd(&cmd, env, pid);
         kill(pid, SIGQUIT);
 	}
 	else
@@ -152,7 +152,15 @@ void    run_commands(t_cmd *cmd, t_env **env, t_export **export)
 			cmd[i].fd_stdout = output(cmd[i].path);
 		else
 			cmd[i].fd_stdout = dup(tmp_stdout);
-        child_process(cmd[i], (*env), (*export));
+		if ((ft_check_builtins(cmd[i].user_input[0])) == 0)
+		{
+			dup2(cmd[i].fd_stdout, 1);
+			ft_execute_builtins(cmd[i], env, export);
+			close(cmd[i].fd_stdout);
+			close(cmd[i].fd_stdin);
+		}
+		else
+			child_process(cmd[i], (*env), (*export));
         i++;
     }
     while (i < nb_cmd)
