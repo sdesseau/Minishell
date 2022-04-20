@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 22:11:41 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 22:45:29 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	pid = fork();
 	if (pid < 0)
 	{
-		printf("error fork\n");
+		printf("minishell: execve: failed to create a new process.\n");
 		exit(1);
 	}
 	if (pid == 0)
