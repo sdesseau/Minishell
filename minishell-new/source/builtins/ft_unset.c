@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 12:52:10 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 15:21:56 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 23:35:07 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,11 @@ int	is_unset_arg_valid(char *arg)
 	{
 		if ((arg[i] >= 65 && arg[i] <= 90) || (arg[i] >= 97 && arg[i] <= 122)
 			|| arg[i] == 95)
-			return (1);
+			i++;
 		else
 			return (0);
-		i++;
 	}
-	return (0);
+	return (1);
 }
 
 int	unset_command(char **argv, t_env **env, t_export **export)
