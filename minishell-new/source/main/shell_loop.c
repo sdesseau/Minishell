@@ -27,9 +27,9 @@ void	free_cmd(t_cmd *cmd)
 
 void	shell_loop(t_env *env, t_export *export)
 {
-	char		*str;
+	char	*str;
 	t_cmd	*cmd;
-	int			i;
+	int		i;
 
 	str = NULL;
 	cmd = NULL;
@@ -42,11 +42,8 @@ void	shell_loop(t_env *env, t_export *export)
 		cmd = parsing(str, cmd, env);
 		if (str[0] && cmd)
 		{
-            // handle_exit_command(cmd[0]);
 			run_commands(cmd, &env, &export);
-			// ft_execute_builtins(cmd, &env, &export);
 			free_cmd(cmd);
-			// printf("mgmmh\n");
 		}
 		free(str);
 	}

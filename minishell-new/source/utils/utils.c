@@ -30,7 +30,7 @@ char	*ft_strdup(const char *s1)
 	return (dest);
 }
 
-int 	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
 	int	i;
 
@@ -245,7 +245,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	unsigned int	i;
 
 	i = 0;
-	dest = (char*)malloc(sizeof(*dest) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (dest == NULL)
 		return (NULL);
 	while (*s1 != '\0')

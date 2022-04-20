@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 15:07:13 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/20 22:00:09 by mprigent         ###   ########.fr       */
+/*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
+/*   Updated: 2022/04/20 22:34:27 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,4 +134,3 @@ int			ft_execute_external_cmd(char **cmd, t_env *env)
 	}
 	return (0);
 }
-

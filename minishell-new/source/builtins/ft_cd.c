@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 23:45:16 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/18 18:40:24 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 22:57:49 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 char	*ft_home_path(char *path, t_env **env)
 {
-	char		*tmp;
-	char		*tmpp;
+	char	*tmp;
+	char	*tmpp;
 
 	if (!ft_strncmp(path, "~/", 2))
 	{
-		if ((tmp = find_env_value("HOME", (*env))))
+		tmp = find_env_value("HOME", (*env));
+		if (tmp)
 		{
 			tmpp = ft_substr(path, 1, ft_strlen(path));
 			path = ft_strjoin(tmp, tmpp);

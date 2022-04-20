@@ -12,14 +12,14 @@
 
 #include "../../minishell.h"
 
-int ft_check_builtins(char *cmd)
+int	ft_check_builtins(char *cmd)
 {
 	if ((ft_strncmp(cmd, "env", 3)) == 0)
-        return (0);
+		return (0);
 	else if ((ft_strncmp(cmd, "export", 6)) == 0)
-        return (0);
-    else if ((ft_strncmp(cmd, "unset", 5)) == 0)
-        return (0);
+		return (0);
+	else if ((ft_strncmp(cmd, "unset", 5)) == 0)
+		return (0);
 	else if ((ft_strncmp(cmd, "echo", 4)) == 0)
 		return (0);
 	else if ((ft_strncmp(cmd, "pwd", 3)) == 0)
@@ -28,12 +28,12 @@ int ft_check_builtins(char *cmd)
 		return (0);
 	else if ((ft_strncmp(cmd, "cd", 2)) == 0)
 		return (0);
-    return (1);
+	return (1);
 }
 
 int	ft_execute_builtins(t_cmd cmd, t_env **env, t_export **export)
 {
-    if (ft_strncmp(cmd.user_input[0], "echo", 4) == 0)
+	if (ft_strncmp(cmd.user_input[0], "echo", 4) == 0)
 		return (ft_echo(cmd.user_input));
 	if (ft_strncmp(cmd.user_input[0], "pwd", 3) == 0)
 		return (ft_pwd());
@@ -45,7 +45,7 @@ int	ft_execute_builtins(t_cmd cmd, t_env **env, t_export **export)
 		env_command(cmd.user_input, (*env));
 	else if ((ft_strncmp(cmd.user_input[0], "export", 6)) == 0)
 		export_command(cmd.user_input, env, export);
-    else if ((ft_strncmp(cmd.user_input[0], "unset", 5)) == 0)
+	else if ((ft_strncmp(cmd.user_input[0], "unset", 5)) == 0)
 		unset_command(cmd.user_input, env, export);
-    return (0);
+	return (0);
 }

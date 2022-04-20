@@ -59,9 +59,9 @@ int	ft_is_exit_arg_num(char *cmd)
 
 void	ft_exit(char **argv)
 {
-    g_exit_code = 1;
+	g_exit_code = 1;
 	ft_putstr_fd("exit\n", STDERROR);
-    if (argv[1] != NULL && argv[2] != NULL)
+	if (argv[1] != NULL && argv[2] != NULL)
 	{
 		if (ft_is_exit_arg_num(argv[1]) == 0)
 		{

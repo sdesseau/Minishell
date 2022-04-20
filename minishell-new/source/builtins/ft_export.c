@@ -14,7 +14,7 @@
 
 int	ft_lenlist(t_export *lst)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (lst)
@@ -109,7 +109,7 @@ int	is_new_name_valid(char *name)
 
 	i = 0;
 	alpha = 0;
-	if (!name|| name[0] == '\0' || name[0] == '=')
+	if (!name || name[0] == '\0' || name[0] == '=')
 		return (0);
 	while (name[i] != '\0' && name[i] != '=')
 	{

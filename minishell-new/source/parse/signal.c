@@ -23,7 +23,6 @@ void	handler(int signum)
 void	child_handler(int signum)
 {
 	(void)signum;
-	//printf("Quit (core dumped)\n");
 	exit(131);
 }
 

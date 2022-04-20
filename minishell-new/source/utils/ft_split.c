@@ -82,7 +82,6 @@ char	**ft_free(char **tab)
 	return (NULL);
 }
 
-
 char	**ft_split_and_fill_array(char *str, char c, char **tab)
 {
 	int		i;

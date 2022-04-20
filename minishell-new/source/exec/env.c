@@ -24,7 +24,8 @@ void	link_new_env_var(t_env **new, char*name, t_env **env)
 {
 	while ((*env) != NULL)
 	{
-		if ((*env)->next && ft_strncmp((*env)->next->name, name, ft_strlen(name)) == 0)
+		if ((*env)->next && ft_strncmp((*env)->next->name,
+				name, ft_strlen(name)) == 0)
 		{
 			(*new)->next = (*env)->next->next;
 			free_env_var((*env)->next);
@@ -103,9 +104,9 @@ void	add_env_var(char *name, char *val, t_env **env)
 	}
 }
 
-int     get_length_name(char *envp)
+int	get_length_name(char *envp)
 {
-    int		len;
+	int	len;
 
 	len = 0;
 	while (envp[len] != '\0' && envp[len] != '=')
@@ -113,19 +114,19 @@ int     get_length_name(char *envp)
 	return (len);
 }
 
-void    recup_env(char **envp, t_env **env)
+void	recup_env(char **envp, t_env **env)
 {
-    int     i;
-    int     name_len;
-    char    *name;
-    char    *val;
-    
+	int		i;
+	int		name_len;
+	char	*name;
+	char	*val;
+ 
 	i = 0;
-    while (envp[i])
-    {
-        name_len = get_length_name(envp[i]);
+	while (envp[i])
+	{
+		name_len = get_length_name(envp[i]);
 		name = ft_substr(envp[i], 0, name_len);
-		val = ft_substr(envp[i], name_len+ 1, ft_strlen(&envp[i][name_len]));
+		val = ft_substr(envp[i], name_len + 1, ft_strlen(&envp[i][name_len]));
 		add_env_var(name, val, env);
 		free(name);
 		free(val);
