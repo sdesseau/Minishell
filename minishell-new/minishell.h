@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 21:58:48 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 22:11:11 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define LONGLONG_MIN -9223372036854775807
 # define LONGLONG_MAX 9223372036854775807
 
-extern unsigned char	g_exit_code;
+unsigned char	g_exit_code;
 
 typedef struct s_env
 {
@@ -185,7 +185,7 @@ int			ft_execute_external_cmd(char **cmd, t_env *env);
 int     input(char **path, int tmp_stdin);
 int     nb_of_pipe(t_cmd *cmd);
 void	child_process(t_cmd cmd, t_env *env, t_export *export);
-int     output(char **path);
+int     output(char **path, int tmp_stdout);
 void    run_commands(t_cmd *cmd, t_env **env, t_export **export);
 
 //				PARSING				//
@@ -334,6 +334,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char	*ft_convert_env(char *name, char *value);
 
 /* -------------------------------------------------------------------------- */
 /*                     FILE = source/utils/ft_split.c                         */
