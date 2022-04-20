@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/20 17:54:56 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 21:22:31 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,6 @@ int	execute_external_cmd(t_cmd *cmd, t_env *env, pid_t pid)
 		printf("%s: permission denied\n", cmd->user_input[0]);
 		exit(126);
 	}
-	wait(&pid);
+	// wait(&pid);
 	return (0);
 }

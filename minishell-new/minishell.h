@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 17:55:19 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 19:07:49 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define LONGLONG_MIN -9223372036854775807
 # define LONGLONG_MAX 9223372036854775807
 
-extern unsigned char	g_exit_code;
+unsigned char	g_exit_code;
 
 typedef struct s_env
 {
@@ -336,6 +336,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char	*ft_convert_env(char *name, char *value);
 
 /* -------------------------------------------------------------------------- */
 /*                     FILE = source/utils/ft_split.c                         */
