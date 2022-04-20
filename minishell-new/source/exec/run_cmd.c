@@ -213,7 +213,7 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 	while (i < nb_cmd)
 	{
 		if (cmd[i].nb_chevrons > 0)
-			cmd[i].fd_stdin = input(cmd[i].path, tmp_stdin);
+			cmd[i].fd_stdin = input(cmd[i].path, 0);
 		else
 			cmd[i].fd_stdin = dup(0);
 		if (i < nb_cmd - 1)
@@ -225,9 +225,9 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 		else
 		{
 			if (cmd[i].nb_chevrons > 0)
-				cmd[i].fd_stdout = output(cmd[i].path, tmp_stdout);
+				cmd[i].fd_stdout = output(cmd[i].path, 1);
 			else
-				cmd[i].fd_stdout = dup(tmp_stdout);
+				cmd[i].fd_stdout = dup(1);
 		}
 		if ((ft_check_builtins(cmd[i].user_input[0])) == 0)
 		{
