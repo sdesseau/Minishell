@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 23:45:16 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/18 18:40:24 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/20 22:32:49 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*ft_home_path(char *path, t_env **env)
 
 	if (!ft_strncmp(path, "~/", 2))
 	{
-		if ((tmp = find_env_value("HOME", (*env))))
+		tmp = find_env_value("HOME", (*env));
+		if (tmp)
 		{
 			tmpp = ft_substr(path, 1, ft_strlen(path));
 			path = ft_strjoin(tmp, tmpp);
@@ -38,7 +39,8 @@ int	ft_update_pwd(char *path, int home, t_env **env)
 	{
 		if (pwd)
 			update_env("OLDPWD", pwd, env);
-		if ((pwd = getcwd(NULL, 0)))
+		pwd = getcwd(NULL, 0);
+		if (pwd)
 			update_env("PWD", pwd, env);
 		return (1);
 	}
@@ -74,11 +76,11 @@ int	ft_path(char **argv, t_env **env)
 
 	if (ft_strncmp(argv[1], "-", 1) == 0)
 	{
-		if ((tmp = find_env_value("OLDPWD", (*env))))
-		{
+		tmp = find_env_value("OLDPWD", (*env));
+		if (tmp)
 			ft_set_directory(tmp, 0, env);
-		}
-		if ((tmp = find_env_value("PWD", (*env))))
+		tmp = find_env_value("PWD", (*env));
+		if (tmp)
 		{
 			ft_putstr_fd(tmp, 1);
 			ft_putchar_fd('\n', 1);
@@ -101,7 +103,8 @@ int		ft_cd(char **argv, t_env **env)
 	}
 	if (!argv[1] || ft_strncmp(argv[1], "~", 1) == 0 || ft_strncmp(argv[1], "--", 2) == 0)
 	{
-		if (!(home = find_env_value("HOME", (*env))))
+		home = find_env_value("HOME", (*env));
+		if (!home)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			return (1);
