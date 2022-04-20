@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:36 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 16:04:18 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/18 18:38:25 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strdup(const char *s1)
 	return (dest);
 }
 
-int 	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
 	int	i;
 
@@ -145,7 +145,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 	i = 0;
 	if (!s1 && !s2)
-		return (-1);
+		return (0);
 	if (!s1 || !s2)
 		return (1);
 	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
@@ -185,20 +185,19 @@ long long	ft_atoi(const char *str)
 
 void	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
+	if (fd >= 0)
+		write(fd, &c, 1);
 }
 
 void	ft_putstr_fd(char *str, int fd)
 {
-	unsigned int	i;
-
-	if (str == NULL)
-		return ;
-	i = 0;
-	while (str[i] && str[i] != '\0')
+	if (fd >= 0)
 	{
-		ft_putchar_fd(str[i], fd);
-		i++;
+		while (str && *str)
+		{
+			ft_putchar_fd(*str, fd);
+			str++;
+		}
 	}
 }
 
@@ -239,139 +238,20 @@ char	*ft_strchr(const char *s, int c)
 		return (&str[i]);
 	return (NULL);
 }
-int	ft_count_word(char *str, char c)
-{
-	int		i;
-	int		word;
-
-	i = 0;
-	word = 0;
-	while (str[i])
-	{
-		if (str[i] != c && i == 0)
-		{
-			word++;
-			i++;
-		}
-		if (str[i] != c && str[i - 1] == c)
-			word++;
-		i++;
-	}
-	return (word);
-}
-
-int	ft_len_word(char *str, char c)
-{
-	int		len;
-
-	len = 0;
-	while (str[len])
-	{
-		if (str[len] != c)
-			len++;
-		else
-			break ;
-	}
-	return (len);
-}
-
-char	*ft_dup(char *src, char c)
-{
-	int		i;
-	int		len;
-	char	*dst;
-
-	i = 0;
-	len = ft_len_word(src, c);
-	dst = malloc(sizeof(*src) * (len + 1));
-	if (dst == NULL)
-		return (NULL);
-	while (src[i] && i < len)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
-
-char	**ft_free(char **tab)
-{
-	int		i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-	return (NULL);
-}
-
-
-char	**ft_split_and_fill_array(char *str, char c, char **tab)
-{
-	int		i;
-
-	i = 0;
-	while (*str)
-	{
-		if (*str != c)
-		{
-			tab[i] = ft_dup(str, c);
-			if (tab[i] == NULL)
-				return (ft_free(tab));
-			i++;
-			str += ft_len_word(str, c);
-		}
-		else
-			str++;
-	}
-	return (tab);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	*str;
-	char	**tab;
-	int		words;
-
-	if (s == NULL)
-		return (NULL);
-	str = (char *)s;
-	words = ft_count_word(str, c);
-	tab = ft_calloc(words + 1, sizeof(*tab));
-	if (tab == NULL)
-		return (NULL);
-	tab = ft_split_and_fill_array(str, c, tab);
-	return (tab);
-}
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char			*dest;
 	unsigned int	i;
-	unsigned int	j;
 
 	i = 0;
-	j = 0;
-	dest = (char*)malloc(sizeof(*dest) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (dest == NULL)
 		return (NULL);
-	while (s1[j] != '\0')
-	{
-		dest[i] = s1[j];
-		i++;
-		j++;
-	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		dest[i] = s2[j];
-		i++;
-		j++;
-	}
+	while (*s1 != '\0')
+		dest[i++] = *s1++;
+	while (*s2 != '\0')
+		dest[i++] = *s2++;
 	dest[i] = '\0';
 	return (dest);
 }

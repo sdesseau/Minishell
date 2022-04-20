@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 13:02:06 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 17:30:21 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/18 18:48:46 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_lenlist(t_export *lst)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (lst)
@@ -35,16 +35,14 @@ char	**convert_list_to_tab(t_export *export)
 	i = 0;
 	len = ft_lenlist(export);
 	tmp = export;
-	tab = (char **)malloc(sizeof(char *) * (len + 1));
+	tab = (char **)calloc(sizeof(char *), (len + 1));
 	if (!tab)
 		return (NULL);
-	tab[0] = NULL;
 	while (tmp)
 	{
 		tab[i] = ft_strdup(tmp->name);
 		tmp = tmp->next;
 		i++;
-		tab[i] = NULL;
 	}
 	return (tab);
 }
@@ -111,7 +109,7 @@ int	is_new_name_valid(char *name)
 
 	i = 0;
 	alpha = 0;
-	if (!name|| name[0] == '\0' || name[0] == '=')
+	if (!name || name[0] == '\0' || name[0] == '=')
 		return (0);
 	while (name[i] != '\0' && name[i] != '=')
 	{
@@ -145,8 +143,7 @@ char	*get_new_name(char *command, int *index)
 		free(new_name);
 		return (NULL);
 	}
-	if (command[i])
-		i++;
+	i++;
 	*index = i;
 	return (new_name);
 }
