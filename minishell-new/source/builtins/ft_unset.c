@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 12:52:10 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 15:21:56 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/21 21:46:05 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,12 @@ int	is_unset_arg_valid(char *arg)
 	while (arg[i] != '\0')
 	{
 		if ((arg[i] >= 65 && arg[i] <= 90) || (arg[i] >= 97 && arg[i] <= 122)
-			|| arg[i] == 95)
-			return (1);
+			|| arg[i] == 95 || (arg[i] >= 48 && arg[i] <= 57))
+			i++;
 		else
 			return (0);
-		i++;
 	}
-	return (0);
+	return (1);
 }
 
 int	unset_command(char **argv, t_env **env, t_export **export)

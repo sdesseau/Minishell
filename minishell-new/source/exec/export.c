@@ -3,35 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:24:19 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 13:03:32 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 21:33:14 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	put_in_export(t_export **new, char *name, char *value)
-{
-	(*new)->name = ft_strdup(name);
-	(*new)->value = ft_strdup(value);
-	(*new)->next = NULL;
-}
-
-void	*free_export_var(t_export *export)
-{
-	free(export->name);
-	free(export->value);
-	free(export);
-	return (0);
-}
-
 void	link_new_export_var(t_export **new, char*name, t_export **export)
 {
 	while ((*export) != NULL)
 	{
-		if ((*export)->next && ft_strncmp((*export)->next->name, name, ft_strlen(name)) == 0)
+		if ((*export)->next && ft_strncmp((*export)->next->name, name,
+				ft_strlen(name)) == 0)
 		{
 			(*new)->next = (*export)->next->next;
 			free_export_var((*export)->next);
@@ -117,15 +103,15 @@ int	add_export_var(char *name, char *val, char *line, t_export **export)
 
 void	recup_export(char **envp, t_export **export)
 {
-	int     i;
-    int     name_len;
-    char    *name;
-    char    *val;
+	int		i;
+	int		name_len;
+	char	*name;
+	char	*val;
 
 	i = 0;
 	while (envp[i])
 	{
-        name_len = get_length_name(envp[i]);
+		name_len = get_length_name(envp[i]);
 		name = ft_substr(envp[i], 0, name_len);
 		val = ft_substr(envp[i], name_len + 1, ft_strlen(&envp[i][name_len]));
 		add_export_var(name, val, envp[i], export);

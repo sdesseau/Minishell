@@ -1,50 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_loop.c                                       :+:      :+:    :+:   */
+/*   utils_putfd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/15 14:10:52 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/19 23:24:15 by mprigent         ###   ########.fr       */
+/*   Created: 2022/04/21 22:00:53 by mprigent          #+#    #+#             */
+/*   Updated: 2022/04/21 22:02:19 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	free_cmd(t_cmd *cmd)
+void	ft_putchar_fd(char c, int fd)
 {
-	int	i;
-
-	i = 0;
-	while (cmd[i].index != -1)
-	{
-		stop_loop(cmd[i]);
-		i++;
-	}
-	free(cmd);
+	if (fd >= 0)
+		write(fd, &c, 1);
 }
 
-void	shell_loop(t_env *env, t_export *export)
+void	ft_putstr_fd(char *str, int fd)
 {
-	char	*str;
-	t_cmd	*cmd;
-	int		i;
-
-	str = NULL;
-	cmd = NULL;
-	while (1)
+	if (fd >= 0)
 	{
-		i = 0;
-		str = readline("\033[33m$ ➜\033[00m ");
-		if (str && *str)
-			add_history(str);
-		cmd = parsing(str, cmd, env);
-		if (str[0] && cmd)
+		while (str && *str)
 		{
-			run_commands(cmd, &env, &export);
-			free_cmd(cmd);
+			ft_putchar_fd(*str, fd);
+			str++;
 		}
-		free(str);
+	}
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	unsigned int	nbr;
+
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else
+	{
+		if (n < 0)
+		{
+			ft_putchar_fd('-', fd);
+			n = n * (-1);
+		}
+		nbr = n;
+		if (n > 9)
+			ft_putnbr_fd((n / 10), fd);
+		ft_putchar_fd(((n % 10) + 48), fd);
 	}
 }

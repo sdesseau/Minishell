@@ -32,31 +32,39 @@ DIRECTORY_BUILTINS = source/builtins/
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRC_MAIN    =   main.c\
+SRC_MAIN    =   main.c \
                 shell_loop.c
 
-SRC_EXEC    =   env.c\
-                export.c\
+SRC_EXEC    =   env.c \
+                export.c \
 				external_cmd.c \
                 run_cmd.c
 
-SRC_PARSE   =   error.c\
-                expansions.c\
-                get_cmd.c\
-                get_param.c\
-                get_redir.c\
-                leaks.c\
-                parse.c\
-                quotes.c\
+SRC_PARSE   =   error.c \
+                expansions.c \
+                get_cmd.c \
+                get_param.c \
+                get_redir.c \
+                leaks.c \
+                parse.c \
+                quotes.c \
                 signal.c
 
-SRC_UTILS   =   ft_split.c \
+SRC_UTILS   =   ft_split_utils.c \
+				ft_split.c \
 				utils_dollar.c \
                 utils_dollar2.c \
+				utils_env.c \
+				utils_export.c \
+				utils_ext_cmd.c \
                 utils_pars.c \
+				utils_putfd.c \
                 utils_quotes.c \
                 utils_redir.c \
-                utils.c\
+				utils_run_cmd.c \
+                utils_str.c \
+                utils_str_2.c \
+                utils.c
 
 SRC_BUILTINS =  ft_cd.c \
                 ft_echo.c \

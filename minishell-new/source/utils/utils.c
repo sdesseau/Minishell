@@ -5,96 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/16 14:30:36 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 19:33:56 by mprigent         ###   ########.fr       */
+/*   Created: 2022/04/21 19:00:04 by sdesseau          #+#    #+#             */
+/*   Updated: 2022/04/21 22:15:01 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-char	*ft_strdup(const char *s1)
-{
-	unsigned int	i;
-	char			*dest;
-
-	i = 0;
-	dest = malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (dest == NULL)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		dest[i] = s1[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-int 	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-		i++;
-	return (i);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*dst;
-
-	if (s == NULL)
-		return (NULL);
-	if (ft_strlen(s) < start)
-		return (ft_calloc(1, sizeof(char)));
-	else
-	{
-		if (start + len > ft_strlen(s))
-			len = ft_strlen(s) - start;
-		dst = malloc(sizeof(char) * (len + 1));
-		if (dst == NULL)
-			return (NULL);
-		ft_strlcpy(dst, s + start, len + 1);
-		return (dst);
-	}
-}
-
-char	*ft_strrchr(const char *s, int c)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	str = (char *)s;
-	while (str[i] != '\0')
-		i++;
-	while (i >= 0)
-	{
-		if (str[i] == c)
-			return (&str[i]);
-		i--;
-	}
-	return (NULL);
-}
-
-char	*find_env_value(char *env_name, t_env *env)
-{
-	t_env	*tmp;
-	int		lenght;
-
-	tmp = env;
-	lenght = ft_strlen(env_name);
-	while (tmp != NULL)
-	{
-		if (ft_strncmp(tmp->name, env_name, lenght + 1) == 0)
-			return (tmp->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -105,24 +21,6 @@ void	*ft_calloc(size_t count, size_t size)
 		return (NULL);
 	ft_bzero(ptr, (count * size));
 	return (ptr);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-
-	i = 0;
-	if (dstsize <= 0)
-		return (ft_strlen(src));
-	if (src == NULL && dst == NULL)
-		return (0);
-	while ((src[i] != '\0') && i < dstsize - 1)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
 }
 
 void	ft_bzero(void *s, size_t n)
@@ -137,24 +35,6 @@ void	ft_bzero(void *s, size_t n)
 		tmp[i] = 0;
 		i++;
 	}
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t		i;
-
-	i = 0;
-	if (!s1 && !s2)
-		return (0);
-	if (!s1 || !s2)
-		return (1);
-	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
 }
 
 long long	ft_atoi(const char *str)
@@ -181,123 +61,4 @@ long long	ft_atoi(const char *str)
 		i++;
 	}
 	return (nb * neg);
-}
-
-void	ft_putchar_fd(char c, int fd)
-{
-	if (fd >= 0)
-		write(fd, &c, 1);
-}
-
-void	ft_putstr_fd(char *str, int fd)
-{
-	if (fd >= 0)
-	{
-		while (str && *str)
-		{
-			ft_putchar_fd(*str, fd);
-			str++;
-		}
-	}
-}
-
-void	ft_putnbr_fd(int n, int fd)
-{
-	unsigned int	nbr;
-
-	if (n == -2147483648)
-		write(fd, "-2147483648", 11);
-	else
-	{
-		if (n < 0)
-		{
-			ft_putchar_fd('-', fd);
-			n = n * (-1);
-		}
-		nbr = n;
-		if (n > 9)
-			ft_putnbr_fd((n / 10), fd);
-		ft_putchar_fd(((n % 10) + 48), fd);
-	}
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	str = (char *)s;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			return (&str[i]);
-		i++;
-	}
-	if (c == '\0')
-		return (&str[i]);
-	return (NULL);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*new;
-	int		i;
-	int		y;
-
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	if (!(new = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
-		return (NULL);
-	i = 0;
-	y = 0;
-	while (s1[i] != '\0')
-	{
-		new[i] = s1[i];
-		i++;
-	}
-	while (s2[y] != '\0')
-	{
-		new[i + y] = s2[y];
-		y++;
-	}
-	new[i + y] = '\0';
-	return (new);
-}
-
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-	size_t	j;
-	size_t	k;
-
-	i = 0;
-	j = 0;
-	if (dstsize < ft_strlen(dst))
-		return (dstsize + ft_strlen(src));
-	if (dstsize == 0)
-		return (ft_strlen(src));
-	while (dst[i] != '\0')
-		i++;
-	if (dstsize <= i)
-		return (dstsize + ft_strlen(src));
-	k = i;
-	while (src[j] && i < dstsize - 1)
-	{
-		dst[i] = src[j];
-		i++;
-		j++;
-	}
-	dst[i] = '\0';
-	return (k + ft_strlen(src));
-}
-
-int		ft_error(char *cmd, char *msg, int ret, int exit_code)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(msg, 2);
-	if (exit_code >= 0)
-		g_exit_code = exit_code;
-	return (ret);
 }

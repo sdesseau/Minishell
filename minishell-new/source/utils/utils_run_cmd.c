@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   utils_run_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/15 14:08:03 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/19 23:26:32 by mprigent         ###   ########.fr       */
+/*   Created: 2022/04/21 18:56:35 by sdesseau          #+#    #+#             */
+/*   Updated: 2022/04/21 18:59:03 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	handler(int signum)
+int	nb_of_pipe(t_cmd *cmd)
 {
-	(void)signum;
-	printf("\n");
-	rl_on_new_line();
-	rl_redisplay();
-}
+	int	i;
+	int	nb_pipe;
 
-void	child_handler(int signum)
-{
-	(void)signum;
-	exit(131);
-}
-
-void	assign_signals_handler(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handler);
+	i = 0;
+	nb_pipe = 1;
+	while (cmd[i].index != -1)
+	{
+		if (cmd[i].pipe == 1)
+			nb_pipe++;
+		i++;
+	}
+	return (nb_pipe);
 }

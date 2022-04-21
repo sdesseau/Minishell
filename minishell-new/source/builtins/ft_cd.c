@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 23:45:16 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/20 22:32:49 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/21 22:24:38 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_set_directory(char *path, int home, t_env **env)
 
 int	ft_path(char **argv, t_env **env)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (ft_strncmp(argv[1], "-", 1) == 0)
 	{
@@ -90,7 +90,7 @@ int	ft_path(char **argv, t_env **env)
 	return (ft_set_directory(argv[1], 0, env));
 }
 
-int		ft_cd(char **argv, t_env **env)
+int	ft_cd(char **argv, t_env **env)
 {
 	char	*home;
 
@@ -101,7 +101,8 @@ int		ft_cd(char **argv, t_env **env)
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		return (1);
 	}
-	if (!argv[1] || ft_strncmp(argv[1], "~", 1) == 0 || ft_strncmp(argv[1], "--", 2) == 0)
+	if (!argv[1] || ft_strncmp(argv[1], "~", 1) == 0
+		|| ft_strncmp(argv[1], "--", 2) == 0)
 	{
 		home = find_env_value("HOME", (*env));
 		if (!home)

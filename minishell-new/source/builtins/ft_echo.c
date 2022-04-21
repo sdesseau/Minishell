@@ -31,13 +31,13 @@ int	ft_is_flag_n(char *user_input)
 			i++;
 		}
 	}
-	return (0);	
+	return (0);
 }
 
-void ft_print_echo(char *cmd)
+void	ft_print_echo(char *cmd)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (cmd[i] && cmd[i] != '\0')
 	{
@@ -46,10 +46,10 @@ void ft_print_echo(char *cmd)
 	}
 }
 
-int ft_echo(char **argv)
+int	ft_echo(char **argv)
 {
-    int		is_n;
-	int		i;
+	int	is_n;
+	int	i;
 
 	i = 1;
 	is_n = ft_is_flag_n(argv[i]);
