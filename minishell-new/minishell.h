@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 21:39:46 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 22:31:21 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,18 +117,12 @@ int			env_command(char **argv, t_env *env);
 /* -------------------------------------------------------------------------- */
 int			ft_is_arg_longlong(char *cmd);
 int			ft_is_exit_arg_num(char *cmd);
-void		ft_exit(char **argv);
+int			ft_exit(char **argv);
 
 /* -------------------------------------------------------------------------- */
 /*                   FILE = source/builtins/ft_export.c                       */
 /* -------------------------------------------------------------------------- */
-int			ft_lenlist(t_export *lst);
-char		**convert_list_to_tab(t_export *export);
 char		**sort_export(t_export *export);
-int			is_equal_sign(char *name);
-int			ft_isalpha(int c);
-int			ft_isdigit(int c);
-int			is_new_name_valid(char *name);
 char		*get_new_name(char *command, int *index);
 char		*find_export_value(char *name, t_export *export);
 int			find_equal_value(char *name, t_export *export);
@@ -153,40 +147,37 @@ int			unset_error(int error_id);
 /* -------------------------------------------------------------------------- */
 /*                           FILE = source/exec/env.c                         */
 /* -------------------------------------------------------------------------- */
-void		*free_env_var(t_env *env);
+void		link_new_env_var(t_env **new, char*name, t_env **env);
 int			update_env(char *name, char *val, t_env **env);
-void		put_in_env(t_env **new, char *name, char *value);
+int			env_var_already_exist(char *name, t_env *env);
 void		add_env_var(char *name, char *val, t_env **env);
-int			get_length_name(char *envp);
 void		recup_env(char **envp, t_env **env);
 
 /* -------------------------------------------------------------------------- */
 /*                         FILE = source/exec/export.c                        */
 /* -------------------------------------------------------------------------- */
-void		put_in_export(t_export **new, char *name, char *value);
-void		*free_export_var(t_export *export);
+void		link_new_export_var(t_export **new, char*name, t_export **export);
+int			update_export(char *name, char *value, t_export **export);
 int			export_var_already_exist(char *name, t_export *export);
-int			add_export_var(char *name, char *val,
-				char *line, t_export **export);
+int			add_export_var(char *name, char *val, char *line, t_export **export);
 void		recup_export(char **envp, t_export **export);
 
 /* -------------------------------------------------------------------------- */
 /*                     FILE = source/exec/external_cmd.c                      */
 /* -------------------------------------------------------------------------- */
-int			ft_size_env(t_env *lst);
-char		*ft_convert_env(char *name, char *value);
-char		**ft_conv_env_to_tab(t_env *env);
 char		**ft_get_path(t_env **env);
 int			ft_check_permission(char **cmd, char *ext_cmd,
 				struct stat statbuf, t_env *env);
 int			ft_execute_external_cmd(char **cmd, t_env *env);
+
 /* -------------------------------------------------------------------------- */
 /*                         FILE = source/exec/run_cmd.c                       */
 /* -------------------------------------------------------------------------- */
+int			heredoc(char *path);
 int			input(char **path, int tmp_stdin);
-int			nb_of_pipe(t_cmd *cmd);
 void		child_process(t_cmd cmd, t_env *env, t_export *export);
 int			output(char **path, int tmp_stdout);
+void		exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp);
 void		run_commands(t_cmd *cmd, t_env **env, t_export **export);
 
 //				PARSING				//
@@ -263,12 +254,16 @@ void		assign_signals_handler(void);
 
 //				UTILS				//
 /* -------------------------------------------------------------------------- */
-/*                  FILE = source/utils/utils_dollar.c                        */
+/*                   FILE = source/utils/ft_split_utils.c                     */
 /* -------------------------------------------------------------------------- */
 int			ft_count_word(char *str, char c);
 int			ft_len_word(char *str, char c);
 char		*ft_dup(char *src, char c);
 char		**ft_free(char **tab);
+
+/* -------------------------------------------------------------------------- */
+/*                      FILE = source/utils/ft_split.c                        */
+/* -------------------------------------------------------------------------- */
 char		**ft_split_and_fill_array(char *str, char c, char **tab);
 char		**ft_split(char const *s, char c);
 
@@ -289,6 +284,30 @@ int			i_end_param(t_cmd *data, int x, t_pars *pars, int i);
 t_pars		*init_last_index(t_pars *pars, int i);
 
 /* -------------------------------------------------------------------------- */
+/*                   FILE = source/utils/utils_env.c                          */
+/* -------------------------------------------------------------------------- */
+void		*free_env_var(t_env *env);
+int			get_length_name(char *envp);
+void		put_in_env(t_env **new, char *name, char *value);
+char		*find_env_value(char *env_name, t_env *env);
+
+/* -------------------------------------------------------------------------- */
+/*                   FILE = source/utils/utils_export.c                       */
+/* -------------------------------------------------------------------------- */
+void		put_in_export(t_export **new, char *name, char *value);
+void		*free_export_var(t_export *export);
+int			is_equal_sign(char *name);
+int			ft_lenlist(t_export *lst);
+char		**convert_list_to_tab(t_export *export);
+
+/* -------------------------------------------------------------------------- */
+/*                   FILE = source/utils/utils_ext_cmd.c                      */
+/* -------------------------------------------------------------------------- */
+int			ft_size_env(t_env *lst);
+char		*ft_convert_env(char *name, char *value);
+char		**ft_conv_env_to_tab(t_env *env);
+
+/* -------------------------------------------------------------------------- */
 /*                    FILE = source/utils/utils_pars.c                        */
 /* -------------------------------------------------------------------------- */
 t_cmd		init_cmd(t_cmd data);
@@ -296,6 +315,13 @@ t_pars		*put_lock(t_pars *pars);
 t_cmd		*empty_line(t_cmd *data);
 int			pass_spaces(t_pars *pars, int i);
 int			is_first_pipe(t_pars *pars);
+
+/* -------------------------------------------------------------------------- */
+/*                    FILE = source/utils/utils_putfd.c.c                     */
+/* -------------------------------------------------------------------------- */
+void		ft_putchar_fd(char c, int fd);
+void		ft_putstr_fd(char *str, int fd);
+void		ft_putnbr_fd(int n, int fd);
 
 /* -------------------------------------------------------------------------- */
 /*                  FILE = source/utils/utils_quotes.c                        */
@@ -316,32 +342,32 @@ int			pass_redir(t_pars *pars, int i);
 int			go_redir(t_pars *pars, int i);
 
 /* -------------------------------------------------------------------------- */
-/*                      FILE = source/utils/utils.c                           */
+/*                   FILE = source/utils/utils_run_cmd.c                      */
 /* -------------------------------------------------------------------------- */
-char		*ft_strdup(const char *s1);
-int			ft_strlen(const char *s);
-char		*ft_substr(char const *s, unsigned int start, size_t len);
-char		*ft_strrchr(const char *s, int c);
-char		*find_env_value(char *env_name, t_env *env);
-void		*ft_calloc(size_t count, size_t size);
-size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void		ft_bzero(void *s, size_t n);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-long long	ft_atoi(const char *str);
-void		ft_putchar_fd(char c, int fd);
-void		ft_putstr_fd(char *str, int fd);
-void		ft_putnbr_fd(int n, int fd);
-char		*ft_strchr(const char *s, int c);
-char		*ft_strjoin(char const *s1, char const *s2);
-size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
-size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
-char		*ft_convert_env(char *name, char *value);
+int			nb_of_pipe(t_cmd *cmd);
 
 /* -------------------------------------------------------------------------- */
-/*                     FILE = source/utils/ft_split.c                         */
+/*                    FILE = source/utils/utils_str.c                         */
 /* -------------------------------------------------------------------------- */
-int			ft_count_word(char *str, char c);
-char		**ft_split_and_fill_array(char *str, char c, char **tab);
-char		**ft_split(char const *s, char c);
+char		*ft_strchr(const char *s, int c);
+char		*ft_strrchr(const char *s, int c);
+char		*ft_strjoin(char const *s1, char const *s2);
+size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
+char		*ft_strdup(const char *s1);
+
+/* -------------------------------------------------------------------------- */
+/*                    FILE = source/utils/utils_str_2.c                       */
+/* -------------------------------------------------------------------------- */
+int			ft_strlen(const char *s);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
+char		*ft_substr(char const *s, unsigned int start, size_t len);
+
+/* -------------------------------------------------------------------------- */
+/*                         FILE = source/utils/utils.c                        */
+/* -------------------------------------------------------------------------- */
+void		*ft_calloc(size_t count, size_t size);
+void		ft_bzero(void *s, size_t n);
+long long	ft_atoi(const char *str);
 
 #endif

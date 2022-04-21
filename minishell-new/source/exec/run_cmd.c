@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 23:07:20 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 21:33:39 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	handle_exit_command(t_cmd cmd)
-{
-	if (ft_strncmp(cmd.user_input[0], "exit", 4) == 0)
-	{
-		kill(0, SIGPIPE);
-		ft_exit(cmd.user_input);
-	}
-}
 
 int	heredoc(char *path)
 {
@@ -88,22 +79,6 @@ int	input(char **path, int tmp_stdin)
 	if (ret == -1)
 		fd_stdin = dup(tmp_stdin);
 	return (fd_stdin);
-}
-
-int	nb_of_pipe(t_cmd *cmd)
-{
-	int	i;
-	int	nb_pipe;
-
-	i = 0;
-	nb_pipe = 1;
-	while (cmd[i].index != -1)
-	{
-		if (cmd[i].pipe == 1)
-			nb_pipe++;
-		i++;
-	}
-	return (nb_pipe);
 }
 
 void	child_process(t_cmd cmd, t_env *env, t_export *export)
@@ -179,6 +154,7 @@ void	exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp)
 		cmd.fd_stdout = dup(tmp);
 	if ((ft_check_builtins(cmd.user_input[0])) == 0)
 	{
+		dup2(cmd.fd_stdin, STDIN_FILENO);
 		dup2(cmd.fd_stdout, 1);
 		g_exit_code = ft_execute_builtins(cmd, env, export);
 		close(cmd.fd_stdin);

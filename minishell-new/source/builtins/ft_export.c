@@ -6,46 +6,11 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 13:02:06 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/18 18:48:46 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/21 21:42:00 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	ft_lenlist(t_export *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
-char	**convert_list_to_tab(t_export *export)
-{
-	t_export	*tmp;
-	char		**tab;
-	int			i;
-	int			len;
-
-	i = 0;
-	len = ft_lenlist(export);
-	tmp = export;
-	tab = (char **)calloc(sizeof(char *), (len + 1));
-	if (!tab)
-		return (NULL);
-	while (tmp)
-	{
-		tab[i] = ft_strdup(tmp->name);
-		tmp = tmp->next;
-		i++;
-	}
-	return (tab);
-}
 
 char	**sort_export(t_export *export)
 {
@@ -74,58 +39,44 @@ char	**sort_export(t_export *export)
 	return (exp);
 }
 
-int	is_equal_sign(char *name)
-{
-	int		j;
+// int	ft_isalpha(int c)
+// {
+// 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+// 		return (1);
+// 	return (0);
+// }
 
-	j = 0;
-	while (name[j])
-	{
-		if (ft_strchr(name, '=') == 0)
-			return (0);
-		j++;
-	}
-	return (1);
-}
+// int	ft_isdigit(int c)
+// {
+// 	if (c >= '0' && c <= '9')
+// 		return (1);
+// 	return (0);
+// }
 
-int	ft_isalpha(int c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	return (0);
-}
+// int	is_new_name_valid(char *name)
+// {
+// 	size_t	i;
+// 	char	alpha;
 
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-int	is_new_name_valid(char *name)
-{
-	size_t	i;
-	char	alpha;
-
-	i = 0;
-	alpha = 0;
-	if (!name || name[0] == '\0' || name[0] == '=')
-		return (0);
-	while (name[i] != '\0' && name[i] != '=')
-	{
-		if (ft_isalpha(name[i]))
-			alpha = 1;
-		else
-		{
-			if (ft_isdigit(name[i]) && alpha == 0)
-				return (0);
-			else if (ft_isdigit(name[i]) == 1 && name[i] != '_')
-				return (0);
-		}
-		i++;
-	}
-	return (1);
-}
+// 	i = 0;
+// 	alpha = 0;
+// 	if (!name || name[0] == '\0' || name[0] == '=')
+// 		return (0);
+// 	while (name[i] != '\0' && name[i] != '=')
+// 	{
+// 		if (ft_isalpha(name[i]))
+// 			alpha = 1;
+// 		else
+// 		{
+// 			if (ft_isdigit(name[i]) && alpha == 0)
+// 				return (0);
+// 			else if (ft_isdigit(name[i]) == 1 && name[i] != '_')
+// 				return (0);
+// 		}
+// 		i++;
+// 	}
+// 	return (1);
+// }
 
 char	*get_new_name(char *command, int *index)
 {
@@ -137,13 +88,14 @@ char	*get_new_name(char *command, int *index)
 	while (command[i] && command[i] != '=')
 		i++;
 	new_name = ft_substr(command, 0, i);
-	if (is_new_name_valid(new_name) == 0)
+	if (is_unset_arg_valid(new_name) == 0)
 	{
 		ft_putstr_fd("export: not a valid identifier\n", 2);
 		free(new_name);
 		return (NULL);
 	}
-	i++;
+	if (command[i])
+		i++;
 	*index = i;
 	return (new_name);
 }

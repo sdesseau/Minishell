@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:08:08 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 16:28:46 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:39:42 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int	get_len_name(t_pars *pars, int i)
 	int	j;
 
 	j = i;
-	while (((pars[j].val != ' ' && pars[j].val != '/'
+	while (((pars[j].val != ' ' && pars[j].val != '=' && pars[j].val != '/'
 				&& pars[j].val != '$' && pars[j].val != '\\')
-			|| ((pars[j].val == ' ' || pars[j].val == '/'
+			|| ((pars[j].val == ' ' || pars[j].val == '=' || pars[j].val == '/'
 					|| pars[j].val == '$' || pars[j].val == '\\')
 				&& pars[j].lock == 1))
 		&& pars[j].i != -1 && pars[j - 1].lock == pars[j].lock)
