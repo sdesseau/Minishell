@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 23:07:20 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:51:42 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ void	exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp)
 		cmd.fd_stdout = dup(tmp);
 	if ((ft_check_builtins(cmd.user_input[0])) == 0)
 	{
+		dup2(cmd.fd_stdin, STDIN_FILENO);
 		dup2(cmd.fd_stdout, 1);
 		g_exit_code = ft_execute_builtins(cmd, env, export);
 		close(cmd.fd_stdin);

@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:07:35 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 16:28:41 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:11:44 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ t_pars	*perform_expansion(t_pars *pars, t_env *env)
 		lenght = get_lenght_pars(pars);
 		if (pars[i].val == '$' && pars[i].s_q == 0 && pars[i + 1].val == '?')
 			pars = get_exitcode(pars, i, lenght);
+		else if (pars[i].val == '$' && pars[i + 1].i == -1)
+			i++;
 		else if (pars[i].val == '$' && pars[i].s_q == 0)
 			pars = get_expansion(pars, i, lenght, env);
 		if (pars[i].i != -1 && ((pars[i].val != '$')

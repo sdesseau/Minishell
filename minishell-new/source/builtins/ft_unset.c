@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 12:52:10 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 23:35:07 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:33:06 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	is_unset_arg_valid(char *arg)
 	while (arg[i] != '\0')
 	{
 		if ((arg[i] >= 65 && arg[i] <= 90) || (arg[i] >= 97 && arg[i] <= 122)
-			|| arg[i] == 95)
+			|| arg[i] == 95 || (arg[i] >= 48 && arg[i] <= 57))
 			i++;
 		else
 			return (0);

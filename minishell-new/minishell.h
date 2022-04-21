@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 21:39:46 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:03:36 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int			env_command(char **argv, t_env *env);
 /* -------------------------------------------------------------------------- */
 int			ft_is_arg_longlong(char *cmd);
 int			ft_is_exit_arg_num(char *cmd);
-void		ft_exit(char **argv);
+int			ft_exit(char **argv);
 
 /* -------------------------------------------------------------------------- */
 /*                   FILE = source/builtins/ft_export.c                       */
