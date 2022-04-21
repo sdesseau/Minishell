@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 19:02:02 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/21 18:04:00 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 19:02:29 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,5 @@ int	ft_exit(char **argv)
 	else
 		g_exit_code = 0;
 	exit(g_exit_code);
-	return (g_exit_code);}
+	return (g_exit_code);
+}

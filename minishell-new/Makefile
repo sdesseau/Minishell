@@ -57,6 +57,11 @@ SRC_UTILS   =   ft_split.c \
                 utils_quotes.c \
                 utils_redir.c \
                 utils.c\
+                utils2.c\
+                utils3.c\
+                utils_env.c\
+                utils_export.c\
+                utils_run_cmd.c
 
 SRC_BUILTINS =  ft_cd.c \
                 ft_echo.c \

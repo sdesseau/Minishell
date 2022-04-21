@@ -6,26 +6,11 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:24:19 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 13:03:32 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:56:00 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	put_in_export(t_export **new, char *name, char *value)
-{
-	(*new)->name = ft_strdup(name);
-	(*new)->value = ft_strdup(value);
-	(*new)->next = NULL;
-}
-
-void	*free_export_var(t_export *export)
-{
-	free(export->name);
-	free(export->value);
-	free(export);
-	return (0);
-}
 
 void	link_new_export_var(t_export **new, char*name, t_export **export)
 {

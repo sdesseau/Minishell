@@ -6,19 +6,11 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:52:39 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/17 12:52:02 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:58:36 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	*free_env_var(t_env *env)
-{
-	free(env->name);
-	free(env->value);
-	free(env);
-	return (0);
-}
 
 void	link_new_env_var(t_env **new, char*name, t_env **env)
 {
@@ -76,13 +68,6 @@ int	env_var_already_exist(char *name, t_env *env)
 	return (0);
 }
 
-void	put_in_env(t_env **new, char *name, char *value)
-{
-	(*new)->name = ft_strdup(name);
-	(*new)->value = ft_strdup(value);
-	(*new)->next = NULL;
-}
-
 void	add_env_var(char *name, char *val, t_env **env)
 {
 	t_env	*tmp;
@@ -102,16 +87,6 @@ void	add_env_var(char *name, char *val, t_env **env)
 		(*env)->next = new;
 		(*env) = tmp;
 	}
-}
-
-int	get_length_name(char *envp)
-{
-	int	len;
-
-	len = 0;
-	while (envp[len] != '\0' && envp[len] != '=')
-		len++;
-	return (len);
 }
 
 void	recup_env(char **envp, t_env **env)

@@ -6,20 +6,11 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 17:51:42 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:57:09 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	handle_exit_command(t_cmd cmd)
-{
-	if (ft_strncmp(cmd.user_input[0], "exit", 4) == 0)
-	{
-		kill(0, SIGPIPE);
-		ft_exit(cmd.user_input);
-	}
-}
 
 int	heredoc(char *path)
 {
@@ -88,22 +79,6 @@ int	input(char **path, int tmp_stdin)
 	if (ret == -1)
 		fd_stdin = dup(tmp_stdin);
 	return (fd_stdin);
-}
-
-int	nb_of_pipe(t_cmd *cmd)
-{
-	int	i;
-	int	nb_pipe;
-
-	i = 0;
-	nb_pipe = 1;
-	while (cmd[i].index != -1)
-	{
-		if (cmd[i].pipe == 1)
-			nb_pipe++;
-		i++;
-	}
-	return (nb_pipe);
 }
 
 void	child_process(t_cmd cmd, t_env *env, t_export *export)
