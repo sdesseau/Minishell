@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/20 22:11:11 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/21 19:06:53 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ char	*ft_convert_env(char *name, char *value);
 char	**ft_conv_env_to_tab(t_env *env);
 char	**ft_get_path(t_env **env);
 int			ft_check_permission(char **cmd, char *ext_cmd, struct stat statbuf, t_env *env);
+int	check(char **cmd, t_env *env);
 int			ft_execute_external_cmd(char **cmd, t_env *env);
 
 /* -------------------------------------------------------------------------- */
@@ -335,6 +336,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_convert_env(char *name, char *value);
+int		ft_error(char *cmd, char *msg, int ret, int exit_code);
 
 /* -------------------------------------------------------------------------- */
 /*                     FILE = source/utils/ft_split.c                         */

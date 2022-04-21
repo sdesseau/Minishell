@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:36 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/18 18:38:25 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/21 19:33:56 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,19 +241,28 @@ char	*ft_strchr(const char *s, int c)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char			*dest;
-	unsigned int	i;
+	char	*new;
+	int		i;
+	int		y;
 
-	i = 0;
-	dest = (char*)malloc(sizeof(*dest) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (dest == NULL)
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	while (*s1 != '\0')
-		dest[i++] = *s1++;
-	while (*s2 != '\0')
-		dest[i++] = *s2++;
-	dest[i] = '\0';
-	return (dest);
+	if (!(new = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
+		return (NULL);
+	i = 0;
+	y = 0;
+	while (s1[i] != '\0')
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	while (s2[y] != '\0')
+	{
+		new[i + y] = s2[y];
+		y++;
+	}
+	new[i + y] = '\0';
+	return (new);
 }
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
@@ -281,4 +290,14 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	}
 	dst[i] = '\0';
 	return (k + ft_strlen(src));
+}
+
+int		ft_error(char *cmd, char *msg, int ret, int exit_code)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(msg, 2);
+	if (exit_code >= 0)
+		g_exit_code = exit_code;
+	return (ret);
 }
