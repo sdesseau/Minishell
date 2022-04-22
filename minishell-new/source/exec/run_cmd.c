@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 18:57:09 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/22 18:17:41 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	{
 		signal(SIGQUIT, child_handler);
 		dup2(cmd.fd_stdout, STDOUT_FILENO);
-		ft_execute_external_cmd(cmd.user_input, env);
+		if ((ft_check_builtins(cmd.user_input[0])) == 1)
+			ft_execute_external_cmd(cmd.user_input, env);
+		else if (ft_check_builtins(cmd.user_input[0]) == 0)
+			ft_execute_builtins(cmd, &env, &export);
 		close(cmd.fd_stdout);
 		close(cmd.fd_stdin);
 		kill(pid, SIGQUIT);
@@ -154,7 +157,6 @@ void	exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp)
 		cmd.fd_stdout = dup(tmp);
 	if ((ft_check_builtins(cmd.user_input[0])) == 0)
 	{
-		dup2(cmd.fd_stdin, STDIN_FILENO);
 		dup2(cmd.fd_stdout, 1);
 		g_exit_code = ft_execute_builtins(cmd, env, export);
 		close(cmd.fd_stdin);
@@ -195,6 +197,11 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 		if (i < nb_cmd - 1)
 		{
 			pipe(cmd[i].fd_pipe);
+			if (cmd[i].nb_chevrons > 0)
+			{
+				cmd[i].fd_pipe[0] = input(cmd[i].path, 0);
+				cmd[i].fd_pipe[1] = output(cmd[i].path, 1);
+			}
 			cmd[i].fd_stdin = cmd[i].fd_pipe[0];
 			cmd[i].fd_stdout = cmd[i].fd_pipe[1];
 		}
@@ -204,18 +211,35 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 				cmd[i].fd_stdout = output(cmd[i].path, 1);
 			else
 				cmd[i].fd_stdout = dup(1);
+			// if ((ft_check_builtins(cmd[i].user_input[0])) == 0)
+			// {
+			// 		dup2(cmd[i].fd_stdin, STDIN_FILENO);
+			// 		dup2(cmd[i].fd_stdout, STDOUT_FILENO);
+			// 		g_exit_code = ft_execute_builtins(cmd[i], env, export);
+			// 		close(cmd[i].fd_stdin);
+			// 		close(cmd[i].fd_stdout);
+			// 		break ;
+			// } 
 		}
-		if ((ft_check_builtins(cmd[i].user_input[0])) == 0)
-		{
-			dup2(cmd[i].fd_stdout, 1);
-			g_exit_code = ft_execute_builtins(cmd[i], env, export);
-			close(cmd[i].fd_stdin);
-			close(cmd[i].fd_stdout);
-		}
-		else
+		// if ((ft_check_builtins(cmd[i].user_input[0])) == 0)
+		// {
+		// 	// dup2(cmd[i].fd_stdin, STDIN_FILENO);
+		// 	// if (cmd[i].nb_chevrons > 0)
+		// 	// 	cmd[i].fd_stdout = output(cmd[i].path, tmp_stdout);
+		// 	// else
+		// 	// 	cmd[i].fd_stdout = dup(tmp_stdout);
+		// 	// if (i < nb_cmd - 1 && cmd[i].nb_chevrons == 0 && (ft_check_builtins(cmd[i + 1].user_input[0]) == 0))
+		// 	// 	cmd[i].fd_stdout = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		// 	// dup2(cmd[i].fd_stdout, STDOUT_FILENO);	
+		// 	g_exit_code = ft_execute_builtins(cmd[i], env, export);
+		// 	// close(cmd[i].fd_stdin);
+		// 	// close(cmd[i].fd_stdout);
+		// }
+		// else
 			child_process(cmd[i], (*env), (*export));
 		i++;
 	}
+	// unlink(".tmp");
 	dup2(tmp_stdin, STDIN_FILENO);
 	dup2(tmp_stdout, STDOUT_FILENO);
 	close(tmp_stdin);
