@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/24 14:18:53 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/24 15:54:32 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,13 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 		signal(SIGQUIT, SIG_DFL);
 		// signal(SIGQUIT, child_handler);
 		dup2(cmd.fd_stdout, STDOUT_FILENO);
+		close(cmd.fd_stdout);
+		close(cmd.fd_stdin);
 		if ((ft_check_builtins(cmd.user_input[0])) == 1)
 			ft_execute_external_cmd(cmd.user_input, env);
 		else if (ft_check_builtins(cmd.user_input[0]) == 0)
 			ft_execute_builtins(cmd, &env, &export);
-		close(cmd.fd_stdout);
-		close(cmd.fd_stdin);
-		// kill(pid, SIGQUIT);
+		kill(pid, SIGQUIT);
 	}
 	else
 	{
@@ -134,15 +134,18 @@ int	output(char **path, int tmp_stdout)
 
 	ret = -1;
 	i = 0;
+		// printf("output\n");
 	while (path[i])
 	{
 		if (path[i][0] == '>' && path[i][1] == '>')
 		{
+			// printf("open\n");
 			ret = i;
 			fd_stdout = open(&path[i][2], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		}
 		else if (path[i][0] == '>' && path[i][1] != '>')
 		{
+			// printf("open\n");
 			ret = i;
 			fd_stdout = open(&path[i][1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		}
@@ -171,21 +174,21 @@ void	exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp)
 		child_process(cmd, (*env), (*export));
 }
 
-void	is_chevrons(t_cmd cmd)
+void	is_chevrons(t_cmd *cmd)
 {
 	int	i;
 	
 	i = 0;
-	cmd.input = 0;
-	cmd.output = 0;
-	if (cmd.nb_chevrons > 0)
+	cmd->input = 0;
+	cmd->output = 0;
+	if (cmd->nb_chevrons > 0)
 	{
-		while (cmd.path[i])
+		while (cmd->path[i])
 		{
-			if (cmd.path[i][0] == '>')
-				cmd.output = 1;
-			else if (cmd.path[i][0] == '<')
-				cmd.input = 1;
+			if (cmd->path[i][0] == '>')
+				cmd->output = 1;
+			else if (cmd->path[i][0] == '<')
+				cmd->input = 1;
 			i++;
 		}
 	}
@@ -215,8 +218,9 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 	}
 	while (i < nb_cmd)
 	{
-		is_chevrons(cmd[i]);
-		if (cmd[i].nb_chevrons > 0)
+		is_chevrons(&cmd[i]);
+	// printf("ischevrons\ninput == %i\noutput == %i\n", cmd[i].input, cmd[i].output);
+		if (cmd[i].input == 1)
 			cmd[i].fd_stdin = input(cmd[i].path, 0);
 		else
 			cmd[i].fd_stdin = dup(0);
@@ -232,7 +236,8 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 		}
 		else
 		{
-			if (cmd[i].nb_chevrons > 0)
+			// printf("cmd.output == %i\n", cmd[i].output);
+			if (cmd[i].output == 1)
 				cmd[i].fd_stdout = output(cmd[i].path, 1);
 			else
 				cmd[i].fd_stdout = dup(1);
