@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 17:14:02 by nachin            #+#    #+#             */
-/*   Updated: 2022/04/19 23:25:09 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/22 17:28:27 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,22 @@ unsigned char	g_exit_code;
 // 	return (0);
 // }
 
+// void	init(t_cmd *cmd, t_env *env)
+// {
+// 	size_t	i;
+// 	char	*tmp;
+
+// 	tmp = find_env_value("SHLVL", env);
+// 	i = (ft_atoi(tmp) + 1);
+// 	tmp = ft_itoa(i);
+// 	update_env("SHLVL", tmp, &env);
+// }
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_env		*env;
 	t_export	*export;
+	t_cmd		*cmd;
 
 	env = NULL;
 	export = NULL;
@@ -42,6 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	(void)argv;
+//	init(cmd, env);
 	recup_env(envp, &env);
 	recup_export(envp, &export);
 	assign_signals_handler();

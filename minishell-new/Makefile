@@ -64,7 +64,8 @@ SRC_UTILS   =   ft_split_utils.c \
 				utils_run_cmd.c \
                 utils_str.c \
                 utils_str_2.c \
-                utils.c
+                utils.c \
+				ft_itoa.c 
 
 SRC_BUILTINS =  ft_cd.c \
                 ft_echo.c \
@@ -74,7 +75,7 @@ SRC_BUILTINS =  ft_cd.c \
                 ft_unset.c \
                 ft_export.c \
 				check_builtins.c 
-                          
+
 PATH_MAIN = $(addprefix $(DIRECTORY_MAIN), $(SRC_MAIN))
 PATH_EXEC = $(addprefix $(DIRECTORY_EXEC), $(SRC_EXEC))
 PATH_PARSE = $(addprefix $(DIRECTORY_PARSE), $(SRC_PARSE))
