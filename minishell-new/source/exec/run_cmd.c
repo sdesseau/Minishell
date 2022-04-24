@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/22 18:17:41 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/24 14:18:53 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	heredoc(char *path)
 	int		size;
 	char	*str;
 
-	heredoc = open(".heredoc.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	heredoc = open("/tmp/.heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0600);
 	while (1)
 	{
 		str = readline(">");
@@ -28,16 +28,17 @@ int	heredoc(char *path)
 		else
 			size = ft_strlen(str);
 		if (ft_strncmp(&path[2], str, size) == 0)
-			break ;
+		{
+			fd_stdin = dup(heredoc);
+			close(heredoc);
+			unlink("/tmp/.heredoc.txt");
+			return (fd_stdin);
+		}
 		str = ft_strjoin(str, "\n");
 		write(heredoc, str, (ft_strlen(str) + 1));
 		close(heredoc);
-		heredoc = open(".heredoc.txt", O_RDWR | O_APPEND, S_IRWXU);
+		heredoc = open("/tmp/.heredoc.txt", O_RDWR | O_APPEND, S_IRWXU);
 	}
-	fd_stdin = dup(heredoc);
-	close(heredoc);
-	unlink(".heredoc.txt");
-	return (fd_stdin);
 }
 
 int	input(char **path, int tmp_stdin)
@@ -45,6 +46,7 @@ int	input(char **path, int tmp_stdin)
 	int	i;
 	int	fd_stdin;
 	int	ret;
+	int ret2;
 
 	ret = -1;
 	i = 0;
@@ -64,7 +66,7 @@ int	input(char **path, int tmp_stdin)
 		}
 		else if (path[i][0] == '<' && path[i][1] == '<')
 		{
-			ret = i;
+			ret2 = i;
 			while (path[i])
 			{
 				if (path[i][0] == '<' && path[i][1] == '<')
@@ -72,7 +74,6 @@ int	input(char **path, int tmp_stdin)
 				i++;
 			}
 			fd_stdin = heredoc(path[ret]);
-			return (fd_stdin);
 		}
 		i++;
 	}
@@ -86,6 +87,8 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	int		ret;
 	pid_t	pid;
 
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -94,7 +97,9 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	}
 	if (pid == 0)
 	{
-		signal(SIGQUIT, child_handler);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		// signal(SIGQUIT, child_handler);
 		dup2(cmd.fd_stdout, STDOUT_FILENO);
 		if ((ft_check_builtins(cmd.user_input[0])) == 1)
 			ft_execute_external_cmd(cmd.user_input, env);
@@ -102,7 +107,7 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 			ft_execute_builtins(cmd, &env, &export);
 		close(cmd.fd_stdout);
 		close(cmd.fd_stdin);
-		kill(pid, SIGQUIT);
+		// kill(pid, SIGQUIT);
 	}
 	else
 	{
@@ -166,6 +171,26 @@ void	exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp)
 		child_process(cmd, (*env), (*export));
 }
 
+void	is_chevrons(t_cmd cmd)
+{
+	int	i;
+	
+	i = 0;
+	cmd.input = 0;
+	cmd.output = 0;
+	if (cmd.nb_chevrons > 0)
+	{
+		while (cmd.path[i])
+		{
+			if (cmd.path[i][0] == '>')
+				cmd.output = 1;
+			else if (cmd.path[i][0] == '<')
+				cmd.input = 1;
+			i++;
+		}
+	}
+}
+
 void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 {
 	int	tmp_stdin;
@@ -177,19 +202,20 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 	nb_cmd = nb_of_pipe(cmd);
 	tmp_stdin = dup(0);
 	tmp_stdout = dup(1);
-	if (cmd[i].nb_chevrons > 0)
-		cmd[i].fd_stdin = input(cmd[i].path, tmp_stdin);
-	else
-		cmd[i].fd_stdin = dup(tmp_stdin);
-	if (cmd[i].fd_stdin == -1)
-		return ;
 	if (nb_cmd == 1)
 	{
+		if (cmd[i].nb_chevrons > 0)
+			cmd[i].fd_stdin = input(cmd[i].path, tmp_stdin);
+		else
+			cmd[i].fd_stdin = dup(tmp_stdin);
+		if (cmd[i].fd_stdin == -1)
+			return ;
 		exec_single_cmd(cmd[i], env, export, tmp_stdout);
 		i++;
 	}
 	while (i < nb_cmd)
 	{
+		is_chevrons(cmd[i]);
 		if (cmd[i].nb_chevrons > 0)
 			cmd[i].fd_stdin = input(cmd[i].path, 0);
 		else
@@ -197,11 +223,10 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 		if (i < nb_cmd - 1)
 		{
 			pipe(cmd[i].fd_pipe);
-			if (cmd[i].nb_chevrons > 0)
-			{
-				cmd[i].fd_pipe[0] = input(cmd[i].path, 0);
-				cmd[i].fd_pipe[1] = output(cmd[i].path, 1);
-			}
+			if (cmd[i].input == 1)
+				cmd[i].fd_pipe[0] = input(cmd[i].path, cmd[i].fd_stdin);
+			if (cmd[i].output == 1)
+				cmd[i].fd_pipe[1] = output(cmd[i].path, cmd[i].fd_stdout);
 			cmd[i].fd_stdin = cmd[i].fd_pipe[0];
 			cmd[i].fd_stdout = cmd[i].fd_pipe[1];
 		}
@@ -211,35 +236,10 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 				cmd[i].fd_stdout = output(cmd[i].path, 1);
 			else
 				cmd[i].fd_stdout = dup(1);
-			// if ((ft_check_builtins(cmd[i].user_input[0])) == 0)
-			// {
-			// 		dup2(cmd[i].fd_stdin, STDIN_FILENO);
-			// 		dup2(cmd[i].fd_stdout, STDOUT_FILENO);
-			// 		g_exit_code = ft_execute_builtins(cmd[i], env, export);
-			// 		close(cmd[i].fd_stdin);
-			// 		close(cmd[i].fd_stdout);
-			// 		break ;
-			// } 
 		}
-		// if ((ft_check_builtins(cmd[i].user_input[0])) == 0)
-		// {
-		// 	// dup2(cmd[i].fd_stdin, STDIN_FILENO);
-		// 	// if (cmd[i].nb_chevrons > 0)
-		// 	// 	cmd[i].fd_stdout = output(cmd[i].path, tmp_stdout);
-		// 	// else
-		// 	// 	cmd[i].fd_stdout = dup(tmp_stdout);
-		// 	// if (i < nb_cmd - 1 && cmd[i].nb_chevrons == 0 && (ft_check_builtins(cmd[i + 1].user_input[0]) == 0))
-		// 	// 	cmd[i].fd_stdout = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-		// 	// dup2(cmd[i].fd_stdout, STDOUT_FILENO);	
-		// 	g_exit_code = ft_execute_builtins(cmd[i], env, export);
-		// 	// close(cmd[i].fd_stdin);
-		// 	// close(cmd[i].fd_stdout);
-		// }
-		// else
-			child_process(cmd[i], (*env), (*export));
+		child_process(cmd[i], (*env), (*export));
 		i++;
 	}
-	// unlink(".tmp");
 	dup2(tmp_stdin, STDIN_FILENO);
 	dup2(tmp_stdout, STDOUT_FILENO);
 	close(tmp_stdin);

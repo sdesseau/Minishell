@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 18:03:36 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/23 17:10:49 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct s_cmd
 	int		fd_stdin;
 	int		fd_stdout;
 	int		fd_pipe[2];
+	int		input;
+	int		output;
 }				t_cmd;
 
 //				MAIN				//

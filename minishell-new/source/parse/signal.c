@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:08:03 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 17:23:25 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/24 14:15:25 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	handler(int signum)
 	rl_redisplay();
 }
 
-void	child_handler(int signum)
-{
-	(void)signum;
-	exit(131);
-}
+// void	child_handler(int signum)
+// {
+// 	(void)signum;
+// 	exit(131);
+// }
 
 void	assign_signals_handler(void)
 {
