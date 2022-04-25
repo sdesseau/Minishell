@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:08:03 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/24 14:15:25 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/25 18:53:29 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ void	handler(int signum)
 	printf("\n");
 	rl_on_new_line();
 	rl_redisplay();
+}
+
+void	interrupt_here_document(int signal)
+{
+	(void)signal;
+	g_exit_code = 130;
+	write(1, "\n", 1);
+	exit(131);
 }
 
 // void	child_handler(int signum)

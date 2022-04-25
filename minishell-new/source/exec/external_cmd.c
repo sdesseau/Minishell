@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/24 13:38:47 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/25 16:09:19 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,6 @@ int	ft_execute_external_cmd(char **cmd, t_env *env)
 	size_t		i;
 
 	path = ft_get_path(&env);
-	if (!path)
-	{
-		printf("minishell: %s: No such file or directory\n", cmd[0]);
-		exit(127);
-	}
 	if (lstat(cmd[0], &statbuf) != -1)
 	{
 		flag = statbuf.st_mode & S_IFMT;
@@ -91,6 +86,11 @@ int	ft_execute_external_cmd(char **cmd, t_env *env)
 			printf("minishell: %s: Permission denied\n", cmd[0]);
 			exit(126);
 		}
+	}
+	if (!path)
+	{
+		printf("minishell: %s: No such file or directory\n", cmd[0]);
+		exit(127);
 	}
 	i = 0;
 	while (path[i] && cmd[0])

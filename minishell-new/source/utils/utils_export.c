@@ -40,6 +40,7 @@ int	is_equal_sign(char *name)
 	}
 	return (1);
 }
+
 int	ft_lenlist(t_export *lst)
 {
 	int	i;

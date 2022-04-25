@@ -38,7 +38,9 @@ SRC_MAIN    =   main.c \
 SRC_EXEC    =   env.c \
                 export.c \
 				external_cmd.c \
-                run_cmd.c
+                run_cmd.c \
+                fd.c \
+                process.c
 
 SRC_PARSE   =   error.c \
                 expansions.c \

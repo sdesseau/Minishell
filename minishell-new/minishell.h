@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/24 14:24:51 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/25 19:52:24 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_cmd
 	int		output;
 }				t_cmd;
 
-//				MAIN				//
+					//				MAIN				//
 /* -------------------------------------------------------------------------- */
 /*                         FILE = source/main/main.c                          */
 /* -------------------------------------------------------------------------- */
@@ -85,7 +85,7 @@ int			main(int argc, char **argv, char **envp);
 /* -------------------------------------------------------------------------- */
 void		shell_loop(t_env *env, t_export *export);
 
-//				BUILTINS				//
+					//				BUILTINS				//
 /* -------------------------------------------------------------------------- */
 /*                   FILE = source/builtins/check_builtins.c                  */
 /* -------------------------------------------------------------------------- */
@@ -145,7 +145,7 @@ int			is_unset_arg_valid(char *arg);
 int			unset_command(char **argv, t_env **env, t_export **export);
 int			unset_error(int error_id);
 
-//				EXEC				//
+					//				EXEC				//
 /* -------------------------------------------------------------------------- */
 /*                           FILE = source/exec/env.c                         */
 /* -------------------------------------------------------------------------- */
@@ -160,8 +160,10 @@ void		recup_env(char **envp, t_env **env);
 /* -------------------------------------------------------------------------- */
 void		link_new_export_var(t_export **new, char*name, t_export **export);
 int			update_export(char *name, char *value, t_export **export);
-int			export_var_already_exist(char *name, t_export *export);
-int			add_export_var(char *name, char *val, char *line, t_export **export);
+int			export_var_already_exist(char *name, t_export *exp,
+				char *line, char *val);
+int			add_export_var(char *name, char *val, char *line,
+				t_export **export);
 void		recup_export(char **envp, t_export **export);
 
 /* -------------------------------------------------------------------------- */
@@ -177,12 +179,12 @@ int			ft_execute_external_cmd(char **cmd, t_env *env);
 /* -------------------------------------------------------------------------- */
 int			heredoc(char *path);
 int			input(char **path, int tmp_stdin);
-void		child_process(t_cmd cmd, t_env *env, t_export *export);
+void		launch_child_process(t_cmd cmd, t_env *env, t_export *export);
 int			output(char **path, int tmp_stdout);
 void		exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp);
 void		run_commands(t_cmd *cmd, t_env **env, t_export **export);
 
-//				PARSING				//
+					//				PARSING				//
 /* -------------------------------------------------------------------------- */
 /*                         FILE = source/parse/error.c                        */
 /* -------------------------------------------------------------------------- */
@@ -253,8 +255,9 @@ int			secure_quote(t_pars *pars);
 void		handler(int signum);
 void		child_handler(int signum);
 void		assign_signals_handler(void);
+void		interrupt_here_document(int signal);
 
-//				UTILS				//
+					//				UTILS				//
 /* -------------------------------------------------------------------------- */
 /*                   FILE = source/utils/ft_split_utils.c                     */
 /* -------------------------------------------------------------------------- */
@@ -372,6 +375,6 @@ void		*ft_calloc(size_t count, size_t size);
 void		ft_bzero(void *s, size_t n);
 long long	ft_atoi(const char *str);
 
-char			*ft_itoa(int n);
+char		*ft_itoa(int n);
 
 #endif

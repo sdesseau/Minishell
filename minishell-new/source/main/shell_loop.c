@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:10:52 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/24 15:18:41 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/25 18:32:46 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ void	free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
+void	ft_shlvl(t_env *env)
+{
+	size_t	i;
+	char	*tmp;
+
+	tmp = find_env_value("SHLVL", env);
+	if (tmp)
+	{
+		i = (ft_atoi(tmp) + 1);
+		tmp = ft_itoa(i);
+		update_env("SHLVL", tmp, &env);
+	}
+}
+
 void	shell_loop(t_env *env, t_export *export)
 {
 	char	*str;
@@ -33,6 +47,7 @@ void	shell_loop(t_env *env, t_export *export)
 
 	str = NULL;
 	cmd = NULL;
+	ft_shlvl(env);
 	while (1)
 	{
 		i = 0;

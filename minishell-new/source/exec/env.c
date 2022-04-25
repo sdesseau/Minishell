@@ -95,7 +95,7 @@ void	recup_env(char **envp, t_env **env)
 	int		name_len;
 	char	*name;
 	char	*val;
- 
+
 	i = 0;
 	while (envp[i])
 	{
