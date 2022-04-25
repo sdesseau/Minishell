@@ -6,7 +6,7 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 19:00:04 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 19:00:35 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/24 16:12:37 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	i = 0;
 	if (!s1 && !s2)
 		return (0);
-	if (!s1 || !s2)
-		return (1);
+	if (!s1 || !s2 || !s2[0])
+		return (-1);
 	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
 	{
 		if (s1[i] != s2[i])

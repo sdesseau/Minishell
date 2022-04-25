@@ -6,39 +6,161 @@
 /*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/24 15:54:32 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/25 14:23:58 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+#define TMP_FILE	"/tmp/minihell_temporary_file"
+
+static int	create_temporary_file(void)
+{
+	int	fd;
+
+	fd = open(TMP_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	// if (fd == -1)
+	// 	error_message("redirect", strerror(errno), 1);
+	return (fd);
+}
+
+void	interrupt_here_document(int signal)
+{
+	(void)signal;
+	g_exit_code = 130;
+	write(1, "\n", 1);
+	exit(131);
+}
+
 int	heredoc(char *path)
 {
-	int		fd_stdin;
-	int		heredoc;
-	int		size;
-	char	*str;
+	int	tmp_fd;
+	int save_fd_out;
+	pid_t pid;
+	int	status;
+	char *str;
+	int size;
 
-	heredoc = open("/tmp/.heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0600);
-	while (1)
+	tmp_fd = create_temporary_file();
+	if (tmp_fd == -1)
+		return (-1);
+	save_fd_out = dup(0);
+	signal(SIGINT, SIG_IGN);
+	pid = fork();
+	if (pid == 0)
 	{
-		str = readline(">");
-		if (str == NULL)
-			size = 0;
-		else
-			size = ft_strlen(str);
-		if (ft_strncmp(&path[2], str, size) == 0)
+		signal(SIGINT, interrupt_here_document);
+		while (1)
 		{
-			fd_stdin = dup(heredoc);
-			close(heredoc);
-			unlink("/tmp/.heredoc.txt");
-			return (fd_stdin);
+			str = readline("> ");
+			if (!str)
+			{
+				close(tmp_fd);
+				exit(0);
+			}
+			size = ft_strlen(str);
+			if (ft_strncmp(&path[2], str, size) == 0)
+			{
+				close(tmp_fd);
+				free(str);
+				break ;
+			}
+			else
+			{
+				str = ft_strjoin(str, "\n");
+				write(tmp_fd, str, (ft_strlen(str) + 1));
+			}
 		}
-		str = ft_strjoin(str, "\n");
-		write(heredoc, str, (ft_strlen(str) + 1));
-		close(heredoc);
-		heredoc = open("/tmp/.heredoc.txt", O_RDWR | O_APPEND, S_IRWXU);
+		exit(0);
 	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	{
+		tmp_fd = open(TMP_FILE, O_WRONLY | O_TRUNC, 0600);
+		close(tmp_fd);
+		g_exit_code = 130;
+	}
+	tmp_fd = open(TMP_FILE, O_RDONLY);
+	unlink(TMP_FILE);
+	dup2(tmp_fd, 0);
+	close(tmp_fd);
+	return (tmp_fd);
+	// dup2(save_fd_out, STDOUT_FILENO);
+	// close(save_fd_out);
+	
+	// int		fd[2];
+	// int		heredoc;
+	// int		size;
+	// char	*str;
+	// int		fd_pipe[2];
+	// pid_t	pid;
+
+	// pipe(fd_pipe);
+	// fd[0] = fd_pipe[0];
+	// fd[1] = fd_pipe[1];
+	// pid = fork();
+	// if (pid < 0)
+	// {
+	// 	printf("minishell: heredoc: failed to create a new process.\n");
+	// 	exit(1);
+	// }
+	// if (pid == 0)
+	// {
+	// 	fd[1] = open("/tmp/.heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0600);
+	// 	signal(SIGINT, interrupt_here_document);
+	// 	while (1)
+	// 	{
+	// 		str = readline(">");
+	// 		if (str == NULL)
+	// 			size = 0;
+	// 		else
+	// 			size = ft_strlen(str);
+	// 		if (ft_strncmp(&path[2], str, size) == 0)
+	// 		{
+	// 			dup2(fd[1], STDOUT_FILENO);
+	// 			close(fd[1]);
+	// 			close(fd[0]);
+	// 			// unlink("/tmp/.heredoc.txt");
+	// 			return (fd[1]);
+	// 		}
+	// 		str = ft_strjoin(str, "\n");
+	// 		write(heredoc, str, (ft_strlen(str) + 1));
+	// 		close(heredoc);
+	// 		heredoc = open("/tmp/.heredoc.txt", O_RDWR | O_APPEND, S_IRWXU);
+	// 	}
+	// }
+	// else if (pid > 0)
+	// {
+	// 	dup2(fd[0], STDIN_FILENO);
+	// 	waitpid(pid, &pid, 0);
+	// 	close(fd[1]);
+	// 	close(fd[0]);
+	// }
+	// return (1);
+	
+
+	// signal(SIGINT, interrupt_here_document);
+	// // name_file = tmpfile(); -> ou tester avec flag O_TMPFILE sur linux ?? #define _GNU_SOURCE 1
+	// heredoc = open("/tmp/.heredoc.txt", O_RDWR | O_CREAT | O_TRUNC, 0600);
+	// while (1)
+	// {
+	// 	str = readline(">");
+	// 	if (str == NULL)
+	// 		size = 0;
+	// 	else
+	// 		size = ft_strlen(str);
+	// 	if (ft_strncmp(&path[2], str, size) == 0)
+	// 	{
+	// 		fd_stdin = dup(heredoc);
+	// 		close(heredoc);
+	// 		unlink("/tmp/.heredoc.txt");
+	// 		return (fd_stdin);
+	// 	}
+	// 	str = ft_strjoin(str, "\n");
+	// 	write(heredoc, str, (ft_strlen(str) + 1));
+	// 	close(heredoc);
+	// 	heredoc = open("/tmp/.heredoc.txt", O_RDWR | O_APPEND, S_IRWXU);
+	// }
 }
 
 int	input(char **path, int tmp_stdin)
@@ -62,7 +184,7 @@ int	input(char **path, int tmp_stdin)
 				printf("%s :no such file or directoy\n", &path[ret][1]);
 				return (-1);
 			}
-			dup2(fd_stdin, 0);
+			// dup2(fd_stdin, 0);
 		}
 		else if (path[i][0] == '<' && path[i][1] == '<')
 		{
@@ -75,7 +197,8 @@ int	input(char **path, int tmp_stdin)
 			}
 			fd_stdin = heredoc(path[ret]);
 		}
-		i++;
+		if (path[i])
+			i++;
 	}
 	if (ret == -1)
 		fd_stdin = dup(tmp_stdin);
@@ -224,6 +347,8 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 			cmd[i].fd_stdin = input(cmd[i].path, 0);
 		else
 			cmd[i].fd_stdin = dup(0);
+		if (cmd[i].fd_stdin == -1)
+			break ;
 		if (i < nb_cmd - 1)
 		{
 			pipe(cmd[i].fd_pipe);
