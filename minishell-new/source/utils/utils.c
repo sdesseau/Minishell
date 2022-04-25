@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 19:00:04 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 22:15:01 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:09:10 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-long long	ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	long long	neg;
-	int			i;
-	long long	nb;
+	int		i;
+	long	neg;
+	long	nb;
 
 	i = 0;
 	neg = 1;
 	nb = 0;
-	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v'
-		|| str[i] == '\f' || str[i] == '\r')
+	while (str[i] == '\f' || str[i] == '\t' || str[i] == '\n'
+	|| str[i] == '\r' || str[i] == '\v' || str[i] == ' ')
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
@@ -55,9 +55,9 @@ long long	ft_atoi(const char *str)
 			neg *= -1;
 		i++;
 	}
-	while (str[i] >= 48 && str[i] <= 57)
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		nb = nb * 10 + (str[i] - 48);
+		nb = (nb * 10) + (str[i] - 48);
 		i++;
 	}
 	return (nb * neg);

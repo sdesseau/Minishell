@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/22 17:16:37 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:05:14 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct s_cmd
 	int		fd_stdin;
 	int		fd_stdout;
 	int		fd_pipe[2];
+	int		input;
+	int		output;
 }				t_cmd;
 
 //				MAIN				//
@@ -368,8 +370,8 @@ char		*ft_substr(char const *s, unsigned int start, size_t len);
 /* -------------------------------------------------------------------------- */
 void		*ft_calloc(size_t count, size_t size);
 void		ft_bzero(void *s, size_t n);
-long long	ft_atoi(const char *str);
+int	ft_atoi(const char *str);
 
-char			*ft_itoa(int n);
+char	*ft_itoa(long n);
 
 #endif

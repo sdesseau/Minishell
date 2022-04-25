@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:08:12 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 16:28:41 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/24 21:58:42 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ t_cmd	*empty_line(t_cmd *data)
 
 int	pass_spaces(t_pars *pars, int i)
 {
-	while (pars[i].val == ' ' && pars[i].s_q == 0
-		&& pars[i].d_q == 0 && pars[i].i != -1)
+	while (pars[i].val == ' ' && pars[i].lock == 0
+		&& pars[i].i != -1)
 	{
 		i++;
 		if (pars[i].null == 1)
