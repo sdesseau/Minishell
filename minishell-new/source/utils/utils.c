@@ -101,14 +101,14 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 
 	i = 0;
 	j = 0;
-	if (dstsize < ft_strlen(dst))
-		return (dstsize + ft_strlen(src));
+	if (dstsize < (size_t)ft_strlen(dst))
+		return (dstsize + (size_t)ft_strlen(src));
 	if (dstsize == 0)
-		return (ft_strlen(src));
+		return ((size_t)ft_strlen(src));
 	while (dst[i] != '\0')
 		i++;
 	if (dstsize <= i)
-		return (dstsize + ft_strlen(src));
+		return (dstsize + (size_t)ft_strlen(src));
 	k = i;
 	while (src[j] && i < dstsize - 1)
 	{
@@ -117,5 +117,5 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 		j++;
 	}
 	dst[i] = '\0';
-	return (k + ft_strlen(src));
+	return (k + (size_t)ft_strlen(src));
 }

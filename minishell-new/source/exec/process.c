@@ -44,7 +44,6 @@ void	parent_process(t_cmd cmd, pid_t pid)
 
 void	launch_child_process(t_cmd cmd, t_env *env, t_export *export)
 {
-	int		ret;
 	pid_t	pid;
 
 	signal(SIGINT, handler);

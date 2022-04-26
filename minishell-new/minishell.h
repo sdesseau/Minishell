@@ -31,7 +31,7 @@
 # define LONGLONG_MIN -9223372036854775807
 # define LONGLONG_MAX 9223372036854775807
 
-unsigned char	g_exit_code;
+extern unsigned char	g_exit_code;
 
 typedef struct s_env
 {
@@ -73,6 +73,9 @@ typedef struct s_cmd
 	int		input;
 	int		output;
 }				t_cmd;
+
+void	deallocate_env_export(t_env **env, t_export **export);
+
 
 					//				MAIN				//
 /* -------------------------------------------------------------------------- */
@@ -238,7 +241,7 @@ t_cmd		*start_data(t_cmd *data, int j, t_pars *pars, int i);
 t_cmd		*loop_split(t_pars *pars, t_cmd *data);
 t_cmd		*split_cmd(t_pars *pars, t_cmd *data);
 t_pars		*assign_pars(char *line, t_pars *pars, t_env *env);
-t_cmd		*parsing(char *line, t_cmd *data, t_env *env);
+t_cmd		*parsing(char *line, t_cmd *data, t_env *env, t_export *export);
 
 /* -------------------------------------------------------------------------- */
 /*                        FILE = source/parse/quotes.c                        */
@@ -317,7 +320,7 @@ char		**ft_conv_env_to_tab(t_env *env);
 /* -------------------------------------------------------------------------- */
 t_cmd		init_cmd(t_cmd data);
 t_pars		*put_lock(t_pars *pars);
-t_cmd		*empty_line(t_cmd *data);
+t_cmd		*empty_line(t_cmd *dat, t_env **env, t_export **export);
 int			pass_spaces(t_pars *pars, int i);
 int			is_first_pipe(t_pars *pars);
 

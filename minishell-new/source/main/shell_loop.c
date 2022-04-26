@@ -36,6 +36,7 @@ void	ft_shlvl(t_env *env)
 		i = (ft_atoi(tmp) + 1);
 		tmp = ft_itoa(i);
 		update_env("SHLVL", tmp, &env);
+		free(tmp);
 	}
 }
 
@@ -54,7 +55,7 @@ void	shell_loop(t_env *env, t_export *export)
 		str = readline("\033[33m$ ➜\033[00m ");
 		if (str && *str)
 			add_history(str);
-		cmd = parsing(str, cmd, env);
+		cmd = parsing(str, cmd, env, export);
 		if (str[0] && cmd)
 		{
 			run_commands(cmd, &env, &export);

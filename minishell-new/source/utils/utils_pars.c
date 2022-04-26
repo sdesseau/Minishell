@@ -35,9 +35,10 @@ t_pars	*put_lock(t_pars *pars)
 	return (pars);
 }
 
-t_cmd	*empty_line(t_cmd *data)
+t_cmd	*empty_line(t_cmd *data, t_env **env, t_export **export)
 {
 	printf("exit\n");
+	deallocate_env_export(env, export);
 	exit(131);
 	return (data);
 }

@@ -90,7 +90,7 @@ t_pars	*assign_pars(char *line, t_pars *pars, t_env *env)
 	return (pars);
 }
 
-t_cmd	*parsing(char *line, t_cmd *data, t_env *env)
+t_cmd	*parsing(char *line, t_cmd *data, t_env *env, t_export *export)
 {
 	int		len;
 	t_pars	*pars;
@@ -114,5 +114,5 @@ t_cmd	*parsing(char *line, t_cmd *data, t_env *env)
 		free(pars);
 		return (data);
 	}
-	return (empty_line(data));
+	return (empty_line(data, &env, &export));
 }

@@ -29,6 +29,28 @@ unsigned char	g_exit_code;
 // 	return (0);
 // }
 
+void	deallocate_env_export(t_env **env, t_export **export)
+{
+	if ((*env))
+	{
+		while ((*env)->next)
+		{
+			free((*env)->value);
+			free((*env)->name);
+			(*env) = (*env)->next;
+		}
+	}
+	if ((*export))
+	{
+		while ((*export)->next)
+		{
+			free((*export)->value);
+			free((*export)->name);
+			(*export) = (*export)->next;
+		}
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_env		*env;
@@ -46,5 +68,6 @@ int	main(int argc, char **argv, char **envp)
 	recup_export(envp, &export);
 	assign_signals_handler();
 	shell_loop(env, export);
+	deallocate_env_export(&env, &export);
 	return (g_exit_code);
 }

@@ -77,11 +77,13 @@ int	input(char **path, int tmp_stdin)
 
 	ret = -1;
 	i = 0;
+	fd_stdin = -1;
 	while (path[i])
 	{
 		if (path[i][0] == '<' && path[i][1] != '<')
 		{
-			close(fd_stdin);
+			if (fd_stdin != -1)
+				close(fd_stdin);
 			ret = i;
 			fd_stdin = open(&path[ret][1], O_RDONLY, 0644);
 			if (fd_stdin == -1)

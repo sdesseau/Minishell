@@ -34,6 +34,7 @@ int	ft_update_pwd(char *path, int home, t_env **env)
 {
 	char	*pwd;
 
+	(void)home;
 	pwd = getcwd(NULL, 0);
 	if (!chdir(path))
 	{
