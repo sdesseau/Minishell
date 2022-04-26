@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/26 16:43:55 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 19:51:51 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,10 @@ int	ft_check_permission(char **cmd, char *ext_cmd,
 	return (1);
 }
 
-int	ft_execute_external_cmd(char **cmd, t_env *env)
+int	ft_check_errors(char **cmd, t_env *env, struct stat	statbuf)
 {
-	struct stat	statbuf;
-	char		**path;
-	char		*ext_cmd;
-	int			flag;
-	size_t		i;
+	int		flag;
 
-	path = ft_get_path(&env);
-	if (!path)
-	{
-		printf("minishell: %s: No such file or directory\n", cmd[0]);
-		exit(127);
-	}
 	if (lstat(cmd[0], &statbuf) != -1)
 	{
 		flag = statbuf.st_mode & S_IFMT;
@@ -88,15 +78,26 @@ int	ft_execute_external_cmd(char **cmd, t_env *env)
 			exit(126);
 		}
 	}
+	return (0);
+}
+
+int	ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat	statbuf)
+{
+	char		*ext_cmd;
+	size_t		i;
+
+	if (!path)
+	{
+		printf("minishell: %s: No such file or directory\n", cmd[0]);
+		exit(127);
+	}
 	i = 0;
 	while (path[i] && cmd[0])
 	{
 		ext_cmd = ft_strjoin(path[i], "/");
 		ext_cmd = ft_strjoin(ext_cmd, cmd[0]);
 		if (!lstat(ext_cmd, &statbuf))
-		{
 			return (ft_check_permission(cmd, ext_cmd, statbuf, env));
-		}
 		i++;
 		if ((cmd[0][0] == '.' && cmd[0][1] == 0)
 			|| (cmd[0][0] == '.' && cmd[0][1] == '.'
@@ -106,5 +107,16 @@ int	ft_execute_external_cmd(char **cmd, t_env *env)
 			exit(127);
 		}
 	}
+	return (0);
+}
+
+int	ft_execute_external_cmd(char **cmd, t_env *env)
+{
+	struct stat	statbuf;
+	char		**path;
+
+	path = ft_get_path(&env);
+	ft_check_errors(cmd, env, statbuf);
+	ft_run_ext_cmd(cmd, env, path, statbuf);
 	return (0);
 }

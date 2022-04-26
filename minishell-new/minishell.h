@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/26 16:45:27 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 19:53:02 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,8 @@ void	recup_export(char **envp, t_export **export);
 char	**ft_get_path(t_env **env);
 int		ft_check_permission(char **cmd, char *ext_cmd,
 			struct stat statbuf, t_env *env);
+int		ft_check_errors(char **cmd, t_env *env, struct stat	statbuf);
+int		ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat	statbuf);
 int		ft_execute_external_cmd(char **cmd, t_env *env);
 
 /* -------------------------------------------------------------------------- */

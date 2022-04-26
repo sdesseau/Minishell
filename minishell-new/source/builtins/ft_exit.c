@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 19:02:02 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/21 21:29:40 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 18:55:28 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	ft_exit(char **argv)
 		}
 		else
 		{
-			g_exit_code = 1;
 			ft_putstr_fd("exit: too many arguments\n", STDERROR);
 			return (1);
 		}
