@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 19:02:02 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/26 18:55:28 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 21:47:27 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ int	ft_is_exit_arg_num(char *cmd)
 	return (1);
 }
 
+int	ft_exit_numeric(char **argv)
+{
+	g_exit_code = 2;
+	ft_putstr_fd("exit: numeric argument required\n", STDERROR);
+	return (g_exit_code);
+}
+
 int	ft_exit(char **argv)
 {
 	g_exit_code = 1;
@@ -64,10 +71,7 @@ int	ft_exit(char **argv)
 	if (argv[1] != NULL && argv[2] != NULL)
 	{
 		if (ft_is_exit_arg_num(argv[1]) == 0)
-		{
-			g_exit_code = 2;
-			ft_putstr_fd("exit: numeric argument required\n", STDERROR);
-		}
+			ft_exit_numeric(argv);
 		else
 		{
 			ft_putstr_fd("exit: too many arguments\n", STDERROR);
@@ -75,10 +79,7 @@ int	ft_exit(char **argv)
 		}
 	}
 	else if (argv[1] != NULL && ft_is_exit_arg_num(argv[1]) == 0)
-	{
-		g_exit_code = 2;
-		ft_putstr_fd("exit: numeric argument required\n", STDERROR);
-	}
+		ft_exit_numeric(argv);
 	else if (argv[1] != NULL)
 		g_exit_code = ft_atoi(argv[1]);
 	else
