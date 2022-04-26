@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/26 20:32:35 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 21:45:34 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int		env_command(char **argv, t_env *env);
 /* -------------------------------------------------------------------------- */
 int		ft_is_arg_longlong(char *cmd);
 int		ft_is_exit_arg_num(char *cmd);
+int		ft_exit_numeric(char **argv);
 int		ft_exit(char **argv);
 
 /* -------------------------------------------------------------------------- */
