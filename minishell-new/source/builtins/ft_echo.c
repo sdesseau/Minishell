@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:08:28 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/17 15:23:28 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 20:33:58 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,17 @@ void	ft_print_echo(char *cmd)
 	}
 }
 
+int	ft_no_arg(char **argv)
+{
+	if (!argv[1])
+	{
+		ft_putchar_fd('\n', 1);
+		g_exit_code = 0;
+		return (0);
+	}
+	return (0);
+}
+
 int	ft_echo(char **argv)
 {
 	int	is_n;
@@ -53,12 +64,7 @@ int	ft_echo(char **argv)
 
 	i = 1;
 	is_n = ft_is_flag_n(argv[i]);
-	if (!argv[1])
-	{
-		ft_putchar_fd('\n', 1);
-		g_exit_code = 0;
-		return (0);
-	}
+	ft_no_arg(argv);
 	while (argv[i] != NULL)
 	{
 		if (ft_is_flag_n(argv[i]) == 0)
