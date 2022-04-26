@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 23:13:24 by nachin            #+#    #+#             */
-/*   Updated: 2022/04/16 16:28:41 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:53:49 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_pars	*assign_pars(char *line, t_pars *pars, t_env *env)
 	return (pars);
 }
 
-t_cmd	*parsing(char *line, t_cmd *data, t_env *env)
+t_cmd	*parsing(char *line, t_cmd *data, t_env *env, t_export *export)
 {
 	int		len;
 	t_pars	*pars;
@@ -114,5 +114,5 @@ t_cmd	*parsing(char *line, t_cmd *data, t_env *env)
 		free(pars);
 		return (data);
 	}
-	return (empty_line(data));
+	return (empty_line(data, &env, &export));
 }

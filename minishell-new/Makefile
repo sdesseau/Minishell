@@ -38,6 +38,8 @@ SRC_MAIN    =   main.c \
 SRC_EXEC    =   env.c \
                 export.c \
 				external_cmd.c \
+				fd.c \
+				process.c \
                 run_cmd.c
 
 SRC_PARSE   =   error.c \
@@ -57,6 +59,7 @@ SRC_UTILS   =   ft_split_utils.c \
 				utils_env.c \
 				utils_export.c \
 				utils_ext_cmd.c \
+				utils_ft_export.c \
                 utils_pars.c \
 				utils_putfd.c \
                 utils_quotes.c \

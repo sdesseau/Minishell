@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 19:00:04 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/25 17:09:10 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:46:00 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_atoi(const char *str)
 	neg = 1;
 	nb = 0;
 	while (str[i] == '\f' || str[i] == '\t' || str[i] == '\n'
-	|| str[i] == '\r' || str[i] == '\v' || str[i] == ' ')
+		|| str[i] == '\r' || str[i] == '\v' || str[i] == ' ')
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{

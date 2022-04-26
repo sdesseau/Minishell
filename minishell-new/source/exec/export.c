@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 15:24:19 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 21:33:14 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:42:06 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,22 @@ int	update_export(char *name, char *value, t_export **export)
 	return (0);
 }
 
-int	export_var_already_exist(char *name, t_export *export)
+int	export_var_already_exist(char *name, t_export *exp, char *line, char *val)
 {
 	t_export	*tmp;
 
-	tmp = export;
+	tmp = exp;
 	if (!name || !tmp)
 		return (0);
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->name, name, ft_strlen(name) + 1) == 0)
+		{
+			if (ft_strrchr(line, '=') == NULL)
+				return (1);
+			update_export(name, val, &exp);
 			return (1);
+		}
 		tmp = tmp->next;
 	}
 	return (0);
@@ -73,13 +78,8 @@ int	add_export_var(char *name, char *val, char *line, t_export **export)
 	t_export	*new;
 
 	tmp = (*export);
-	if (export_var_already_exist(name, (*export)) == 1)
-	{
-		if (ft_strrchr(line, '=') == NULL)
-			return (0);
-		update_export(name, val, export);
+	if (export_var_already_exist(name, (*export), line, val) == 1)
 		return (0);
-	}
 	new = malloc(sizeof(t_export));
 	put_in_export(&new, name, val);
 	if (ft_strrchr(line, '=') == NULL)
@@ -87,10 +87,7 @@ int	add_export_var(char *name, char *val, char *line, t_export **export)
 	else
 		new->is_equal = 1;
 	if (!(*export))
-	{
 		(*export) = new;
-		return (0);
-	}
 	else
 	{
 		while ((*export)->next)

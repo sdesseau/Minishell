@@ -6,13 +6,13 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:11:14 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/25 17:01:50 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:47:42 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static int		ft_len(long n)
+int	ft_len(long n)
 {
 	int		len;
 
@@ -30,7 +30,7 @@ static int		ft_len(long n)
 	return (len);
 }
 
-static void		ft_write(long n, int len, char *str)
+void	ft_write(long n, int len, char *str)
 {
 	int		start;
 
@@ -51,7 +51,7 @@ static void		ft_write(long n, int len, char *str)
 	}
 }
 
-char			*ft_itoa(long n)
+char	*ft_itoa(long n)
 {
 	int		count_char;
 	char	*str;

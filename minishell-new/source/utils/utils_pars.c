@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:08:12 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/24 21:58:42 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:01:35 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ t_pars	*put_lock(t_pars *pars)
 	return (pars);
 }
 
-t_cmd	*empty_line(t_cmd *data)
+t_cmd	*empty_line(t_cmd *data, t_env **env, t_export **export)
 {
 	printf("exit\n");
+	deallocate_env_export(env, export);
 	exit(131);
 	return (data);
 }

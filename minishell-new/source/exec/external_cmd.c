@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/24 15:25:53 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:43:55 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,13 @@ int	ft_check_permission(char **cmd, char *ext_cmd,
 		{
 			printf("minishell: execve: permission denied: %s\n", ext_cmd);
 			exit(126);
-			// ft_putstr_fd("minishell: execve: permission denied: ", 2);
-			// ft_putstr_fd(ext_cmd, 2);
-			// ft_putchar_fd('\n', 2);
-			// g_exit_code = 126;
 		}
 		return (1);
 	}
 	else
 	{
-		printf("minishell: %s: Is a directory\n", cmd[1]);
+		printf("minishell: %s: Is a directory\n", cmd[0]);
 		exit(126);
-		// ft_putstr_fd("minishell: ", 2);
-		// ft_putstr_fd(cmd[1], 2);
-		// ft_putstr_fd(": Is a directory\n", 2);
-		// g_exit_code = 126;
 	}
 	return (1);
 }
