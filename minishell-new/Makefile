@@ -9,7 +9,7 @@
 
 NAME		:= minishell
 CC			:= clang
-FLAGS		:= -Wall -Wextra -Werror
+FLAGS		:= -fsanitize=address -g3
 RM			:= rm -f
 CLR_RMV		:= \033[0m
 RED			:= \033[1;31m
@@ -38,9 +38,9 @@ SRC_MAIN    =   main.c \
 SRC_EXEC    =   env.c \
                 export.c \
 				external_cmd.c \
-                run_cmd.c \
-                fd.c \
-                process.c
+				fd.c \
+				process.c \
+                run_cmd.c
 
 SRC_PARSE   =   error.c \
                 expansions.c \
@@ -52,19 +52,22 @@ SRC_PARSE   =   error.c \
                 quotes.c \
                 signal.c
 
-SRC_UTILS   =   ft_split.c \
+SRC_UTILS   =   ft_split_utils.c \
+				ft_split.c \
 				utils_dollar.c \
                 utils_dollar2.c \
 				utils_env.c \
 				utils_export.c \
 				utils_ext_cmd.c \
+				utils_ft_export.c \
                 utils_pars.c \
+				utils_putfd.c \
                 utils_quotes.c \
                 utils_redir.c \
 				utils_run_cmd.c \
+                utils_str.c \
+                utils_str_2.c \
                 utils.c \
-                utils2.c\
-                utils3.c\
 				ft_itoa.c 
 
 SRC_BUILTINS =  ft_cd.c \

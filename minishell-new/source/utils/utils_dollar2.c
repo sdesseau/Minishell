@@ -19,14 +19,13 @@ int	assign_new_pars(char *val, t_pars *tmp, t_pars *pars, int j)
 	l = 0;
 	while (val[l])
 	{
-		tmp[j].val = val[l];
+		tmp[j].val = val[l++];
 		if (j != 0)
 			tmp[j].lock = tmp[j - 1].lock;
 		else
 			tmp[j].lock = pars[j].lock;
 		tmp[j].i = j;
 		j++;
-		l++;
 	}
 	tmp[j].i = -1;
 	return (j);

@@ -6,13 +6,13 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:11:14 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/22 17:11:07 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/26 20:23:18 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static char		*negatif_itoa(unsigned int j, int len)
+static char	*negatif_itoa(unsigned int j, int len)
 {
 	char			*str;
 	unsigned int	jcpy;
@@ -23,7 +23,8 @@ static char		*negatif_itoa(unsigned int j, int len)
 		j = j / 10;
 		len++;
 	}
-	if (!(str = malloc(sizeof(char) * (len + 3))))
+	str = malloc(sizeof(char) * (len + 3));
+	if (!str)
 		return (NULL);
 	len++;
 	str[len + 1] = '\0';
@@ -37,7 +38,7 @@ static char		*negatif_itoa(unsigned int j, int len)
 	return (str);
 }
 
-static char		*positif_itoa(long int j, int len)
+static char	*positif_itoa(long int j, int len)
 {
 	char		*str;
 	long int	jcpy;
@@ -48,7 +49,8 @@ static char		*positif_itoa(long int j, int len)
 		j = j / 10;
 		len++;
 	}
-	if (!(str = malloc(sizeof(char) * (len + 2))))
+	str = malloc(sizeof(char) * (len + 2));
+	if (!str)
 		return (NULL);
 	len++;
 	str[len] = '\0';
@@ -61,7 +63,7 @@ static char		*positif_itoa(long int j, int len)
 	return (str);
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	int	len;
 

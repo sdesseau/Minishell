@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   utils_ft_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/15 14:08:03 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/26 15:48:42 by mprigent         ###   ########.fr       */
+/*   Created: 2022/04/26 16:11:10 by mprigent          #+#    #+#             */
+/*   Updated: 2022/04/26 16:11:23 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	handler(int signum)
+char	**sort_export(t_export *export)
 {
-	(void)signum;
-	printf("\n");
-	rl_on_new_line();
-	rl_redisplay();
-}
+	char	**exp;
+	char	*tmp;
+	int		i;
+	int		j;
 
-void	interrupt_here_document(int signal)
-{
-	(void)signal;
-	g_exit_code = 130;
-	write(1, "\n", 1);
-	exit(131);
-}
-
-void	assign_signals_handler(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handler);
+	i = 0;
+	exp = convert_list_to_tab(export);
+	while (exp[i])
+	{
+		j = i + 1;
+		while (exp[j])
+		{
+			if (ft_strncmp(exp[i], exp[j], ft_strlen(exp[i])) > 0)
+			{
+				tmp = exp[i];
+				exp[i] = exp[j];
+				exp[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (exp);
 }

@@ -3,80 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 13:02:06 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 19:02:00 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:10:16 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-char	**sort_export(t_export *export)
-{
-	char	**exp;
-	char	*tmp;
-	int		i;
-	int		j;
-
-	i = 0;
-	exp = convert_list_to_tab(export);
-	while (exp[i])
-	{
-		j = i + 1;
-		while (exp[j])
-		{
-			if (ft_strncmp(exp[i], exp[j], ft_strlen(exp[i])) > 0)
-			{
-				tmp = exp[i];
-				exp[i] = exp[j];
-				exp[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (exp);
-}
-
-// int	ft_isalpha(int c)
-// {
-// 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-// 		return (1);
-// 	return (0);
-// }
-
-// int	ft_isdigit(int c)
-// {
-// 	if (c >= '0' && c <= '9')
-// 		return (1);
-// 	return (0);
-// }
-
-// int	is_new_name_valid(char *name)
-// {
-// 	size_t	i;
-// 	char	alpha;
-
-// 	i = 0;
-// 	alpha = 0;
-// 	if (!name || name[0] == '\0' || name[0] == '=')
-// 		return (0);
-// 	while (name[i] != '\0' && name[i] != '=')
-// 	{
-// 		if (ft_isalpha(name[i]))
-// 			alpha = 1;
-// 		else
-// 		{
-// 			if (ft_isdigit(name[i]) && alpha == 0)
-// 				return (0);
-// 			else if (ft_isdigit(name[i]) == 1 && name[i] != '_')
-// 				return (0);
-// 		}
-// 		i++;
-// 	}
-// 	return (1);
-// }
 
 char	*get_new_name(char *command, int *index)
 {

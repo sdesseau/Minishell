@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 18:57:50 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/25 18:22:20 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:56:10 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,20 @@ void	put_in_env(t_env **new, char *name, char *value)
 	(*new)->name = ft_strdup(name);
 	(*new)->value = ft_strdup(value);
 	(*new)->next = NULL;
+}
+
+char	*find_env_value(char *env_name, t_env *env)
+{
+	t_env	*tmp;
+	int		lenght;
+
+	tmp = env;
+	lenght = ft_strlen(env_name);
+	while (tmp != NULL)
+	{
+		if (ft_strncmp(tmp->name, env_name, lenght + 1) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
