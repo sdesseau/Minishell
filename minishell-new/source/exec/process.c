@@ -18,12 +18,13 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	signal(SIGQUIT, SIG_DFL);
 	dup2(cmd.fd_stdout, STDOUT_FILENO);
 	close(cmd.fd_stdout);
-	close(cmd.fd_stdin);
+	// close(cmd.fd_stdin);
 	if ((ft_check_builtins(cmd.user_input[0])) == 1)
-		ft_execute_external_cmd(cmd.user_input, env);
+		exit(ft_execute_external_cmd(cmd.user_input, env));
 	else if (ft_check_builtins(cmd.user_input[0]) == 0)
-		ft_execute_builtins(cmd, &env, &export);
-	kill(0, SIGQUIT);
+		exit(ft_execute_builtins(cmd, &env, &export));
+	// kill(0, SIGQUIT);
+	// exit(0);
 	// return ;
 }
 

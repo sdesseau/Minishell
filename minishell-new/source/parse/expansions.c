@@ -28,9 +28,10 @@ t_pars	*new_parse_dollar(t_pars *pars, t_pars *tmp, int i, char *val)
 	i = get_len_name(pars, i + 1);
 	while (pars[i].i != -1)
 	{
-		tmp[j] = pars[i++];
+		tmp[j] = pars[i];
 		tmp[j].i = j;
 		j++;
+		i++;
 	}
 	tmp[j].i = -1;
 	return (tmp);
@@ -77,6 +78,7 @@ t_pars	*get_exitcode(t_pars *pars, int i, int lenght)
 		len--;
 	}
 	pars = change_da_dolla(pars, i, value, lenght);
+	free(value);
 	return (pars);
 }
 

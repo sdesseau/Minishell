@@ -109,6 +109,7 @@ int	export_command(char **argv, t_env **env, t_export **export)
 	{
 		export_sorted = sort_export((*export));
 		print_export(export_sorted, (*export));
+		free_tab(export_sorted);
 		return (0);
 	}
 	while (argv[i])
@@ -121,9 +122,9 @@ int	export_command(char **argv, t_env **env, t_export **export)
 		add_export_var(name, value, argv[i], export);
 		if (is_equal_sign(argv[i]) == 1)
 			add_env_var(name, value, env);
+		free(name);
+		free(value);
 		i++;
 	}
-	free(name);
-	free(value);
 	return (0);
 }

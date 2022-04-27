@@ -110,6 +110,56 @@ t_cmd	*parsing(char *line, t_cmd *data, t_env *env, t_export *export)
 		pars = assign_pars(line, pars, env);
 		if (pars == NULL)
 			return (NULL);
+		
+
+	// 	printf("parse >> ");
+	// 	int x = 0;
+	// 	while (pars[x].i != -1)
+	// 	{
+	// 		printf("%c", pars[x++].val);
+	// 	}
+	// 	printf("\n");
+	// 	x = 0;
+	// 	printf("index >>\n" );
+	// 	while (pars[x].i != -1)
+	// 	{
+	// 		printf("[%i] >> %i\n", x, pars[x].i);
+	// 		x++;
+	// 	}
+	// 	printf("\n");
+	// x = 0;
+	// 	printf("s_quoted >>\n" );
+	// 	while (pars[x].i != -1)
+	// 	{
+	// 		printf("[%i] >> %i\n", x, pars[x].s_q);
+	// 		x++;
+	// 	}
+	// 	printf("\n");
+	// x = 0;
+	// 	printf("d_quoted>>\n" );
+	// 	while (pars[x].i != -1)
+	// 	{
+	// 		printf("[%i] >> %i\n", x, pars[x].d_q);
+	// 		x++;
+	// 	}
+	// 	printf("\n");
+	// x = 0;
+	// 	printf("lock >>\n" );
+	// 	while (pars[x].i != -1)
+	// 	{
+	// 		printf("[%i] >> %i\n", x, pars[x].lock);
+	// 		x++;
+	// 	}
+	// 	printf("\n");
+	// x = 0;
+	// 	printf("null >>\n" );
+	// 	while (pars[x].i != -1)
+	// 	{
+	// 		printf("[%i] >> %i\n", x, pars[x].null);
+	// 		x++;
+	// 	}
+	// 	printf("\n");
+
 		data = split_cmd(pars, data);
 		free(pars);
 		return (data);

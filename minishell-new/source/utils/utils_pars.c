@@ -45,12 +45,12 @@ t_cmd	*empty_line(t_cmd *data, t_env **env, t_export **export)
 
 int	pass_spaces(t_pars *pars, int i)
 {
-	while (pars[i].val == ' ' && pars[i].lock == 0
-		&& pars[i].i != -1)
+	while (pars[i].i != -1 && pars[i].val == ' '
+		&& pars[i].lock == 0)
 	{
-		i++;
 		if (pars[i].null == 1)
 			break ;
+		i++;
 	}
 	return (i);
 }
