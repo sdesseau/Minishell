@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 19:37:43 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/25 19:39:00 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/27 18:22:53 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	else if (ft_check_builtins(cmd.user_input[0]) == 0)
 		ft_execute_builtins(cmd, &env, &export);
 	kill(0, SIGQUIT);
-	// return ;
 }
 
 void	parent_process(t_cmd cmd, pid_t pid)

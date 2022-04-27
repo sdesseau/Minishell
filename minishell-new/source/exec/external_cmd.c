@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/26 19:51:51 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/27 18:25:21 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat statbuf)
 		ext_cmd = ft_strjoin(ext_cmd, cmd[0]);
 		if (!lstat(ext_cmd, &statbuf))
 		{
-			int x = (ft_check_permission(cmd, ext_cmd, statbuf, env));
+			int	x = (ft_check_permission(cmd, ext_cmd, statbuf, env));
 			free(ext_cmd);
 			return (x);
 		}
