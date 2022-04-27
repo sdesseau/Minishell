@@ -9,7 +9,7 @@
 
 NAME		:= minishell
 CC			:= clang
-FLAGS		:= -fsanitize=address -g3
+FLAGS		:= -Wall -Werror -Wextra
 RM			:= rm -f
 CLR_RMV		:= \033[0m
 RED			:= \033[1;31m

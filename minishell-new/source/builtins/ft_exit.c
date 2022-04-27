@@ -57,7 +57,7 @@ int	ft_is_exit_arg_num(char *cmd)
 	return (1);
 }
 
-int	ft_exit_numeric(char **argv)
+int	ft_exit_numeric(void)
 {
 	g_exit_code = 2;
 	ft_putstr_fd("exit: numeric argument required\n", STDERROR);
@@ -71,7 +71,7 @@ int	ft_exit(char **argv)
 	if (argv[1] != NULL && argv[2] != NULL)
 	{
 		if (ft_is_exit_arg_num(argv[1]) == 0)
-			ft_exit_numeric(argv);
+			ft_exit_numeric();
 		else
 		{
 			ft_putstr_fd("exit: too many arguments\n", STDERROR);
@@ -79,7 +79,7 @@ int	ft_exit(char **argv)
 		}
 	}
 	else if (argv[1] != NULL && ft_is_exit_arg_num(argv[1]) == 0)
-		ft_exit_numeric(argv);
+		ft_exit_numeric();
 	else if (argv[1] != NULL)
 		g_exit_code = ft_atoi(argv[1]);
 	else

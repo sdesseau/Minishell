@@ -12,6 +12,20 @@
 
 #include "../../minishell.h"
 
+void	free_tab(char **tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	if (tab)
+		free(tab);
+}
+
 char	**ft_get_path(t_env **env)
 {
 	char	**path;
@@ -22,9 +36,7 @@ char	**ft_get_path(t_env **env)
 		return (NULL);
 	path = ft_split(temp, ':');
 	if (!path)
-	{
 		return (NULL);
-	}
 	return (path);
 }
 
@@ -53,7 +65,7 @@ int	ft_check_permission(char **cmd, char *ext_cmd,
 	return (1);
 }
 
-int	ft_check_errors(char **cmd, t_env *env, struct stat	statbuf)
+int	ft_check_errors(char **cmd, t_env *env, struct stat statbuf)
 {
 	int		flag;
 
@@ -81,23 +93,27 @@ int	ft_check_errors(char **cmd, t_env *env, struct stat	statbuf)
 	return (0);
 }
 
-int	ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat	statbuf)
+int	ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat statbuf)
 {
 	char		*ext_cmd;
 	size_t		i;
 
+	i = 0;
 	if (!path)
 	{
 		printf("minishell: %s: No such file or directory\n", cmd[0]);
 		exit(127);
 	}
-	i = 0;
 	while (path[i] && cmd[0])
 	{
 		ext_cmd = ft_strjoin(path[i], "/");
 		ext_cmd = ft_strjoin(ext_cmd, cmd[0]);
 		if (!lstat(ext_cmd, &statbuf))
-			return (ft_check_permission(cmd, ext_cmd, statbuf, env));
+		{
+			int x = (ft_check_permission(cmd, ext_cmd, statbuf, env));
+			free(ext_cmd);
+			return (x);
+		}
 		i++;
 		if ((cmd[0][0] == '.' && cmd[0][1] == 0)
 			|| (cmd[0][0] == '.' && cmd[0][1] == '.'
@@ -115,6 +131,7 @@ int	ft_execute_external_cmd(char **cmd, t_env *env)
 	struct stat	statbuf;
 	char		**path;
 
+	lstat(cmd[0], &statbuf);
 	path = ft_get_path(&env);
 	ft_check_errors(cmd, env, statbuf);
 	ft_run_ext_cmd(cmd, env, path, statbuf);

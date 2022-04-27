@@ -30,7 +30,7 @@ char	*ft_home_path(char *path, t_env **env)
 	return (path);
 }
 
-int	ft_update_pwd(char *path, int home, t_env **env)
+int	ft_update_pwd(char *path, t_env **env)
 {
 	char	*pwd;
 
@@ -48,11 +48,11 @@ int	ft_update_pwd(char *path, int home, t_env **env)
 	return (0);
 }
 
-int	ft_set_directory(char *path, int home, t_env **env)
+int	ft_set_directory(char *path, t_env **env)
 {
 	struct stat	st;
 
-	if (ft_update_pwd(path, home, env))
+	if (ft_update_pwd(path, env))
 		return (1);
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(path, 2);
@@ -78,7 +78,7 @@ int	ft_path(char **argv, t_env **env)
 	{
 		tmp = find_env_value("OLDPWD", (*env));
 		if (tmp)
-			ft_set_directory(tmp, 0, env);
+			ft_set_directory(tmp, env);
 		tmp = find_env_value("PWD", (*env));
 		if (tmp)
 		{
@@ -87,7 +87,7 @@ int	ft_path(char **argv, t_env **env)
 		}
 		return (1);
 	}
-	return (ft_set_directory(argv[1], 0, env));
+	return (ft_set_directory(argv[1], env));
 }
 
 int	ft_cd(char **argv, t_env **env)
@@ -110,7 +110,7 @@ int	ft_cd(char **argv, t_env **env)
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			return (1);
 		}
-		return (ft_set_directory(home, 1, env));
+		return (ft_set_directory(home, env));
 	}
 	argv[1] = ft_home_path(argv[1], env);
 	return (ft_path(argv, env));
