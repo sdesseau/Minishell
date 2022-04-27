@@ -6,25 +6,11 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/27 18:25:21 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/27 19:31:21 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	free_tab(char **tab)
-{
-	int		i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	if (tab)
-		free(tab);
-}
 
 char	**ft_get_path(t_env **env)
 {
@@ -109,11 +95,7 @@ int	ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat statbuf)
 		ext_cmd = ft_strjoin(path[i], "/");
 		ext_cmd = ft_strjoin(ext_cmd, cmd[0]);
 		if (!lstat(ext_cmd, &statbuf))
-		{
-			int	x = (ft_check_permission(cmd, ext_cmd, statbuf, env));
-			free(ext_cmd);
-			return (x);
-		}
+			return (ft_check_permission(cmd, ext_cmd, statbuf, env));
 		i++;
 		if ((cmd[0][0] == '.' && cmd[0][1] == 0)
 			|| (cmd[0][0] == '.' && cmd[0][1] == '.'

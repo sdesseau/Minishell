@@ -6,11 +6,25 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 22:29:12 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/21 23:26:38 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/27 19:31:27 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	free_tab(char **tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	if (tab)
+		free(tab);
+}
 
 int	ft_size_env(t_env *lst)
 {

@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/27 19:12:20 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/27 19:31:49 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,6 +332,7 @@ char	**convert_list_to_tab(t_export *export);
 /* -------------------------------------------------------------------------- */
 /*                   FILE = source/utils/utils_ext_cmd.c                      */
 /* -------------------------------------------------------------------------- */
+void	free_tab(char **tab);
 int		ft_size_env(t_env *lst);
 char	*ft_convert_env(char *name, char *value);
 char	**ft_conv_env_to_tab(t_env *env);
