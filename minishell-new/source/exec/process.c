@@ -24,6 +24,7 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	else if (ft_check_builtins(cmd.user_input[0]) == 0)
 		ft_execute_builtins(cmd, &env, &export);
 	kill(0, SIGQUIT);
+	// return ;
 }
 
 void	parent_process(t_cmd cmd, pid_t pid)
