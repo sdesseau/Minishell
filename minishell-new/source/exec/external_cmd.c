@@ -115,7 +115,7 @@ int	ft_execute_external_cmd(char **cmd, t_env *env)
 	struct stat	statbuf;
 	char		**path;
 
-	
+	lstat(cmd[0], &statbuf);
 	path = ft_get_path(&env);
 	ft_check_errors(cmd, env, statbuf);
 	ft_run_ext_cmd(cmd, env, path, statbuf);

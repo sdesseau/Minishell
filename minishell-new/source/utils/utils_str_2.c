@@ -66,11 +66,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	if (s == NULL)
 		return (NULL);
-	if (ft_strlen(s) < start)
+	if ((unsigned int)ft_strlen(s) < start)
 		return (ft_calloc(1, sizeof(char)));
 	else
 	{
-		if (start + len > ft_strlen(s))
+		if (start + len > (unsigned long)ft_strlen(s))
 			len = ft_strlen(s) - start;
 		dst = malloc(sizeof(char) * (len + 1));
 		if (dst == NULL)
