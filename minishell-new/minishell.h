@@ -74,6 +74,8 @@ typedef struct s_cmd
 	int		output;
 }				t_cmd;
 
+void	free_tab(char **tab);
+
 //				MAIN				//
 /* -------------------------------------------------------------------------- */
 /*                         FILE = source/main/main.c                          */
@@ -175,9 +177,9 @@ void	recup_export(char **envp, t_export **export);
 char	**ft_get_path(t_env **env);
 int		ft_check_permission(char **cmd, char *ext_cmd,
 			struct stat statbuf, t_env *env);
-int		ft_check_errors(char **cmd, t_env *env, struct stat	statbuf);
+int		ft_check_errors(char **cmd, t_env *env, struct stat statbuf);
 int		ft_run_ext_cmd(char **cmd, t_env *env,
-			char **path, struct stat	statbuf);
+			char **path, struct stat statbuf);
 int		ft_execute_external_cmd(char **cmd, t_env *env);
 
 /* -------------------------------------------------------------------------- */

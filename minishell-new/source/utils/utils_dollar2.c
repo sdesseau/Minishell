@@ -21,9 +21,16 @@ int	assign_new_pars(char *val, t_pars *tmp, t_pars *pars, int j)
 	{
 		tmp[j].val = val[l++];
 		if (j != 0)
-			tmp[j].lock = tmp[j - 1].lock;
+		{
+			tmp[j].s_q = tmp[j - 1].s_q;
+			tmp[j].d_q = tmp[j - 1].d_q;
+		}
 		else
-			tmp[j].lock = pars[j].lock;
+		{
+			tmp[j].s_q = pars[j].s_q;
+			tmp[j].d_q = pars[j].d_q;
+		}
+		tmp[j].null = 0;
 		tmp[j].i = j;
 		j++;
 	}

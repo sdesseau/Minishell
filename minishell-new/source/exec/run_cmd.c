@@ -28,6 +28,8 @@ void	exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp)
 	}
 	else
 		launch_child_process(cmd, (*env), (*export));
+	close(cmd.fd_stdin);
+	close(cmd.fd_stdout);
 }
 
 void	is_chevrons(t_cmd *cmd)
@@ -86,6 +88,8 @@ void	loop_cmd(int nb_cmd, t_cmd *cmd, t_env **env, t_export **export)
 				cmd[i].fd_stdout = dup(1);
 		}
 		launch_child_process(cmd[i], (*env), (*export));
+		close(cmd[i].fd_stdin);
+		close(cmd[i].fd_stdout);
 		i++;
 	}
 }
