@@ -31,7 +31,8 @@ void	unset_in_env(char *argv, t_env **env)
 		if (ft_strncmp(argv, i_env->next->name, ft_strlen(argv)) == 0)
 		{
 			tmp = i_env->next->next;
-			i_env ->next = tmp;
+			free_env_var(i_env->next);
+			i_env->next = tmp;
 			break ;
 		}
 		i_env = i_env->next;
@@ -59,6 +60,7 @@ void	unset_in_export(char *argv, t_export **export)
 		if (ft_strncmp(argv, i_export->next->name, ft_strlen(argv)) == 0)
 		{
 			tmp = i_export->next->next;
+			free_export_var(i_export->next);
 			i_export->next = tmp;
 			break ;
 		}

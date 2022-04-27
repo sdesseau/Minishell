@@ -77,6 +77,7 @@ t_pars	*get_exitcode(t_pars *pars, int i, int lenght)
 		len--;
 	}
 	pars = change_da_dolla(pars, i, value, lenght);
+	free(value);
 	return (pars);
 }
 
