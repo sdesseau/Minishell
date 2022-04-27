@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:50:32 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/25 18:56:25 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/27 18:23:23 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int	heredoc(char *path)
 
 int	get_last_heredoc(char **path, int i)
 {
-	int ret2;
-	int ret;
-	int fd_stdin;
+	int	ret2;
+	int	ret;
+	int	fd_stdin;
 
 	ret2 = i;
 	while (path[i])
