@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/26 21:45:34 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/27 19:12:20 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,10 @@ int		ft_exit(char **argv);
 /* -------------------------------------------------------------------------- */
 /*                   FILE = source/builtins/ft_export.c                       */
 /* -------------------------------------------------------------------------- */
-char	*get_new_name(char *command, int *index);
 char	*find_export_value(char *name, t_export *export);
 int		find_equal_value(char *name, t_export *export);
 void	print_export(char **tab_export, t_export *export);
+int		run_export_cmd(char **argv, t_env **env, t_export **export);
 int		export_command(char **argv, t_env **env, t_export **export);
 
 /* -------------------------------------------------------------------------- */
@@ -339,6 +339,7 @@ char	**ft_conv_env_to_tab(t_env *env);
 /* -------------------------------------------------------------------------- */
 /*                 FILE = source/utils/utils_ft_export.c                      */
 /* -------------------------------------------------------------------------- */
+char	*get_new_name(char *command, int *index);
 char	**sort_export(t_export *export);
 
 /* -------------------------------------------------------------------------- */
