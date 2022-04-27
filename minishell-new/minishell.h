@@ -31,7 +31,7 @@
 # define LONGLONG_MIN -9223372036854775807
 # define LONGLONG_MAX 9223372036854775807
 
-unsigned char	g_exit_code;
+extern unsigned char	g_exit_code;
 
 typedef struct s_env
 {
@@ -99,8 +99,8 @@ int		ft_execute_builtins(t_cmd cmd, t_env **env, t_export **export);
 /*                   FILE = source/builtins/ft_cd.c                           */
 /* -------------------------------------------------------------------------- */
 char	*ft_home_path(char *path, t_env **env);
-int		ft_update_pwd(char *path, int home, t_env **env);
-int		ft_set_directory(char *path, int home, t_env **env);
+int		ft_update_pwd(char *path, t_env **env);
+int		ft_set_directory(char *path, t_env **env);
 int		ft_path(char **argv, t_env **env);
 int		ft_cd(char **argv, t_env **env);
 
@@ -123,7 +123,7 @@ int		env_command(char **argv, t_env *env);
 /* -------------------------------------------------------------------------- */
 int		ft_is_arg_longlong(char *cmd);
 int		ft_is_exit_arg_num(char *cmd);
-int		ft_exit_numeric(char **argv);
+int		ft_exit_numeric(void);
 int		ft_exit(char **argv);
 
 /* -------------------------------------------------------------------------- */

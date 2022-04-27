@@ -53,7 +53,7 @@ int	ft_check_permission(char **cmd, char *ext_cmd,
 	return (1);
 }
 
-int	ft_check_errors(char **cmd, t_env *env, struct stat	statbuf)
+int	ft_check_errors(char **cmd, t_env *env, struct stat statbuf)
 {
 	int		flag;
 
@@ -81,7 +81,7 @@ int	ft_check_errors(char **cmd, t_env *env, struct stat	statbuf)
 	return (0);
 }
 
-int	ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat	statbuf)
+int	ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat statbuf)
 {
 	char		*ext_cmd;
 	size_t		i;
@@ -115,6 +115,7 @@ int	ft_execute_external_cmd(char **cmd, t_env *env)
 	struct stat	statbuf;
 	char		**path;
 
+	
 	path = ft_get_path(&env);
 	ft_check_errors(cmd, env, statbuf);
 	ft_run_ext_cmd(cmd, env, path, statbuf);

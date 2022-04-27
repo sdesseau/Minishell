@@ -68,6 +68,8 @@ int	heredoc(char *path)
 	return (tmp_fd);
 }
 
+// int	get_last_heredoc
+
 int	input(char **path, int tmp_stdin)
 {
 	int	i;
@@ -82,9 +84,9 @@ int	input(char **path, int tmp_stdin)
 	{
 		if (path[i][0] == '<' && path[i][1] != '<')
 		{
+
 			if (fd_stdin != -1)
 				close(fd_stdin);
-			ret = i;
 			fd_stdin = open(&path[ret][1], O_RDONLY, 0644);
 			if (fd_stdin == -1)
 			{
@@ -94,6 +96,7 @@ int	input(char **path, int tmp_stdin)
 		}
 		else if (path[i][0] == '<' && path[i][1] == '<')
 		{
+			// fd_stdin = get_last_heredoc(path[ret]);
 			ret2 = i;
 			while (path[i])
 			{
