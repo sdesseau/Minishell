@@ -31,7 +31,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	i = 0;
 	if (!s1 && !s2)
 		return (0);
-	if (!s1 || !s2)
+	if (!s1 || !s2 || !s2[0])
 		return (1);
 	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:50:32 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/25 18:56:25 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/27 19:25:51 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	child_heredoc(char *path, int tmp_fd)
 		{
 			str = ft_strjoin(str, "\n");
 			write(tmp_fd, str, (ft_strlen(str) + 1));
+			free(str);
 		}
 	}
 	exit(0);
@@ -42,15 +43,14 @@ void	child_heredoc(char *path, int tmp_fd)
 
 int	heredoc(char *path)
 {
+	int 	fd_stdin;
 	int		tmp_fd;
-	int		save_fd_out;
 	pid_t	pid;
 	int		status;
 
-	tmp_fd = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	tmp_fd = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_APPEND, 0600);
 	if (tmp_fd == -1)
 		return (-1);
-	save_fd_out = dup(0);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
@@ -62,17 +62,17 @@ int	heredoc(char *path)
 		close(tmp_fd);
 		g_exit_code = 130;
 	}
-	tmp_fd = open("/tmp/.heredoc", O_RDONLY);
-	unlink("/tmp/.heredoc");
+	tmp_fd = open("/tmp/.heredoc", O_RDONLY, 0644);
+	fd_stdin = dup(tmp_fd);
 	close(tmp_fd);
-	return (tmp_fd);
+	return (fd_stdin);
 }
 
 int	get_last_heredoc(char **path, int i)
 {
-	int ret2;
-	int ret;
-	int fd_stdin;
+	int	ret2;
+	int	ret;
+	int	fd_stdin;
 
 	ret2 = i;
 	while (path[i])
@@ -91,10 +91,12 @@ int	input(char **path, int tmp_stdin)
 	int	i;
 	int	fd_stdin;
 	int	ret;
+	int ret2;
 
 	ret = -1;
 	i = 0;
 	fd_stdin = -1;
+	ret2 = -1;
 	while (path[i])
 	{
 		if (path[i][0] == '<' && path[i][1] != '<')
@@ -110,10 +112,15 @@ int	input(char **path, int tmp_stdin)
 			}
 		}
 		else if (path[i][0] == '<' && path[i][1] == '<')
-			fd_stdin = get_last_heredoc(path, i);
+		{
+			ret2 = i;
+			fd_stdin = heredoc(path[ret2]);
+		}
 		i++;
 	}
-	if (ret == -1)
+	if (ret2 != -1)
+		unlink("/tmp/.heredoc");
+	if (ret == -1 && ret2 == -1)
 		fd_stdin = dup(tmp_stdin);
 	return (fd_stdin);
 }
@@ -131,12 +138,12 @@ int	output(char **path, int tmp_stdout)
 		if (path[i][0] == '>' && path[i][1] == '>')
 		{
 			ret = i;
-			fd_stdout = open(&path[i][2], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd_stdout = open(&path[ret][2], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		}
 		else if (path[i][0] == '>' && path[i][1] != '>')
 		{
 			ret = i;
-			fd_stdout = open(&path[i][1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+			fd_stdout = open(&path[ret][1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		}
 		i++;
 	}

@@ -15,6 +15,7 @@
 void	exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp)
 {
 	dup2(cmd.fd_stdin, STDIN_FILENO);
+	close(cmd.fd_stdin);
 	if (cmd.nb_chevrons > 0)
 		cmd.fd_stdout = output(cmd.path, tmp);
 	else
@@ -22,12 +23,11 @@ void	exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp)
 	if ((ft_check_builtins(cmd.user_input[0])) == 0)
 	{
 		dup2(cmd.fd_stdout, 1);
+		close(cmd.fd_stdout);
 		g_exit_code = ft_execute_builtins(cmd, env, export);
 	}
 	else
 		launch_child_process(cmd, (*env), (*export));
-	close(cmd.fd_stdin);
-	close(cmd.fd_stdout);
 }
 
 void	is_chevrons(t_cmd *cmd)
@@ -76,6 +76,7 @@ void	loop_cmd(int nb_cmd, t_cmd *cmd, t_env **env, t_export **export)
 		if (cmd[i].fd_stdin == -1)
 			break ;
 		dup2(cmd[i].fd_stdin, STDIN_FILENO);
+		close(cmd[i].fd_stdin);
 		if (i < nb_cmd - 1)
 			ft_pipe(&cmd[i]);
 		else
@@ -86,7 +87,6 @@ void	loop_cmd(int nb_cmd, t_cmd *cmd, t_env **env, t_export **export)
 				cmd[i].fd_stdout = dup(1);
 		}
 		launch_child_process(cmd[i], (*env), (*export));
-		close(cmd[i].fd_stdin);
 		close(cmd[i].fd_stdout);
 		i++;
 	}

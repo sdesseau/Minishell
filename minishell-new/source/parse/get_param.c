@@ -27,9 +27,9 @@ int	get_nb_param(t_pars *pars, int i)
 			nb++;
 			i = pass_spaces(pars, i);
 		}
-		while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|')
-				|| ((pars[i].val == ' ' || pars[i].val == '|')
-					&& pars[i].lock == 1)))
+		while (pars[i].i != -1 && ((pars[i].val != ' '
+					&& pars[i].val != '|') || ((pars[i].val == ' '
+						|| pars[i].val == '|') && pars[i].lock == 1)))
 			i++;
 		i = pass_spaces(pars, i);
 		nb++;
@@ -104,7 +104,7 @@ t_cmd	*get_params(t_pars *pars, t_cmd *data, int i, int x)
 
 	j = 0;
 	while (pars[i].i != -1 && (pars[i].val != '|' || (pars[i].val == '|'
-		&& pars[i].lock == 1)))
+				&& pars[i].lock == 1)))
 	{
 		if (len_word(pars, i) != 0)
 		{

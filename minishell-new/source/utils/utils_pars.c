@@ -48,9 +48,9 @@ int	pass_spaces(t_pars *pars, int i)
 	while (pars[i].i != -1 && pars[i].val == ' '
 		&& pars[i].lock == 0)
 	{
+		i++;
 		if (pars[i].null == 1)
 			break ;
-		i++;
 	}
 	return (i);
 }

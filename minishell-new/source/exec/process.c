@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 19:37:43 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/25 19:39:00 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/27 18:22:53 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,11 @@ void	child_process(t_cmd cmd, t_env *env, t_export *export)
 	signal(SIGQUIT, SIG_DFL);
 	dup2(cmd.fd_stdout, STDOUT_FILENO);
 	close(cmd.fd_stdout);
-	// close(cmd.fd_stdin);
+	close(cmd.fd_stdin);
 	if ((ft_check_builtins(cmd.user_input[0])) == 1)
 		exit(ft_execute_external_cmd(cmd.user_input, env));
 	else if (ft_check_builtins(cmd.user_input[0]) == 0)
 		exit(ft_execute_builtins(cmd, &env, &export));
-	// kill(0, SIGQUIT);
-	// exit(0);
-	// return ;
 }
 
 void	parent_process(t_cmd cmd, pid_t pid)

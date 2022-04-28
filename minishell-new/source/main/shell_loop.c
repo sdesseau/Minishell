@@ -52,12 +52,7 @@ void	shell_loop(t_env *env, t_export *export)
 	while (1)
 	{
 		i = 0;
-		if (!g_exit_code)
-			str = readline("\033[33m$ ➜\033[00m ");
-		// else if (g_exit_code == 0)
-		// 	str = readline("\033[32m$ ➜ 0\033[00m ");
-		// else
-		// 	str = readline("\033[31m$ ➜ 1\033[00m ");
+		str = readline("\033[33m$ ➜\033[00m ");
 		if (str && *str)
 			add_history(str);
 		cmd = parsing(str, cmd, env, export);

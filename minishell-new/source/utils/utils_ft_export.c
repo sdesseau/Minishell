@@ -6,11 +6,33 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 16:11:10 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/26 16:11:23 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/27 19:11:56 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+char	*get_new_name(char *command, int *index)
+{
+	char	*new_name;
+	int		i;
+
+	new_name = NULL;
+	i = *index;
+	while (command[i] && command[i] != '=')
+		i++;
+	new_name = ft_substr(command, 0, i);
+	if (is_unset_arg_valid(new_name) == 0)
+	{
+		ft_putstr_fd("export: not a valid identifier\n", 2);
+		free(new_name);
+		return (NULL);
+	}
+	if (command[i])
+		i++;
+	*index = i;
+	return (new_name);
+}
 
 char	**sort_export(t_export *export)
 {

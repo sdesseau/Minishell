@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/28 17:14:02 by nachin            #+#    #+#             */
-/*   Updated: 2022/04/26 15:51:55 by mprigent         ###   ########.fr       */
+/*   Created: 2021/11/28 17:14:02 by sdesseau          #+#    #+#             */
+/*   Updated: 2022/04/27 18:24:42 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	deallocate_env_lst_elem(t_env *elem)
 
 void	deallocate_env_export(t_env **env, t_export **export)
 {
-	t_env 		*tmp_env;
-	t_export 	*tmp_export;
+	t_env		*tmp_env;
+	t_export	*tmp_export;
 
 	if (!(*env))
 		return ;
@@ -66,7 +66,6 @@ int	main(int argc, char **argv, char **envp)
 	export = NULL;
 	if (argc != 1)
 	{
-
 		printf("Error: Minishell don't take arguments\n");
 		return (1);
 	}
