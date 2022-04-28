@@ -42,14 +42,13 @@ void	child_heredoc(char *path, int tmp_fd)
 
 int	heredoc(char *path)
 {
-	int		fd_stdin;
+	int 	fd_stdin;
 	int		tmp_fd;
 	int		save_fd_out;
 	pid_t	pid;
 	int		status;
 
-	fd_stdin = 0;
-	tmp_fd = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	tmp_fd = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_APPEND, 0600);
 	if (tmp_fd == -1)
 		return (-1);
 	save_fd_out = dup(0);
@@ -64,10 +63,9 @@ int	heredoc(char *path)
 		close(tmp_fd);
 		g_exit_code = 130;
 	}
-	tmp_fd = open("/tmp/.heredoc", O_RDONLY);
-	dup2(tmp_fd, fd_stdin);
-	unlink("/tmp/.heredoc");
-	// close(tmp_fd);
+	tmp_fd = open("/tmp/.heredoc", O_RDONLY, 0644);
+	fd_stdin = dup(tmp_fd);
+	// printf("fd_stdin0 >> %i\n", fd_stdin);
 	return (fd_stdin);
 }
 
@@ -85,6 +83,7 @@ int	get_last_heredoc(char **path, int i)
 		i++;
 	}
 	fd_stdin = heredoc(path[ret]);
+	// printf("fd_stdin1 >> %i\n", fd_stdin);
 	i = ret2;
 	return (fd_stdin);
 }
@@ -94,10 +93,13 @@ int	input(char **path, int tmp_stdin)
 	int	i;
 	int	fd_stdin;
 	int	ret;
+	int ret2;
+	// int	ret3;
 
 	ret = -1;
 	i = 0;
 	fd_stdin = -1;
+	ret2 = -1;
 	while (path[i])
 	{
 		if (path[i][0] == '<' && path[i][1] != '<')
@@ -113,10 +115,15 @@ int	input(char **path, int tmp_stdin)
 			}
 		}
 		else if (path[i][0] == '<' && path[i][1] == '<')
-			fd_stdin = get_last_heredoc(path, i);
+		{
+			ret2 = i;
+			fd_stdin = heredoc(path[ret2]);
+		}
 		i++;
 	}
-	if (ret == -1)
+	if (ret2 != -1)
+		unlink("/tmp/.heredoc");
+	if (ret == -1 && ret2 == -1)
 		fd_stdin = dup(tmp_stdin);
 	return (fd_stdin);
 }
