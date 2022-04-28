@@ -44,14 +44,12 @@ int	heredoc(char *path)
 {
 	int 	fd_stdin;
 	int		tmp_fd;
-	int		save_fd_out;
 	pid_t	pid;
 	int		status;
 
 	tmp_fd = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_APPEND, 0600);
 	if (tmp_fd == -1)
 		return (-1);
-	save_fd_out = dup(0);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
@@ -65,7 +63,7 @@ int	heredoc(char *path)
 	}
 	tmp_fd = open("/tmp/.heredoc", O_RDONLY, 0644);
 	fd_stdin = dup(tmp_fd);
-	// printf("fd_stdin0 >> %i\n", fd_stdin);
+	close(tmp_fd);
 	return (fd_stdin);
 }
 
@@ -83,7 +81,6 @@ int	get_last_heredoc(char **path, int i)
 		i++;
 	}
 	fd_stdin = heredoc(path[ret]);
-	// printf("fd_stdin1 >> %i\n", fd_stdin);
 	i = ret2;
 	return (fd_stdin);
 }
@@ -94,7 +91,6 @@ int	input(char **path, int tmp_stdin)
 	int	fd_stdin;
 	int	ret;
 	int ret2;
-	// int	ret3;
 
 	ret = -1;
 	i = 0;

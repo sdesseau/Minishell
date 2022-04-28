@@ -23,11 +23,11 @@ void	exec_single_cmd(t_cmd cmd, t_env **env, t_export **export, int tmp)
 	if ((ft_check_builtins(cmd.user_input[0])) == 0)
 	{
 		dup2(cmd.fd_stdout, 1);
+		close(cmd.fd_stdout);
 		g_exit_code = ft_execute_builtins(cmd, env, export);
 	}
 	else
 		launch_child_process(cmd, (*env), (*export));
-	close(cmd.fd_stdout);
 }
 
 void	is_chevrons(t_cmd *cmd)
