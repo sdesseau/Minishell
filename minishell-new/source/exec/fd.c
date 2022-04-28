@@ -42,11 +42,13 @@ void	child_heredoc(char *path, int tmp_fd)
 
 int	heredoc(char *path)
 {
+	int		fd_stdin;
 	int		tmp_fd;
 	int		save_fd_out;
 	pid_t	pid;
 	int		status;
 
+	fd_stdin = 0;
 	tmp_fd = open("/tmp/.heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (tmp_fd == -1)
 		return (-1);
@@ -63,9 +65,10 @@ int	heredoc(char *path)
 		g_exit_code = 130;
 	}
 	tmp_fd = open("/tmp/.heredoc", O_RDONLY);
+	dup2(tmp_fd, fd_stdin);
 	unlink("/tmp/.heredoc");
-	close(tmp_fd);
-	return (tmp_fd);
+	// close(tmp_fd);
+	return (fd_stdin);
 }
 
 int	get_last_heredoc(char **path, int i)
