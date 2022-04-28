@@ -17,7 +17,7 @@ void	free_tab(char **tab)
 	int		i;
 
 	i = 0;
-	while (tab[i])
+	while (tab[i] != NULL)
 	{
 		free(tab[i]);
 		i++;
@@ -52,12 +52,12 @@ char	*ft_convert_env(char *name, char *value)
 	name_size = ft_strlen(name);
 	value_size = ft_strlen(value);
 	size_final_str = name_size + value_size + 1;
-	final_str = (char *)malloc(sizeof(char) * size_final_str + 1);
+	final_str = (char *)malloc(sizeof(char) * (size_final_str + 1));
 	if (!final_str)
 		return (NULL);
-	ft_strlcpy(final_str, name, name_size + 1);
-	ft_strlcat(final_str, "=", size_final_str + 1);
-	ft_strlcat(final_str, value, size_final_str + 1);
+	ft_strlcpy(final_str, name, (name_size + 1));
+	ft_strlcat(final_str, "=", (size_final_str + 1));
+	ft_strlcat(final_str, value, (size_final_str + 1));
 	return (final_str);
 }
 

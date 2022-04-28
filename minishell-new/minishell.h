@@ -74,8 +74,6 @@ typedef struct s_cmd
 	int		output;
 }				t_cmd;
 
-void	free_tab(char **tab);
-
 //				MAIN				//
 /* -------------------------------------------------------------------------- */
 /*                         FILE = source/main/main.c                          */
