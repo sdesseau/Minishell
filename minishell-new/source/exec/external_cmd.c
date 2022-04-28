@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/27 19:31:21 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:16:17 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	**ft_get_path(t_env **env)
 	if (!temp)
 		return (NULL);
 	path = ft_split(temp, ':');
-	free(temp);
 	if (!path)
 		return (NULL);
 	return (path);
@@ -31,7 +30,7 @@ int	ft_check_permission(char **cmd, char *ext_cmd,
 							struct stat statbuf, t_env *env)
 {
 	char	**envp;
-	int ret;
+	int		ret;
 
 	ret = 1;
 	envp = ft_conv_env_to_tab(env);
