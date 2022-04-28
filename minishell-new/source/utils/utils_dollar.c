@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:08:08 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/21 17:39:42 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/28 19:09:24 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int	get_len_name(t_pars *pars, int i)
 	int	j;
 
 	j = i;
-	while (((pars[j].val != ' ' && pars[j].val != '=' && pars[j].val != '/'
+	while (pars[j].i != -1 && ((pars[j].val != ' ' && pars[j].val != '=' && pars[j].val != '/'
 				&& pars[j].val != '$' && pars[j].val != '\\')
 			|| ((pars[j].val == ' ' || pars[j].val == '=' || pars[j].val == '/'
 					|| pars[j].val == '$' || pars[j].val == '\\')
 				&& pars[j].lock == 1))
-		&& pars[j].i != -1 && pars[j - 1].lock == pars[j].lock)
+				&& pars[j - 1].lock == pars[j].lock)
 		j++;
 	return (j);
 }
