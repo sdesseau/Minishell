@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:50:32 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/27 19:25:51 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:24:11 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	child_heredoc(char *path, int tmp_fd)
 		{
 			str = ft_strjoin(str, "\n");
 			write(tmp_fd, str, (ft_strlen(str) + 1));
+			free(str);
 		}
 	}
 	exit(0);
@@ -137,12 +138,12 @@ int	output(char **path, int tmp_stdout)
 		if (path[i][0] == '>' && path[i][1] == '>')
 		{
 			ret = i;
-			fd_stdout = open(&path[i][2], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd_stdout = open(&path[ret][2], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		}
 		else if (path[i][0] == '>' && path[i][1] != '>')
 		{
 			ret = i;
-			fd_stdout = open(&path[i][1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+			fd_stdout = open(&path[ret][1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		}
 		i++;
 	}
