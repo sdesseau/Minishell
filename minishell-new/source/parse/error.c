@@ -21,6 +21,7 @@ void	error_parse(char c)
 	write(1, "'", 1);
 	write(1, &c, 1);
 	write(1, "'\n", 2);
+	g_exit_code = 2;
 }
 
 void	syntax_error(char c)

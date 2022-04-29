@@ -86,6 +86,8 @@ t_pars	*assign_pars(char *line, t_pars *pars, t_env *env)
 	if (secure_quote(pars) == -1 || is_first_pipe(pars) == -1)
 		return (NULL);
 	pars = perform_expansion(pars, env);
+	if (pars[0].i == -1)
+		return (NULL);
 	pars = put_lock(pars);
 	return (pars);
 }

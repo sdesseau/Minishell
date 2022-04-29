@@ -28,9 +28,9 @@ void	delete_quotes(t_pars *pars)
 				|| (pars[i].val == '\'' && pars[i + 1].val == '\''))
 			&& pars[i].lock == 0 && pars[i + 1].lock == 0)
 			supp_empty_quote(pars, i);
-		if (((pars[i].val != '\'' && pars[i].val != '\"')
+		if (pars[i].i != -1 && ((pars[i].val != '\'' && pars[i].val != '\"')
 				|| ((pars[i].val == '\'' || pars[i].val == '\"')
-					&& pars[i].lock == 1)) && pars[i].i != -1)
+					&& pars[i].lock == 1)))
 			i++;
 	}
 	i = 0;
@@ -58,7 +58,7 @@ int	check_quotes_d(t_pars *pars, int i)
 	if (check_empty_quote(pars, i) == 1)
 	{
 		i++;
-		while (pars[i].val != '\"' && pars[i].i != -1)
+		while (pars[i].i != -1 && pars[i].val != '\"')
 		{
 			pars[i].lock = 1;
 			pars[i++].d_q = 1;
@@ -77,7 +77,7 @@ int	check_quotes_s(t_pars *pars, int i)
 	if (check_empty_quote(pars, i) == 1)
 	{
 		i++;
-		while (pars[i].val != '\'' && pars[i].i != -1)
+		while (pars[i].i != -1 && pars[i].val != '\'')
 		{
 			pars[i].lock = 1;
 			pars[i++].s_q = 1;

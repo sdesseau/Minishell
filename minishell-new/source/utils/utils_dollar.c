@@ -76,12 +76,11 @@ char	*get_name(t_pars *pars, int i, char *name)
 t_pars	*no_value(t_pars *pars, int i, int k)
 {
 	k = i - 1;
-	while (((pars[i].val != ' ' && pars[i].val != '/'
+	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '/'
 				&& pars[i].val != '$' && pars[i].val != '\\')
 			|| ((pars[i].val == ' ' || pars[i].val == '/'
 					|| pars[i].val == '$' || pars[i].val == '\\')
-				&& pars[i].lock == 1))
-		&& pars[i].i != -1)
+				&& pars[i].lock == 1)))
 		i++;
 	while (pars[i].i != -1)
 	{

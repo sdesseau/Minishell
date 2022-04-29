@@ -44,17 +44,16 @@ int	get_len_path(t_pars *pars, int i)
 
 	len = 0;
 	i = go_redir(pars, i);
-	while ((pars[i].val == '<' || pars[i].val == '>') && pars[i].i != -1)
+	while (pars[i].i != -1 && (pars[i].val == '<' || pars[i].val == '>'))
 	{
 		i++;
 		len++;
 	}
 	i = pass_spaces(pars, i);
-	while (((pars[i].val != ' ' && pars[i].val != '|' && pars[i].val != '<'
+	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|' && pars[i].val != '<'
 				&& pars[i].val != '>') || ((pars[i].val == ' '
 					|| pars[i].val == '|' || pars[i].val == '<'
-					|| pars[i].val == '>') && pars[i].lock == 1))
-		&& pars[i].i != -1)
+					|| pars[i].val == '>') && pars[i].lock == 1)))
 	{
 		len++;
 		i++;
@@ -71,11 +70,10 @@ t_pars	*erase_redir(t_pars *pars, int i)
 	while (pars[i].val == '<' || pars[i].val == '>')
 		i++;
 	i = pass_spaces(pars, i);
-	while (((pars[i].val != ' ' && pars[i].val != '|' && pars[i].val != '<'
+	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|' && pars[i].val != '<'
 				&& pars[i].val != '>') || ((pars[i].val == ' '
 					|| pars[i].val == '|' || pars[i].val == '<'
-					|| pars[i].val == '>') && pars[i].lock == 1))
-		&& pars[i].i != -1)
+					|| pars[i].val == '>') && pars[i].lock == 1)))
 		i++;
 	while (pars[i].i != -1)
 	{
@@ -97,11 +95,10 @@ t_cmd	write_path(t_pars *pars, t_cmd data, int i, int j)
 	while (pars[i].val == '<' || pars[i].val == '>')
 		data.path[j][k++] = pars[i++].val;
 	i = pass_spaces(pars, i);
-	while (((pars[i].val != ' ' && pars[i].val != '|' && pars[i].val != '<'
+	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|' && pars[i].val != '<'
 				&& pars[i].val != '>') || ((pars[i].val == ' '
 					|| pars[i].val == '|' || pars[i].val == '<'
-					|| pars[i].val == '>') && pars[i].lock == 1))
-		&& pars[i].i != -1)
+					|| pars[i].val == '>') && pars[i].lock == 1)))
 		data.path[j][k++] = pars[i++].val;
 	data.path[j][k] = '\0';
 	return (data);

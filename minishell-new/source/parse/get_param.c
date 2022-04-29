@@ -60,8 +60,7 @@ t_cmd	put_pipe(t_cmd data, t_pars *pars, int i, int j)
 	{
 		i++;
 		i = pass_spaces(pars, i);
-		if ((pars[i].val != '|' || (pars[i].val == '|' && pars[i].lock == 1))
-			&& pars[i].i != -1)
+		if (pars[i].i != -1 && (pars[i].val != '|' || (pars[i].val == '|' && pars[i].lock == 1)))
 		{
 			data.user_input[j] = NULL;
 			data.pipe = 1;
