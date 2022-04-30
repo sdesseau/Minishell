@@ -67,8 +67,7 @@ SRC_UTILS   =   ft_split_utils.c \
 				utils_run_cmd.c \
                 utils_str.c \
                 utils_str_2.c \
-                utils.c \
-				ft_itoa.c 
+                utils.c 
 
 SRC_BUILTINS =  ft_cd.c \
                 ft_echo.c \
