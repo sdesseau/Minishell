@@ -15,6 +15,7 @@
 void	child_heredoc(char *path, int tmp_fd)
 {
 	char	*str;
+	char	*tmp;
 
 	signal(SIGINT, interrupt_here_document);
 	while (1)
@@ -33,7 +34,9 @@ void	child_heredoc(char *path, int tmp_fd)
 		}
 		else
 		{
-			str = ft_strjoin(str, "\n");
+			tmp = str;
+			str = ft_strjoin(tmp, "\n");
+			free(tmp);
 			write(tmp_fd, str, (ft_strlen(str) + 1));
 			free(str);
 		}
