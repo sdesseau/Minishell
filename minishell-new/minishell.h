@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/27 19:31:49 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:20:52 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define STDERROR 2
 # define LONGLONG_MIN -9223372036854775807
 # define LONGLONG_MAX 9223372036854775807
+# define ERROR1 "%s :no such file or directoy\n"
 
 extern unsigned char	g_exit_code;
 
@@ -73,8 +74,6 @@ typedef struct s_cmd
 	int		input;
 	int		output;
 }				t_cmd;
-
-void	free_tab(char **tab);
 
 //				MAIN				//
 /* -------------------------------------------------------------------------- */
@@ -187,7 +186,7 @@ int		ft_execute_external_cmd(char **cmd, t_env *env);
 /* -------------------------------------------------------------------------- */
 void	child_heredoc(char *path, int tmp_fd);
 int		heredoc(char *path);
-int		input(char **path, int tmp_stdin);
+int		input(char **path, int tmp_stdin, int ret, int ret2);
 int		output(char **path, int tmp_stdout);
 
 /* -------------------------------------------------------------------------- */
@@ -348,7 +347,7 @@ char	**sort_export(t_export *export);
 /* -------------------------------------------------------------------------- */
 /*                    FILE = source/utils/utils_pars.c                        */
 /* -------------------------------------------------------------------------- */
-t_cmd	init_cmd(t_cmd data);
+t_cmd	init_cmd(t_cmd *data);
 t_pars	*put_lock(t_pars *pars);
 t_cmd	*empty_line(t_cmd *data, t_env **env, t_export **export);
 int		pass_spaces(t_pars *pars, int i);

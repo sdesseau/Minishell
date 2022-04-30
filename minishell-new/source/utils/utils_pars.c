@@ -6,17 +6,17 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:08:12 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/26 16:01:35 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:31:36 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_cmd	init_cmd(t_cmd data)
+t_cmd	init_cmd(t_cmd *data)
 {
-	data.nb_chevrons = 0;
-	data.pipe = 0;
-	return (data);
+	data->nb_chevrons = 0;
+	data->pipe = 0;
+	return (*data);
 }
 
 t_pars	*put_lock(t_pars *pars)

@@ -32,8 +32,6 @@ void	ft_putstr_fd(char *str, int fd)
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	unsigned int	nbr;
-
 	if (n == -2147483648)
 		write(fd, "-2147483648", 11);
 	else
@@ -43,7 +41,6 @@ void	ft_putnbr_fd(int n, int fd)
 			ft_putchar_fd('-', fd);
 			n = n * (-1);
 		}
-		nbr = n;
 		if (n > 9)
 			ft_putnbr_fd((n / 10), fd);
 		ft_putchar_fd(((n % 10) + 48), fd);

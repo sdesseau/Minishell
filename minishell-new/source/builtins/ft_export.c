@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 13:02:06 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/27 19:11:52 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:28:52 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	print_export(char **tab_export, t_export *export)
 	char	*value;
 
 	i = 0;
-	equal = 0;
 	while (tab_export[i])
 	{
 		ft_putstr_fd("declare -x ", 1);

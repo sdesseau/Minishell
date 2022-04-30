@@ -75,12 +75,9 @@ void	supp_empty_quote(t_pars *pars, int i)
 
 int	space_empty_quote(t_pars *pars, int i)
 {
-	int	ret;
-
 	if (pars[i + 2].i == -1 || ((pars[i + 2].val == ' '
 				|| pars[i + 2].val == '|') && pars[i + 2].lock == 0))
 	{
-		ret = i;
 		pars[i].val = ' ';
 		pars[i].d_q = 1;
 		i++;
@@ -90,7 +87,6 @@ int	space_empty_quote(t_pars *pars, int i)
 			i++;
 		}
 		pars[i - 1].i = -1;
-		i = ret;
 		return (0);
 	}
 	return (1);
@@ -98,13 +94,10 @@ int	space_empty_quote(t_pars *pars, int i)
 
 int	zero_empty_quote(t_pars *pars, int i)
 {
-	int	ret;
-
 	if ((pars[i - 1].val == ' ' || pars[i - 1].val == '|')
 		&& (pars[i + 2].i == -1 || (pars[i + 2].val == ' '
 				|| pars[i + 2].val == '|')))
 	{
-		ret = i;
 		pars[i].val = 0;
 		pars[i].d_q = 1;
 		pars[i].null = 1;
@@ -115,7 +108,6 @@ int	zero_empty_quote(t_pars *pars, int i)
 			i++;
 		}
 		pars[i - 1].i = -1;
-		i = ret;
 		return (0);
 	}
 	return (1);

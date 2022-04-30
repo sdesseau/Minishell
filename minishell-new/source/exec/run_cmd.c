@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:45:28 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/26 15:44:50 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:24:45 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	is_chevrons(t_cmd *cmd)
 		}
 	}
 	if (cmd->input == 1)
-		cmd->fd_stdin = input(cmd->path, 0);
+		cmd->fd_stdin = input(cmd->path, 0, -1, -1);
 	else
 		cmd->fd_stdin = dup(0);
 }
@@ -57,8 +57,6 @@ void	is_chevrons(t_cmd *cmd)
 void	ft_pipe(t_cmd *cmd)
 {
 	pipe(cmd->fd_pipe);
-	if (cmd->input == 1)
-		cmd->fd_pipe[0] = input(cmd->path, cmd->fd_stdin);
 	if (cmd->output == 1)
 		cmd->fd_pipe[1] = output(cmd->path, cmd->fd_stdout);
 	cmd->fd_stdin = cmd->fd_pipe[0];
@@ -104,7 +102,7 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 	if (nb_cmd == 1)
 	{
 		if (cmd[0].nb_chevrons > 0)
-			cmd[0].fd_stdin = input(cmd[0].path, tmp_stdin);
+			cmd[0].fd_stdin = input(cmd[0].path, tmp_stdin, -1, -1);
 		else
 			cmd[0].fd_stdin = dup(tmp_stdin);
 		if (cmd[0].fd_stdin == -1)

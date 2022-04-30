@@ -99,12 +99,11 @@ int	pass_redir(t_pars *pars, int i)
 
 int	go_redir(t_pars *pars, int i)
 {
-	while (pars[i].val != '<' && pars[i].val != '>' && pars[i].i != -1)
+	while (pars[i].i != -1 && pars[i].val != '<' && pars[i].val != '>')
 	{
 		i++;
-		while ((pars[i].val == '<' || pars[i].val == '>')
-			&& (pars[i].s_q == 1 || pars[i].d_q == 1)
-			&& pars[i].i != -1)
+		while (pars[i].i != -1 && (pars[i].val == '<' || pars[i].val == '>')
+			&& (pars[i].s_q == 1 || pars[i].d_q == 1))
 			i++;
 	}
 	return (i);
