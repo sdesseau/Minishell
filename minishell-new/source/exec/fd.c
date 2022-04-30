@@ -85,6 +85,7 @@ int	input(char **path, int tmp_stdin, int ret, int ret2)
 	i = -1;
 	fd_stdin = -1;
 	while (path[++i])
+	{
 		if (path[i][0] == '<' && path[i][1] != '<')
 		{
 			ret = i;
@@ -99,6 +100,7 @@ int	input(char **path, int tmp_stdin, int ret, int ret2)
 			ret2 = i;
 			fd_stdin = heredoc(path[ret2]);
 		}
+	}
 	fd_stdin = input_suite(ret, ret2, fd_stdin, tmp_stdin);
 	return (fd_stdin);
 }
