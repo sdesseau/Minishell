@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_param.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:07:49 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 16:28:41 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/30 16:27:18 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ t_cmd	put_pipe(t_cmd data, t_pars *pars, int i, int j)
 	{
 		i++;
 		i = pass_spaces(pars, i);
-		if (pars[i].i != -1 && (pars[i].val != '|' || (pars[i].val == '|' && pars[i].lock == 1)))
+		if (pars[i].i != -1 && (pars[i].val != '|'
+				|| (pars[i].val == '|' && pars[i].lock == 1)))
 		{
 			data.user_input[j] = NULL;
 			data.pipe = 1;

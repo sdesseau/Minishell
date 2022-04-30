@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:50:32 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/29 16:24:11 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/30 16:38:09 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	child_heredoc(char *path, int tmp_fd)
 
 int	heredoc(char *path)
 {
-	int 	fd_stdin;
+	int		fd_stdin;
 	int		tmp_fd;
 	pid_t	pid;
 	int		status;
@@ -94,7 +94,7 @@ int	input(char **path, int tmp_stdin)
 	int	i;
 	int	fd_stdin;
 	int	ret;
-	int ret2;
+	int	ret2;
 
 	ret = -1;
 	i = 0;

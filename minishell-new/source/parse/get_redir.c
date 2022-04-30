@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:07:51 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/16 16:28:41 by sdesseau         ###   ########.fr       */
+/*   Updated: 2022/04/30 16:32:13 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ int	get_len_path(t_pars *pars, int i)
 		len++;
 	}
 	i = pass_spaces(pars, i);
-	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|' && pars[i].val != '<'
-				&& pars[i].val != '>') || ((pars[i].val == ' '
-					|| pars[i].val == '|' || pars[i].val == '<'
-					|| pars[i].val == '>') && pars[i].lock == 1)))
+	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|'
+				&& pars[i].val != '<' && pars[i].val != '>')
+			|| ((pars[i].val == ' ' || pars[i].val == '|'
+					|| pars[i].val == '<' || pars[i].val == '>')
+				&& pars[i].lock == 1)))
 	{
 		len++;
 		i++;
@@ -70,7 +71,8 @@ t_pars	*erase_redir(t_pars *pars, int i)
 	while (pars[i].val == '<' || pars[i].val == '>')
 		i++;
 	i = pass_spaces(pars, i);
-	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|' && pars[i].val != '<'
+	while (pars[i].i != -1 && ((pars[i].val != ' '
+				&& pars[i].val != '|' && pars[i].val != '<'
 				&& pars[i].val != '>') || ((pars[i].val == ' '
 					|| pars[i].val == '|' || pars[i].val == '<'
 					|| pars[i].val == '>') && pars[i].lock == 1)))
@@ -95,7 +97,8 @@ t_cmd	write_path(t_pars *pars, t_cmd data, int i, int j)
 	while (pars[i].val == '<' || pars[i].val == '>')
 		data.path[j][k++] = pars[i++].val;
 	i = pass_spaces(pars, i);
-	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|' && pars[i].val != '<'
+	while (pars[i].i != -1 && ((pars[i].val != ' '
+				&& pars[i].val != '|' && pars[i].val != '<'
 				&& pars[i].val != '>') || ((pars[i].val == ' '
 					|| pars[i].val == '|' || pars[i].val == '<'
 					|| pars[i].val == '>') && pars[i].lock == 1)))

@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/28 18:51:28 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/30 16:35:22 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**ft_get_path(t_env **env)
 		return (NULL);
 	path = ft_split(temp, ':');
 	if (!path)
-		return (NULL);	
+		return (NULL);
 	return (path);
 }
 
@@ -127,7 +127,7 @@ int	ft_execute_external_cmd(char **cmd, t_env *env)
 		if (ret != 126 && ret != 127)
 			ret = ft_run_ext_cmd(cmd, env, path, statbuf);
 		if (path)
-			free_tab(path);	
+			free_tab(path);
 	}
 	return (ret);
 }
