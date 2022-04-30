@@ -51,7 +51,7 @@ int	get_len_name(t_pars *pars, int i)
 			|| ((pars[j].val == ' ' || pars[j].val == '=' || pars[j].val == '/'
 					|| pars[j].val == '$' || pars[j].val == '\\')
 				&& pars[j].lock == 1))
-				&& pars[j - 1].lock == pars[j].lock)
+				&& pars[j].lock == pars[j - 1].lock)
 		j++;
 	return (j);
 }

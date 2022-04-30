@@ -25,20 +25,20 @@ void	free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-void	ft_shlvl(t_env *env)
-{
-	size_t	i;
-	char	*tmp;
+// void	ft_shlvl(t_env *env)
+// {
+// 	size_t	i;
+// 	char	*tmp;
 
-	tmp = find_env_value("SHLVL", env);
-	if (tmp)
-	{
-		i = (ft_atoi(tmp) + 1);
-		tmp = ft_itoa(i);
-		update_env("SHLVL", tmp, &env);
-		free(tmp);
-	}
-}
+// 	tmp = find_env_value("SHLVL", env);
+// 	if (tmp)
+// 	{
+// 		i = (ft_atoi(tmp) + 1);
+// 		tmp = ft_itoa(i);
+// 		update_env("SHLVL", tmp, &env);
+// 		free(tmp);
+// 	}
+// }
 
 void	shell_loop(t_env *env, t_export *export)
 {
@@ -48,7 +48,7 @@ void	shell_loop(t_env *env, t_export *export)
 
 	str = NULL;
 	cmd = NULL;
-	ft_shlvl(env);
+	// ft_shlvl(env);
 	while (1)
 	{
 		i = 0;

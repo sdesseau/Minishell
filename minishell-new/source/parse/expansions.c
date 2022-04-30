@@ -96,8 +96,6 @@ t_pars	*get_expansion(t_pars *pars, int i, int lenght, t_env *env)
 		pars = no_value(pars, i, k);
 	else
 	{
-		value = malloc(sizeof(char)
-				* (ft_strlen(find_env_value(name, env)) + 1));
 		value = find_env_value(name, env);
 		pars = change_da_dolla(pars, i - 1, value, lenght);
 		lenght += ft_strlen(value);

@@ -17,7 +17,11 @@ t_cmd	*start_data(t_cmd *data, int j, t_pars *pars, int i)
 	data[j] = init_cmd(data[j]);
 	data[j].nb_chevrons = find_nb_redir(pars, i);
 	if (data[j].nb_chevrons == -1)
+	{
+		data[j].index = -1;
+		free_cmd(data);
 		return (NULL);
+	}
 	else if (data[j].nb_chevrons != 0)
 		data = get_redir(pars, data, i, j);
 	return (data);
@@ -84,10 +88,13 @@ t_pars	*assign_pars(char *line, t_pars *pars, t_env *env)
 	}
 	pars = init_last_index(pars, i);
 	if (secure_quote(pars) == -1 || is_first_pipe(pars) == -1)
-		return (NULL);
+	{
+		pars[0].i = -1;
+		return (pars);
+	}
 	pars = perform_expansion(pars, env);
 	if (pars[0].i == -1)
-		return (NULL);
+		return (pars);
 	pars = put_lock(pars);
 	return (pars);
 }
@@ -105,13 +112,13 @@ t_cmd	*parsing(char *line, t_cmd *data, t_env *env, t_export *export)
 			return (NULL);
 		pars = malloc(sizeof(t_pars) * (len + 1));
 		if (pars == NULL)
+			return (NULL);
+		pars = assign_pars(line, pars, env);
+		if (pars[0].i == -1)
 		{
 			free(pars);
 			return (NULL);
 		}
-		pars = assign_pars(line, pars, env);
-		if (pars == NULL)
-			return (NULL);
 		data = split_cmd(pars, data);
 		free(pars);
 		return (data);

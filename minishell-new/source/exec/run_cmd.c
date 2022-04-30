@@ -57,8 +57,6 @@ void	is_chevrons(t_cmd *cmd)
 void	ft_pipe(t_cmd *cmd)
 {
 	pipe(cmd->fd_pipe);
-	if (cmd->input == 1)
-		cmd->fd_pipe[0] = input(cmd->path, cmd->fd_stdin);
 	if (cmd->output == 1)
 		cmd->fd_pipe[1] = output(cmd->path, cmd->fd_stdout);
 	cmd->fd_stdin = cmd->fd_pipe[0];
