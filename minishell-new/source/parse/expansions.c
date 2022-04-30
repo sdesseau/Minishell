@@ -15,10 +15,8 @@
 t_pars	*new_parse_dollar(t_pars *pars, t_pars *tmp, int i, char *val)
 {
 	int		j;
-	int		l;
 
 	j = 0;
-	l = 0;
 	while (j != i)
 	{
 		tmp[j] = pars[j];
@@ -58,10 +56,8 @@ t_pars	*get_exitcode(t_pars *pars, int i, int lenght)
 {
 	char	*value;
 	int		len;
-	int		j;
 	int		exitcode;
 
-	j = 0;
 	len = len_exitcode();
 	value = NULL;
 	value = malloc(sizeof(char) * (len + 1));
@@ -98,7 +94,6 @@ t_pars	*get_expansion(t_pars *pars, int i, int lenght, t_env *env)
 	{
 		value = find_env_value(name, env);
 		pars = change_da_dolla(pars, i - 1, value, lenght);
-		lenght += ft_strlen(value);
 	}
 	free(name);
 	return (pars);

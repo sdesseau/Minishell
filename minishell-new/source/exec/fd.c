@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 18:50:32 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/30 16:38:09 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:24:11 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,8 @@ void	child_heredoc(char *path, int tmp_fd)
 	while (1)
 	{
 		str = readline("> ");
-		if (!str)
-		{
-			close(tmp_fd);
+		if (!str && close(tmp_fd))
 			exit(0);
-		}
 		if (ft_strncmp(&path[2], str, ft_strlen(str)) == 0)
 		{
 			close(tmp_fd);
@@ -71,36 +68,23 @@ int	heredoc(char *path)
 	return (fd_stdin);
 }
 
-int	get_last_heredoc(char **path, int i)
+int	input_suite(int ret, int ret2, int fd_stdin, int tmp_stdin)
 {
-	int	ret2;
-	int	ret;
-	int	fd_stdin;
-
-	ret2 = i;
-	while (path[i])
-	{
-		if (path[i][0] == '<' && path[i][1] == '<')
-			ret = i;
-		i++;
-	}
-	fd_stdin = heredoc(path[ret]);
-	i = ret2;
+	if (ret2 != -1)
+		unlink("/tmp/.heredoc");
+	if (ret == -1 && ret2 == -1)
+		fd_stdin = dup(tmp_stdin);
 	return (fd_stdin);
 }
 
-int	input(char **path, int tmp_stdin)
+int	input(char **path, int tmp_stdin, int ret, int ret2)
 {
-	int	i;
-	int	fd_stdin;
-	int	ret;
-	int	ret2;
+	int		i;
+	int		fd_stdin;
 
-	ret = -1;
-	i = 0;
+	i = -1;
 	fd_stdin = -1;
-	ret2 = -1;
-	while (path[i])
+	while (path[++i])
 	{
 		if (path[i][0] == '<' && path[i][1] != '<')
 		{
@@ -108,23 +92,16 @@ int	input(char **path, int tmp_stdin)
 			if (fd_stdin != -1)
 				close(fd_stdin);
 			fd_stdin = open(&path[ret][1], O_RDONLY, 0644);
-			if (fd_stdin == -1)
-			{
-				printf("%s :no such file or directoy\n", &path[ret][1]);
+			if (fd_stdin == -1 && printf(ERROR1, &path[ret][1]))
 				return (-1);
-			}
 		}
 		else if (path[i][0] == '<' && path[i][1] == '<')
 		{
 			ret2 = i;
 			fd_stdin = heredoc(path[ret2]);
 		}
-		i++;
 	}
-	if (ret2 != -1)
-		unlink("/tmp/.heredoc");
-	if (ret == -1 && ret2 == -1)
-		fd_stdin = dup(tmp_stdin);
+	fd_stdin = input_suite(ret, ret2, fd_stdin, tmp_stdin);
 	return (fd_stdin);
 }
 
@@ -141,7 +118,8 @@ int	output(char **path, int tmp_stdout)
 		if (path[i][0] == '>' && path[i][1] == '>')
 		{
 			ret = i;
-			fd_stdout = open(&path[ret][2], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd_stdout = open(&path[ret][2], O_WRONLY
+					| O_CREAT | O_APPEND, 0644);
 		}
 		else if (path[i][0] == '>' && path[i][1] != '>')
 		{

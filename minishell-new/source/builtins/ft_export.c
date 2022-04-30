@@ -51,7 +51,6 @@ void	print_export(char **tab_export, t_export *export)
 	char	*value;
 
 	i = 0;
-	equal = 0;
 	while (tab_export[i])
 	{
 		ft_putstr_fd("declare -x ", 1);

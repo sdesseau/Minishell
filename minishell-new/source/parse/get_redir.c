@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sdesseau <sdesseau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:07:51 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/30 16:32:13 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/16 16:28:41 by sdesseau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ t_pars	*erase_redir(t_pars *pars, int i)
 	while (pars[i].val == '<' || pars[i].val == '>')
 		i++;
 	i = pass_spaces(pars, i);
-	while (pars[i].i != -1 && ((pars[i].val != ' '
-				&& pars[i].val != '|' && pars[i].val != '<'
-				&& pars[i].val != '>') || ((pars[i].val == ' '
-					|| pars[i].val == '|' || pars[i].val == '<'
-					|| pars[i].val == '>') && pars[i].lock == 1)))
+	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|'
+				&& pars[i].val != '<' && pars[i].val != '>')
+			|| ((pars[i].val == ' ' || pars[i].val == '|'
+					|| pars[i].val == '<' || pars[i].val == '>')
+				&& pars[i].lock == 1)))
 		i++;
 	while (pars[i].i != -1)
 	{
@@ -90,18 +90,16 @@ t_pars	*erase_redir(t_pars *pars, int i)
 t_cmd	write_path(t_pars *pars, t_cmd data, int i, int j)
 {
 	int	k;
-	int	ret;
 
 	k = 0;
-	ret = i;
 	while (pars[i].val == '<' || pars[i].val == '>')
 		data.path[j][k++] = pars[i++].val;
 	i = pass_spaces(pars, i);
-	while (pars[i].i != -1 && ((pars[i].val != ' '
-				&& pars[i].val != '|' && pars[i].val != '<'
-				&& pars[i].val != '>') || ((pars[i].val == ' '
-					|| pars[i].val == '|' || pars[i].val == '<'
-					|| pars[i].val == '>') && pars[i].lock == 1)))
+	while (pars[i].i != -1 && ((pars[i].val != ' ' && pars[i].val != '|'
+				&& pars[i].val != '<' && pars[i].val != '>')
+			|| ((pars[i].val == ' ' || pars[i].val == '|'
+					|| pars[i].val == '<' || pars[i].val == '>')
+				&& pars[i].lock == 1)))
 		data.path[j][k++] = pars[i++].val;
 	data.path[j][k] = '\0';
 	return (data);

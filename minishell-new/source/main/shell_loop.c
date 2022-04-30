@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 14:10:52 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/30 16:24:50 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:33:04 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,16 @@ void	shell_loop(t_env *env, t_export *export)
 {
 	char	*str;
 	t_cmd	*cmd;
-	int		i;
 
 	str = NULL;
 	cmd = NULL;
 	while (1)
 	{
-		i = 0;
 		str = readline("\033[33m🐚 ➜\033[00m ");
 		if (str && *str)
 			add_history(str);
 		cmd = parsing(str, cmd, env, export);
-		if (str[0] && cmd)
+		if (str && str[0] && cmd)
 		{
 			run_commands(cmd, &env, &export);
 			free_cmd(cmd);

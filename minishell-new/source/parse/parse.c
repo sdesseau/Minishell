@@ -14,7 +14,7 @@
 
 t_cmd	*start_data(t_cmd *data, int j, t_pars *pars, int i)
 {
-	data[j] = init_cmd(data[j]);
+	init_cmd(&data[j]);
 	data[j].nb_chevrons = find_nb_redir(pars, i);
 	if (data[j].nb_chevrons == -1)
 	{
@@ -58,12 +58,8 @@ t_cmd	*loop_split(t_pars *pars, t_cmd *data)
 
 t_cmd	*split_cmd(t_pars *pars, t_cmd *data)
 {
-	int	i;
-	int	j;
 	int	cmd;
 
-	j = 0;
-	i = 0;
 	cmd = get_nb_cmd(pars);
 	data = malloc(sizeof(t_cmd) * (cmd + 1));
 	if (data == NULL)

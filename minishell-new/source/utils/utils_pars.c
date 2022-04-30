@@ -12,11 +12,11 @@
 
 #include "../../minishell.h"
 
-t_cmd	init_cmd(t_cmd data)
+t_cmd	init_cmd(t_cmd *data)
 {
-	data.nb_chevrons = 0;
-	data.pipe = 0;
-	return (data);
+	data->nb_chevrons = 0;
+	data->pipe = 0;
+	return (*data);
 }
 
 t_pars	*put_lock(t_pars *pars)

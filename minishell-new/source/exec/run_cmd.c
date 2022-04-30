@@ -49,7 +49,7 @@ void	is_chevrons(t_cmd *cmd)
 		}
 	}
 	if (cmd->input == 1)
-		cmd->fd_stdin = input(cmd->path, 0);
+		cmd->fd_stdin = input(cmd->path, 0, -1, -1);
 	else
 		cmd->fd_stdin = dup(0);
 }
@@ -102,7 +102,7 @@ void	run_commands(t_cmd *cmd, t_env **env, t_export **export)
 	if (nb_cmd == 1)
 	{
 		if (cmd[0].nb_chevrons > 0)
-			cmd[0].fd_stdin = input(cmd[0].path, tmp_stdin);
+			cmd[0].fd_stdin = input(cmd[0].path, tmp_stdin, -1, -1);
 		else
 			cmd[0].fd_stdin = dup(tmp_stdin);
 		if (cmd[0].fd_stdin == -1)
