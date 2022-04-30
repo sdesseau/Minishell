@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 16:19:27 by mprigent          #+#    #+#             */
-/*   Updated: 2022/04/30 16:35:22 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/30 16:46:39 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,8 @@ int	ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat statbuf)
 	size_t		i;
 
 	i = 0;
-	if (!path)
-	{
-		printf("minishell: %s: No such file or directory\n", cmd[0]);
+	if (!path && printf("minishell: %s: No such file or directory\n", cmd[0]))
 		return (127);
-	}
 	while (path[i] && cmd[0])
 	{
 		tmp = ft_strjoin(path[i], "/");
@@ -101,13 +98,11 @@ int	ft_run_ext_cmd(char **cmd, t_env *env, char **path, struct stat statbuf)
 			return (ft_check_permission(cmd, ext_cmd, statbuf, env));
 		free(ext_cmd);
 		i++;
-		if ((cmd[0][0] == '.' && cmd[0][1] == 0)
+		if (((cmd[0][0] == '.' && cmd[0][1] == 0)
 			|| (cmd[0][0] == '.' && cmd[0][1] == '.'
 			&& cmd[0][2] == 0) || !path[i])
-		{
-			printf("minishell: %s: Command not found\n", cmd[0]);
+			&& printf("minishell: %s: Command not found\n", cmd[0]))
 			return (127);
-		}
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mprigent <mprigent@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 13:23:02 by sdesseau          #+#    #+#             */
-/*   Updated: 2022/04/28 18:20:52 by mprigent         ###   ########.fr       */
+/*   Updated: 2022/04/30 17:06:58 by mprigent         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ typedef struct s_cmd
 /* -------------------------------------------------------------------------- */
 /*                         FILE = source/main/main.c                          */
 /* -------------------------------------------------------------------------- */
+void	deallocate_export_lst_elem(t_export *elem);
+void	deallocate_env_lst_elem(t_env *elem);
 void	deallocate_env_export(t_env **env, t_export **export);
 int		main(int argc, char **argv, char **envp);
 
@@ -85,7 +87,6 @@ int		main(int argc, char **argv, char **envp);
 /*                      FILE = source/main/shell_loop.c                       */
 /* -------------------------------------------------------------------------- */
 void	free_cmd(t_cmd *cmd);
-void	ft_shlvl(t_env *env);
 void	shell_loop(t_env *env, t_export *export);
 
 //				BUILTINS				//
@@ -164,8 +165,8 @@ void	recup_env(char **envp, t_env **env);
 /* -------------------------------------------------------------------------- */
 void	link_new_export_var(t_export **new, char*name, t_export **export);
 int		update_export(char *name, char *value, t_export **export);
-int		export_var_already_exist(char *name,
-			t_export *exp, char *line, char *val);
+int		export_var_already_exist(char *name, t_export *exp,
+			char *line, char *val);
 int		add_export_var(char *name, char *val, char *line, t_export **export);
 void	recup_export(char **envp, t_export **export);
 
@@ -185,6 +186,7 @@ int		ft_execute_external_cmd(char **cmd, t_env *env);
 /* -------------------------------------------------------------------------- */
 void	child_heredoc(char *path, int tmp_fd);
 int		heredoc(char *path);
+int		get_last_heredoc(char **path, int i);
 int		input(char **path, int tmp_stdin);
 int		output(char **path, int tmp_stdout);
 
@@ -277,11 +279,6 @@ void	interrupt_here_document(int signal);
 void	assign_signals_handler(void);
 
 //				UTILS				//
-/* -------------------------------------------------------------------------- */
-/*                      FILE = source/utils/ft_itoa.c                         */
-/* -------------------------------------------------------------------------- */
-char	*ft_itoa(int n);
-
 /* -------------------------------------------------------------------------- */
 /*                   FILE = source/utils/ft_split_utils.c                     */
 /* -------------------------------------------------------------------------- */
